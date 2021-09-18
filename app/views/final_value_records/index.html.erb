@@ -1,0 +1,186 @@
+<center><h3>Registro final Valorativo y Recuperación</h3></center>
+
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<div class="grupo">
+  <div class="caja">
+    <h3></h3>
+    <br>
+  </div>
+</div>
+<div class="grupo total">
+  <%= form_tag final_value_records_path, method: :get do %>
+    <div class="caja form__block_style">
+      <div class="grupo">
+        <div class="caja tablet-30">
+          <div class="wrapper">
+              <div class="field__placeholder_icon_select">
+                <div class="fa fa-bars text_field__icon"></div>
+                <%= select_tag :school_year_id, options_from_collection_for_select(@school_years, "id", "name", params[:school_year_chosen]), prompt: "Seleccione el año escolar" %>
+                <!--%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name", @sub_grade_id), prompt: "#{t('str_select_field')} Curso" %-->
+                <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+              </div>
+            </div>
+          <!--strong><= label_tag :school_year_id, "Año escolar" %></strong><br-->
+        </div>
+        <div class="caja tablet-30">
+          <div class="wrapper">
+            <div class="field__placeholder_icon_select">
+              <div class="fa fa-bars text_field__icon"></div>
+              <%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name", @sub_grade_id), prompt: "#{t('str_select_field')} Curso" %>
+              <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caja">
+          <!--%= link_to "Aceptar", "#", class: "button-link" %-->
+          <br>
+          <div class="button__border_radius right">
+            <%= button_tag(type: 'submit', name: "commit", value: "filter", class: "form__submit_button", id: "filter-button") do %>
+              <i class="fa fa-search fa-lg"></i> Filtrar
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<br>
+
+<%if @final_value_records.any? %>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@final_value_records) %></center>
+    </div>
+  </div>
+  <div class="content-table">
+    <table class="style-table">
+      <%= form_tag fv_save_recovered_score_path, method: :post do %>
+        <thead>
+          <tr>
+            <th>Año Escolar</th>
+            <th><!--%= sort_link(@search, :student_sub_grade_id, t('.school_year_id')) %-->Alumno</th>
+            <th><!--%= sort_link(@search, :school_year_id, t('.school_year_id')) %-->Areas Fundamentales</th>
+            <th><!--%= sort_link(@search, :school_year_id, t('.school_year_id')) %-->Asignatura</th>
+            <th>Perdió año?</th>
+            <th><!--%= sort_link(@search, :school_year_id, t('.school_year_id')) %-->Escala Nacional</th>
+            <th>Escala Numérica</th>
+            <th>Nota Recuperación</th>
+            <th>
+            </th>
+            <th colspan="3">
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%if(current_user.role_id < 2) and false %>
+            <tr>
+              <td><!--%= f.select :school_year_id_eq, SchoolYear.order("name").map{|el| [ el.name, el.id]},{include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"}, class: "form-control" %--></td>
+              <td><!--%= f.text_field :student_name_or_student_last_name_cont, class: "form-control" %--></td>
+              <td><!--%= f.select :sub_grade_id_eq, SubGrade.order("grade_id").map{|c| [ c.grade.name.to_s+" / "+c.name,c.id]},{include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"}, class: "form-control" %--></td>
+              <td width="30px"></td>
+              <th colspan="6" width="100px">
+                <%= button_tag(type: 'submit', title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+                  <span class="fa fa-search fa-lg"></span>
+                <% end %>
+                <%= link_to(new_student_sub_grade_url,{class: 'button-link color-button-red tooltip', title: "Limpiar",  style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"}}) do %>
+                    <span class="fa fa-eraser fa-lg"></span>
+                <% end %>
+              </th>
+            </tr>
+          <% end %>
+          <% @final_value_records.each do |final_value_record| %>
+            <tr>
+              <td><%= final_value_record.student_sub_grade.school_year.name %></td>
+              <td><%= final_value_record.student_sub_grade.student.reverse_complete_name %></td>
+              <td><%= final_value_record.educational_area.name %></td>
+              <td><%= final_value_record.educational_asignatures_name %></td>
+              <td align="center">
+                <%
+                count_course_not_approved = @final_value_records.where("student_sub_grade_id = ? AND FORMAT(average_total_score, 1) < FORMAT(3.3, 1)", final_value_record.student_sub_grade_id).size
+                with_label = "31"
+                if count_course_not_approved > 2
+                  is_approved = "SI"
+                  color = "#e74c3c"
+                else
+                  if count_course_not_approved == @final_value_records.where("student_sub_grade_id = ? AND FORMAT(average_total_score, 1) < FORMAT(3.3, 1) AND FORMAT(recovered_score, 1) >= FORMAT(3.3, 1)", final_value_record.student_sub_grade_id).size
+                    is_approved = "NO"
+                    color = "#2ecc71"
+                  else
+                    if @final_value_records.where("student_sub_grade_id = ? AND FORMAT(average_total_score, 1) < FORMAT(3.3, 1) AND (recovered_score IS NULL)", final_value_record.student_sub_grade_id).size > 0
+                      is_approved = "PENDIENTE"
+                      color = "#e67e22"
+                      with_label = "88"
+                    else
+                      if @final_value_records.where("student_sub_grade_id = ? AND FORMAT(average_total_score, 1) < FORMAT(3.3, 1) AND FORMAT(recovered_score, 1) < FORMAT(3.3, 1)", final_value_record.student_sub_grade_id).size > 0
+                        is_approved = "SI"
+                        color = "#e74c3c"
+                      end
+                    end
+                  end
+                end
+                %>
+                <div style='background-color: <%= color %>; color: #fff; font-weight: bolder; padding: 2px 5px; border-radius: 3px; width: <%= with_label %>px;' title="<%= is_approved %>"><%= is_approved %></div>
+              </td>
+              <td><%= nationalScore(final_value_record.average_total_score) %></td>
+              <td align="center">
+                <div style="background-color: <%= colorScore(final_value_record.average_total_score) %>; color: #fff; font-weight: bolder; padding: 2px 5px; border-radius: 3px; width: 31px;">
+                  <%= final_value_record.average_total_score %>
+                </div>
+              </td>
+              <td align="center">
+                <% unless final_value_record.recovered_score.blank? %>
+                  <div style="background-color: <%= colorScore(final_value_record.recovered_score) %>; color: #fff; font-weight: bolder; padding: 2px 5px; border-radius: 3px; width: 31px;">
+                    <%= final_value_record.recovered_score %>
+                  </div>
+                <% end %>
+              </td>
+              <td><%= text_field_tag "array_score[#{final_value_record.id}]" if final_value_record.average_total_score < 3.3 %></td>
+              <td>
+                <div class="button__border_radius right">
+                  <%= button_tag(type: 'submit', name: "commit", value: "filter", class: "form__submit_button", id: "save-button", style: "background-color: #2ecc71; padding: 8px 10px;") do %>
+                    <i class="fa fa-floppy-o fa-lg"></i>
+                  <% end if final_value_record.average_total_score < 3.3 %>
+                </div>
+              <!--%= link_to 'Show', final_value_record %--></td>
+              <td><!--%= link_to 'Edit', edit_final_value_record_path(final_value_record) %--></td>
+              <!--td><= link_to 'Destroy', final_value_record, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="11">
+              <%= t('.label_total') %>: <%= @final_value_records.size %>
+            </td>
+          </tr>
+        </tfoot>
+      <% end %>
+    </table>
+  </div>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@final_value_records) %></center>
+    </div>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('general.msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<br>
+
+<!--%= link_to 'New Final value record', new_final_value_record_path %-->
+<script>
+  $('#school_year_id').on('change', function() {
+    window.location.href = "final_value_records?school_year_chosen=" + $(this).val();
+  })
+</script>

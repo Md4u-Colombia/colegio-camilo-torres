@@ -1,0 +1,142 @@
+<script language="JavaScript" type="text/JavaScript">
+  $(document).ready(function(){
+    $('#fvalida').click(function(){
+      var msg="";
+      if($("#file").val() == ""){
+        msg+="Seleccione archivo.";
+      }
+      var file = $("#file").val();
+      var extension = file.substr( (file.lastIndexOf('.') +1) );
+      if(file != "" && extension != "csv"){
+        msg+="Seleccione un archivo csv.";
+      }
+      if(msg != ""){
+        msg+="\n\nCorrija los datos para continuar.";
+        alert(msg);
+        return false;
+      }else{
+        return true;
+      }
+    });
+  });
+</script>
+<!--div class="grupo">
+  <div class="caja movil-90 tablet-70 centrar-caja">
+    <h3>Importar información de usuarios</h3>
+    <%= form_tag 'users/import_data',:multipart=>true do %>
+      <%date_now = Time.now
+          date_nown = date_now.strftime("%Y-%m-%d")%>
+      <table>
+        <tr>
+          <td align="right"><b>Seleccione archivo .csv:</b></td>
+          <td><%= file_field_tag "file" %></td>
+          <td>&nbsp;</td>
+          <td-->
+            <!--b>Descargar información: </b--><!--%= link_to image_tag("excel.png"),:action=>"export_data" %-->
+          <!--/td>
+        </tr>
+        <tr><td colspan="2"><%= submit_tag "Importar",:class=>"boton",:id=>"fvalida" %></td></tr>
+      </table>
+    <% end %>
+  </div>
+</div-->
+<br><br>
+<div class="grupo total">
+  <div class="caja">
+    <center><%= paginate(@users) %></center>
+  </div>
+</div>
+<table id="sorter" class="tablesorter style-table">
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= sort_link(@search, :name, t('.name')) %></th>
+      <th><%= sort_link(@search, :last_name, t('.last_name')) %></th>
+      <th><%= sort_link(@search, :username, t('.username')) %></th>
+      <th><%= sort_link(@search, :identity, t('.identity')) %></th>
+      <th><%= sort_link(@search, :gender, t('.gender')) %></th>
+      <th><%= sort_link(@search, :company_id, t('.company_id')) %></th>
+      <th><%= sort_link(@search, :localization_id, t('.localization_id')) %></th>
+      <th><%= sort_link(@search, :status, t('.status')) %></th>
+      <th><%= sort_link(@search, :role_id, t('.role_id')) %></th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+    <%= search_form_for @search, url: new_user_url, method: :post do |f| %>
+      <tr>
+        <td></td>
+        <td><%= f.text_field :name_cont, class: "form-control" %></td>
+        <td><%= f.text_field :last_name_cont, class: "form-control" %></td>
+        <td><%= f.text_field :username_cont, class: "form-control" %></td>
+        <td><%= f.text_field :identity_cont, class: "form-control" %></td>
+        <td><%= f.select :gender_eq, user_gender,{include_blank: "#{t('str_select_field')} #{t('.gender')}"}, class: "form-control" %></td>
+        <td><%= f.select :company_id_eq, Company.order("name").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.company_id')}"}, class: "form-control" %></td>
+        <td><%= f.select :localization_id_eq, Localization.order("name").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.localization_id')}"}, class: "form-control" %></td>
+        <td><%= f.select :status_eq, user_status,{include_blank: "#{t('str_select_field')} #{t('.status')}"}, class: "form-control" %></td>
+        <td><%= f.select :role_id_eq, Role.order("name").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.role_id')}"}, class: "form-control" %></td>
+        <th colspan="3" width="100px">
+          <%= button_tag(type: 'submit', title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+            <span class="fa fa-search fa-lg"></span>
+          <% end %>
+          <%= link_to(new_user_url,{class: 'button-link color-button-red tooltip', title: "Limpiar",  style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"}}) do %>
+              <span class="fa fa-eraser fa-lg"></span>
+          <% end %>
+        </th>
+      </tr>
+    <% end %>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= image_tag user.avatar.url(:small), style: "width: 50px; border-radius: 50%; max-width: none;" %></td>
+        <td><%= user.name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.username %></td>
+        <td><%= user.identity %></td>
+        <td><%= user.gender == 0? t('str_gender_m') : t('str_gender_h') %></td>
+        <td><%= user.company_id != 0? user.company.name : ""  %></td>
+        <td><%= user.localization_id != 0? user.localization.name : "" %></td>
+        <td><%= user.status == 1? t('str_status_active') : t('str_status_inactive') %></td>
+        <td><%= user.role_id != 0? user.role.name : "" %></td>
+        <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_user_path(user), class: "edit-icon-button format-link tooltip", title: "Editar" %></td>
+        <td>
+          <%= link_to({action: "change_password", id: user },{class: 'ifancybox_change_password tooltip',:id=>"ifancybox_change_password",title: "Modificar Contraseña"}) do %>
+          <i class="fa fa-key" style="color: #22A7F0"></i><% end %>
+        <!--% link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } if user.role_id != 1 %-->
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="14">
+        hay <%=@users.size%> elementos de <%=@usersT.size%>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+<div class="grupo total">
+  <div class="caja">
+    <center><%= paginate(@users) %></center>
+  </div>
+</div>
+<script>
+  $(function () {
+    $("#sorter").tablesorter();
+    $(".ifancybox_change_password").fancybox({
+      'fitToView':false,
+      'autoSize':false,
+      'width':parseInt($(window).width() * 0.2),
+      'height':parseInt($(window).height() * 0.3),
+      'autoScale':true,
+      'transitionIn' : 'none',
+      'transitionOut' : 'none',
+      'scrolling': 'no',
+      'type': 'iframe',
+      afterClose: function () { // USE THIS IT IS YOUR ANSWER THE KEY WORD IS "afterClose"
+          parent.location.reload(true);
+      }
+    });
+  })
+</script>

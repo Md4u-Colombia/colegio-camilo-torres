@@ -1,0 +1,54 @@
+<%= form_for(@educational_area) do |f| %>
+  <% if @educational_area.errors.any? %>
+
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@educational_area.errors.size,
+:model=>t('activerecord.models.educational_area')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @educational_area.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :education_level_id, EducationLevel.order("name").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.education_level_id')}"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+          <%= f.text_field :name, class: "field__placeholder_icon", placeholder: "#{t('.name')}" %>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_area :description, class: "field__placeholder_icon", placeholder: "#{t('.description')}", style:"height:150px;" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_educational_area_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>

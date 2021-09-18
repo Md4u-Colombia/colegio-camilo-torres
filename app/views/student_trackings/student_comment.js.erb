@@ -1,0 +1,12 @@
+$("#tbody").empty();
+$("#header-table").empty();
+
+$("#header-table").append("<tr id='main-header'>\
+  <th width='50'><div>&nbsp;</div></th>\
+  <th><div>Apellidos</div></th>\
+  <th><div>Nombres</div></th>\
+  <th><div>Comentario</div></th>\
+</tr>");//.hide();
+
+
+$("#tbody").append('<%= j render("student_comment") %>');

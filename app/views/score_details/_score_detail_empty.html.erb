@@ -1,0 +1,26 @@
+<tr class="add-fields">
+  <td><%= @index + 1 %></td>
+  <td>
+    <div class="wrapper">
+      <div class="fa fa-pencil text_field__icon" style="font-size: 0.9em"></div>
+      <%= text_field_tag "name[]", "", class: "field__placeholder_icon field-name", placeholder: "Nombre de la Actividad", style: "font-size: 0.9em", maxlength: "11" %>
+    </div>
+  </td>
+  <td>
+    <%= select_tag "sd_detail_score_detail_id[]", options_from_collection_for_select(SdDetail.order("name"), "id", "name"), prompt: "Seleccionar Detalle", class: "select-style" %>
+  </td>
+  <td>
+    <%= select_tag "weight[]", options_for_select(array_percentage), include_blank: "Seleccionar Peso", class: "select-style weight-field" %>
+  </td>
+  <td>
+    <div class="wrapper">
+      <div class="fa fa-pencil text_field__icon" style="font-size: 0.9em"></div>
+      <%= text_area_tag "description[]", "", class: "field__placeholder_icon", placeholder: "Descripción", style: "font-size: 0.9em" %>
+    </div>
+  </td>
+  <td>
+    <i class="fa fa-floppy-o fa-lg save-button" style="color: #34495e; cursor: pointer;" id="sdid_0" title="Guardar"></i>&nbsp;
+    <i class="fa fa-minus" style="color: #e74c3c; cursor: pointer;" id="delete-fields" title="Eliminar"></i>
+  </td>
+</tr>
+<%= hidden_field_tag "score_detail_id[]", 0 %>

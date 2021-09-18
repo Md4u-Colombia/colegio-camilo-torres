@@ -1,0 +1,87 @@
+<br><br>
+<% if @educational_performances.size != 0 %>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@educational_performances) %></center>
+    </div>
+  </div>
+
+  <div class="content-table">
+    <table class="style-table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :description, t('.description')) %></th>
+          <th><%= sort_link(@search, :educational_asignature_id, t('.educational_asignature_id')) %></th>
+          <th><%= sort_link(@search, :grade_id, t('.grade_id')) %></th>
+          <th><%= sort_link(@search, :educational_period_id, t('.educational_period_id')) %></th>
+          <th><%= sort_link(@search, :school_year_id, t('.school_year_id')) %></th>
+          <th colspan="2" width="150px">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+          <%= search_form_for @search, url: new_educational_performance_url, method: :post do |f| %>
+            <tr>
+              <td width="400px"><%= f.text_field :description_cont, :size=>"45",class: "form-control" %></td>
+              <td>
+                <%if(current_user.role_id < 2)%>
+                  <%= f.select :educational_asignature_id_eq, @filter_educational_performances.includes(:educational_area).order( 'educational_areas.education_level_id' ).map{|el| [ el.educational_area.education_level.name.to_s+" / "+el.educational_area.name.to_s+" / "+el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}"}, class: "form-control" %>
+                <%else%>
+                  <%= f.select :educational_asignature_id_eq, @filter_educational_performances.map{|el| [ el.educational_asignature.educational_area.education_level.name.to_s+" / "+el.educational_asignature.educational_area.name.to_s+" / "+el.educational_asignature.name,el.educational_asignature_id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}"}, class: "form-control" %>
+                <%end%>
+
+
+              </td>
+              <td>
+                <%if(current_user.role_id < 2)%>
+                  <%= f.select :grade_id_eq, Grade.order("education_level_id").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.grade_id')}"}, class: "form-control" %>
+                <% end %>
+              </td>
+              <td><%= f.select :educational_period_id_eq, EducationalPeriod.order("internal_order").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_period_id')}"}, class: "form-control" %></td>
+              <td><%= f.select :school_year_id_eq, SchoolYear.order("name").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"}, class: "form-control" %></td>
+              <th colspan="2">
+                <%= button_tag(type: 'submit', class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"} ,title: "Buscar") do %>
+                  <i class="fa fa-search fa-lg"></i>
+                <% end %>
+                <%= link_to(new_educational_performance_url,{class: 'button-link color-button-red tooltip', title: "Limpiar", style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Limpiar"}}) do %>
+                    <span class="fa fa-eraser fa-lg"></span>
+                <% end %>
+              </th>
+            </tr>
+          <% end %>
+        <% @educational_performances.order("id DESC").each do |educational_performance| %>
+          <tr>
+            <td><%= educational_performance.description %></td>
+            <td><%= educational_performance.educational_asignature.educational_area.education_level.name.to_s+" / "+educational_performance.educational_asignature.educational_area.name.to_s+" / "+educational_performance.educational_asignature.name %></td>
+            <td><%= educational_performance.grade_id.to_i > 0? educational_performance.grade.name : "" %></td>
+            <td><%= educational_performance.educational_period.name %></td>
+            <td><%= educational_performance.school_year.name %></td>
+            <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_educational_performance_path(educational_performance), class: "edit-icon-button format-link tooltip", title: "Editar" %></td>
+            <td><%= link_to '<i class="fa fa-times"></i>'.html_safe, educational_performance, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(StudentProgress,'educational_performance_id',educational_performance) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7">
+            <%= t('.label_total') %>:  <%=@educational_performances.size%>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@educational_performances) %></center>
+    </div>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

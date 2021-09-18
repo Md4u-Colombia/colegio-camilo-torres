@@ -1,0 +1,340 @@
+<style>
+  .form__submit_button {
+    color: #fff;
+  }
+  .form__submit_button:hover {
+    color: #fff;
+  }
+
+  #filter-button {
+    margin: 9px 10px;
+    padding: 8px 40px;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: normal;
+    font: 12px "Varela Round";
+    color: white;
+    -webkit-appearance: none;
+    border: 0 none;
+    box-shadow: 0px -4px rgba(0, 0, 0, 0.3) inset;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #22A7F0;
+  }
+
+  .table-form-score {
+    margin: auto;
+  }
+
+  .table-form-score #main-header th {
+    padding: 1px;
+  }
+  .table-form-score #main-header th div {
+    padding: 5px;
+    background-color: #7f8c8d;
+    box-sizing: border-box;
+    border-radius: 3px;
+    color: #ecf0f1;
+  }
+
+  .table-form-score tbody td div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    border: 1px solid #bdc3c7;
+    margin: 1px;
+    border-radius: 3px;
+    height: 100px;
+    line-height: 32px;
+    text-align: center;
+    position: relative;
+  }
+
+  .column-comment td div {
+    height: 100px;
+  }
+
+  .table-form-score  tbody tr:hover {
+    background-color: #ecf7ff;
+  }
+
+  .table-form-score  tbody td div.score-field-final {
+    background-color: #b9e1d9;
+  }
+
+  .table-form-score  tbody td div.score-field-final.color-final {
+    background-color: #f8dbc8;
+  }
+
+  .table-form-score  tbody td div.score-field:hover {
+    background-color: #d6eeff;
+    cursor: pointer;
+  }
+
+  .table-form-score  tbody td div.score-field:after {
+      content: '';
+      width:0px;
+      height:0px;
+      border-left:5px solid transparent; /* izquierda flecha */
+      border-right:5px solid transparent; /* derecha flecha */
+      border-top:5px solid #3d566e; /* base flecha y color*/
+      font-size:0px;
+      line-height:0px;
+      position: absolute;
+      bottom: 5px;
+      left: 18px;
+  }
+
+  .table-form-score tbody td .avatar {
+    padding: 5px;
+  }
+
+  .table-form-score .avatar img {
+    border-radius: 50px;
+    height: 35px;
+  }
+
+  textarea {
+    height:87px;
+    width: 300px;
+    border-radius: 3px;
+    border: 2px solid #22A7F0;
+    font-size: .8em;
+    line-height: 20px;
+    max-height: 87px;
+    max-width: 300px;
+  }
+
+  .auto-save {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #34495e;
+    border-radius: 3px;
+    text-align: center;
+    color: #ecf0f1;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 100;
+  }
+
+  .auto-save i {
+    margin-right: 10px;
+  }
+
+  .hide-element {
+    display: none;
+  }
+</style>
+
+<div class="auto-save hide-element">
+  <i class="fa fa-refresh fa-spin"></i>Guardando automáticamente ...
+</div>
+
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<div class="grupo">
+  <div class="caja">
+    <h3><%= t('.title') %></h3>
+  </div>
+</div>
+
+<div class="grupo">
+  <div class="caja form__block_style">
+    <br>
+    <%= form_tag('/student_trackings/student_comment', remote: true) do %>
+      <div class="grupo">
+        <div class="caja tablet-20">
+            <strong><%= label_tag :school_year_id, "Año escolar" %></strong><br>
+            <%= @school_year_current %>
+            <%= hidden_field_tag :school_year_id, @school_year.id %>
+        </div>
+
+        <div class="caja tablet-40">
+          <div class="wrapper">
+            <div class="field__placeholder_icon_select">
+              <div class="fa fa-bars text_field__icon"></div>
+                <%= select_tag :educational_period_id, options_from_collection_for_select(@educational_periods, "id", "name", @educational_period_id_range), prompt: "#{t('str_select_field')} Periodo" %>
+              <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caja tablet-40">
+          <div class="wrapper">
+            <div class="field__placeholder_icon_select">
+              <div class="fa fa-bars text_field__icon"></div>
+              <%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name"), prompt: "#{t('str_select_field')} Curso" %>
+              <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caja">
+          <!--%= link_to "Aceptar", "#", class: "button-link" %-->
+          <br>
+          <!-- <div class="button-link" id="filter-button" style="width:132px; margin-left: 0; right: 0;"> -->
+            <!-- <i class="fa fa-filter"></i>&nbsp;Filtrar -->
+            <%= hidden_field_tag :flag_show_list, 0 %>
+            <%= button_tag(type: 'submit', class: "form__submit_button", id: "filter-button") do
+              "<i class='fa fa-filter'></i>&nbsp;Filtrar".html_safe
+            end %>
+          <!-- </div> -->
+        </div>
+      </div>
+    <% end %>
+
+
+    <div class="grupo">
+      <div class="caja">
+        <br><hr class="hr-style"><br>
+        <table class="table-form-score" border="0">
+          <thead id="header-table">
+            <!-- Se genera por javascript el encabezado de la tabla -->
+          </thead>
+          <tbody id="tbody">
+            <!-- Se genera por javascript el cuerpo de la tabla -->
+          </tbody>
+        </table>
+
+        <br><br>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $("#filter-button").click(function(e) {
+      flag_msg = false;
+      msg = "Los siguientes campos son obligatorios:\n"
+      if ($("#educational_period_id").val() == "") {
+        msg += "\n* Seleccione Periodo"
+        flag_msg = true;
+      }
+
+      if ($("#sub_grade_id").val() == "") {
+        msg += "\n* Seleccione Curso"
+        flag_msg = true;
+      }
+
+      // if ($("#score_detail_educational_asignature_id").val() == "") {
+      //   msg += "\n* Seleccione Asignatura"
+      //   flag_msg = true;
+      // }
+
+      if (flag_msg) {
+        alert(msg);
+        //e.preventDefault();
+        return false;
+      } else {
+        $("#flag_show_list").val(1);
+        $('html, body').animate({scrollTop: 250}, 1000);
+      }
+    });
+
+    // $('#sub_grade_id').change(function(){
+    //   if($(this).val() != ""){
+    //     $.get("/score_details/update_asignatures",{sg_id: $(this).val()}, function(data){
+    //       // alert(data);
+    //     });
+    //   }
+    // });
+
+    var timeoutId;
+    $("tbody").delegate(".field-comment", "keypress", function(){
+      // clearTimeout(timeoutId);
+      // $(".auto-save").show('low');
+      // var user_id = $(this).prop("id").split("_")[1];
+      // var ano = $("#school_year_id").val();
+      // var period_id = $("#educational_period_id").val();
+      // var sub_grade_id = $("#sub_grade_id").val();
+      // var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+      // timeoutId = setTimeout(function() {
+      //   // Runs 1 second (1000 ms) after the last change
+      //   saveToDB($('#comment_' + user_id).val(), user_id, ano, period_id, sub_grade_id, educational_asignature_id);
+      //   $(".auto-save").hide('low');
+      // }, 500);
+    });
+
+    var timeoutId2;
+    $("tbody").delegate(".field-comment", "keyup", function(e){
+      if (e.keyCode == 8 || e.keyCode == 46) {
+        clearTimeout(timeoutId2);
+        $(".auto-save").show('low');
+        var user_id = $(this).prop("id").split("_")[1];
+        var ano = $("#school_year_id").val();
+        var period_id = $("#educational_period_id").val();
+        var sub_grade_id = $("#sub_grade_id").val();
+        var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+        timeoutId2 = setTimeout(function() {
+          // Runs 1 second (1000 ms) after the last change
+          saveToDB($('#comment_' + user_id).val(), user_id, ano, period_id, sub_grade_id, educational_asignature_id);
+          $(".auto-save").hide('low');
+        }, 500);
+      }
+    });
+
+    var timeoutId2;
+    $("tbody").delegate(".field-comment", "keydown", function(e){
+      if( e.which === 90 && e.ctrlKey ){
+        console.log('control + z');
+        clearTimeout(timeoutId2);
+        $(".auto-save").show('low');
+        var user_id = $(this).prop("id").split("_")[1];
+        var ano = $("#school_year_id").val();
+        var period_id = $("#educational_period_id").val();
+        var sub_grade_id = $("#sub_grade_id").val();
+        var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+        timeoutId2 = setTimeout(function() {
+          // Runs 1 second (1000 ms) after the last change
+          saveToDB($('#comment_' + user_id).val(), user_id, ano, period_id, sub_grade_id, educational_asignature_id);
+          $(".auto-save").hide('low');
+        }, 500);
+      }
+    });
+
+    $("tbody").on("keypress paste cut", ".field-comment", function() {
+      clearTimeout(timeoutId);
+      $(".auto-save").show('low');
+      var user_id = $(this).prop("id").split("_")[1];
+      var ano = $("#school_year_id").val();
+      var period_id = $("#educational_period_id").val();
+      var sub_grade_id = $("#sub_grade_id").val();
+      var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+      timeoutId = setTimeout(function() {
+        // Runs 1 second (1000 ms) after the last change
+        saveToDB($('#comment_' + user_id).val(), user_id, ano, period_id, sub_grade_id, educational_asignature_id);
+        $(".auto-save").hide('low');
+      }, 500);
+    });
+
+  });
+
+  function saveToDB(data, user_id, ano, period_id, sub_grade_id, educational_asignature_id)
+  {
+    // console.log('Saving to the db: ' + data);
+    // console.log('user_id: ' + user_id);
+    // console.log('ano: ' + ano);
+    // console.log('period_id: ' + period_id);
+    // console.log('sub_grade_id: ' + sub_grade_id);
+    // console.log('educational_asignature_id: ' + educational_asignature_id);
+    if (ano != "" && period_id != "" && sub_grade_id != "") {
+      $.get("/student_trackings/save_comment",{school_year_id: ano, educational_period_id: period_id, sub_grade_id: sub_grade_id, educational_asignature_id: educational_asignature_id, user_id: user_id, comment: data}, function(data){
+
+      });
+    } else {
+      msg = "";
+      if ($("#educational_period_id").val() == "") {
+        msg += "\n* Seleccione Periodo"
+      }
+
+      if ($("#sub_grade_id").val() == "") {
+        msg += "\n* Seleccione Curso"
+      }
+
+      alert("Error al guardar - Debe seleccionar los siguiente campos, sin hacer clic en el botón filtrar: \n" + msg);
+    }
+
+  }
+
+</script>

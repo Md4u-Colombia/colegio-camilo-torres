@@ -1,0 +1,32 @@
+<table width="100%" border="0" style="margin-left: -22px;" id="table-peformance">
+  <% update_performances_lists.each do |performance| %>
+    <tr>
+      <td align="center">
+        <%= check_box_tag 'chk[performance][]',performance.id %>
+      </td>
+      <td>
+        <%= performance.description %>
+      </td>
+    </tr>
+  <%end%>
+</table>
+<script>
+ $(function(){
+    $('.enviar').click(function(){
+      var clases = new Array();
+      $('#new_educational_performance input[type=checkbox]').each(function(){
+        if(this.checked){
+          clases.push($(this).val());
+        }
+      });
+      if(clases == ''){
+        $(".error_explanation").show();
+        $("#show_error").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#show_error").hide();
+      }
+    });
+ });
+</script>

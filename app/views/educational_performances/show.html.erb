@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @educational_performance.description %>
+</p>
+
+<p>
+  <strong>Educational asignature:</strong>
+  <%= @educational_performance.educational_asignature_id %>
+</p>
+
+<p>
+  <strong>School year:</strong>
+  <%= @educational_performance.school_year_id %>
+</p>
+
+<%= link_to 'Edit', edit_educational_performance_path(@educational_performance) %> |
+<%= link_to 'Back', educational_performances_path %>

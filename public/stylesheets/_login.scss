@@ -1,0 +1,23 @@
+body {
+  font-family: 'Varela Round', arial, helvetica, tahoma;
+  //color: #5a6772;
+  background: #cccccc;
+}
+.content-login {
+  background: $color2;
+  width: 300px;
+  height: 50%;
+  color: #000;
+  @include border-radius(3px);
+  margin: auto;
+  padding: 20px;
+  position: relative;
+  top: 150px;
+}
+
+#title-platform {
+  position: absolute;
+  color: #fff;
+  width: 100%;
+  top: 50px;
+}

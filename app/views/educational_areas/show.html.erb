@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Grade:</strong>
+  <%= @educational_area.education_level_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @educational_area.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @educational_area.description %>
+</p>
+
+<%= link_to 'Edit', edit_educational_area_path(@educational_area) %> |
+<%= link_to 'Back', educational_areas_path %>

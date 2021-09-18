@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Educational area:</strong>
+  <%= @educational_asignature.educational_area_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @educational_asignature.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @educational_asignature.description %>
+</p>
+
+<%= link_to 'Edit', edit_educational_asignature_path(@educational_asignature) %> |
+<%= link_to 'Back', educational_asignatures_path %>

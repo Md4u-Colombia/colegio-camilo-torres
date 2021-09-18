@@ -1,0 +1,88 @@
+.button-link {
+  margin: 9px 10px;
+  padding: 8px 40px;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: normal;
+  font: 12px "Varela Round";
+  color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  border: 0 none;
+  box-shadow: 0px -4px rgba(0, 0, 0, 0.3) inset;
+  @include border-radius(3px);
+  background: $color1;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken($color1, 10%);
+  }
+}
+
+.color-button-blue {
+  background: $color1;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken($color1, 10%);
+  }
+}
+.color-button-green {
+  background: #61BD6D;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken(#61BD6D, 10%);
+  }
+}
+.color-button-red {
+  background: #E25041;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken(#E25041, 10%);
+  }
+}
+.color-button-blue2 {
+  background: #475577;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken(#475577, 10%);
+  }
+}
+.color-button-blue2-dark {
+  background: #28324e;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken(#28324e, 10%);
+  }
+}
+.color-button-yellow {
+  background: #fac51c;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken(#fac51c, 10%);
+  }
+}
+.color-button-orange {
+  background: #fba026;
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: darken(#fba026, 10%);
+  }
+}
+
+.hr-style {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}

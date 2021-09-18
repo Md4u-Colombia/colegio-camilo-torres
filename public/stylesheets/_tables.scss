@@ -1,0 +1,107 @@
+/* ESTILOS DE TABLAS MD4U */
+$tam-border: 5px;
+.style-table {
+  margin: auto;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  & thead tr {
+    color: #fff;
+    height: 50px;
+
+    th {
+      background-color: $color1;
+      box-shadow: 0px -4px rgba(0, 0, 0, .3) inset;
+      padding: 5px 10px;
+    }
+
+    th:first-child {
+      @include border-radius-top-left($tam-border);
+    }
+
+    th:last-child {
+      @include border-radius-top-right($tam-border);
+    }
+  }
+  & tbody {
+    background-color: $color2;
+    font-size: 12px;
+    tr:hover {
+      background-color: darken($color2,25%);
+    }
+
+    td {
+      padding: 5px 10px;
+    }
+  }
+
+  & tfoot td {
+    @include border-radius-bottom($tam-border);
+    text-align: center;
+    background-color: darken($color2,10%);
+    font-size: 12px;
+    padding: 5px 0;
+    box-shadow: 0px 4px rgba(0, 0, 0, .3) inset;
+  }
+
+  .sin-background-hover {
+    background-color: $color2;
+  }
+}
+
+.content-table {
+  @include hasta(movil) {
+    overflow: scroll;
+    overflow-y: hidden;
+  }
+}
+
+.sort_link {
+  color: #fff;
+  font-weight: normal;
+  width: 100%;
+  height:100%;
+  display:block;
+  &:hover {
+    color: darken($color2, 2%);
+    font-weight: bold;
+  }
+}
+
+.table-form {
+  width: 100%;
+  thead tr {
+    border-bottom: 3px solid #3498db;
+    th {
+      padding: 10px 0;
+    }
+  }
+
+  tbody tr{
+    border-bottom: 1px solid #ecf0f1;
+  }
+
+  th i {
+    color: #2ecc71;
+    cursor: pointer;
+  }
+
+  td {
+    margin: 0;
+    padding: 10px;
+    vertical-align: top;
+  }
+  .select-style {
+    border: 1px solid #edeff0;
+    background: #f8fafa;
+    border-radius: 4px;
+    width: 100%;
+    padding: .3em 0 .3em 0em;
+    font-size: .8em;
+    color: #657380;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0;
+  }
+}
+/* FIN ESTILOS DE TABLAS MD4U */

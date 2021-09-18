@@ -1,0 +1,85 @@
+<%= form_for(@sub_grade_teacher) do |f| %>
+  
+  <div class="error_explanation"  style="display:none;">
+    <%= t('errors.template.body') %>
+    <ul>
+      <li id="error_teacher" style="display:none;" ><i class="fa fa-hand-o-right"></i>&nbsp; Seleccione Docente.</li>
+      <li id="show_error" style="display:none;"><i class="fa fa-hand-o-right"></i>&nbsp; Debes seleccionar al menos una opción.</li>
+    </ul>
+  </div>
+
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :teacher_id, User.where("role_id=2").order("last_name").map{|g| [ g.reverse_complete_name.titleize,g.id]},{include_blank: "#{t('str_select_field')} #{t('.teacher_id')}"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <table border="0" style="margin-left: -22px;">
+            <% @sub_grades = SubGrade.order("grade_id")
+            level = 0
+            @sub_grades.each do |sub_grade| %>
+              <%if(level.to_i != sub_grade.grade.education_level_id.to_i)%>
+                <tr>
+                  <td colspan="2"><b>Nivel <%= sub_grade.grade.education_level.name %></b></td>
+                </tr>
+                <% level = sub_grade.grade.education_level_id %>
+              <%end%>
+                <tr>
+                  <td width="20" align="center"><%= check_box_tag 'chk[sub_grade][]',sub_grade.id %></td>
+                  <td width="200"><%= sub_grade.name %></td>
+                </tr>
+            <%end%>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_sub_grade_teacher_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button", id: "enviar" ) do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#enviar').click(function(){
+      if($("#sub_grade_teacher_teacher_id").val() == ''){
+        $(".error_explanation").show();
+        $("#error_teacher").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#error_teacher").hide();
+      }
+      var clases = new Array();
+      $('#new_sub_grade_teacher input[type=checkbox]').each(function(){
+        if(this.checked){
+          clases.push($(this).val());
+        }
+      });
+      if(clases == ''){
+        $(".error_explanation").show();
+        $("#show_error").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#show_error").hide();
+      }
+    });
+  });
+</script>

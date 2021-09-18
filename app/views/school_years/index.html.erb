@@ -1,0 +1,54 @@
+<br><br>
+<% if @school_years.size != 0 %>
+  <div class="content-table">
+    <table id="sorter" class="tablesorter style-table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :name, t('.name')) %></th>
+          <th><%= sort_link(@search, :date_begin, t('.date_begin')) %></th>
+          <th><%= sort_link(@search, :date_end, t('.date_end')) %></th>
+          <th><%= sort_link(@search, :description, t('.description')) %></th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+        <%= search_form_for @search, url: new_school_year_url, method: :post do |f| %>
+        <tr>
+          <td width="100px"><%= f.text_field :name_cont, :size=>"30",class: "form-control" %></td>
+          <td width="200px"><%= f.text_field :date_begin_cont, :size=>"45",class: "form-control" %></td>
+          <td width="200px"><%= f.text_field :date_end_cont, :size=>"45",class: "form-control" %></td>
+          <td width="200px"><%= f.text_field :description_cont, :size=>"45",class: "form-control" %></td>
+          <th colspan="2" width="200px">
+            <%= button_tag(type: 'submit',title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+              <i class="fa fa-search fa-lg"></i>
+            <% end %>
+            <%= link_to(new_school_year_url,{class: 'button-link color-button-red tooltip', title: "Limpiar", style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Limpiar"}}) do %>
+                <span class="fa fa-eraser fa-lg"></span>
+            <% end %>
+          </th>
+        </tr>
+      <% end %>
+      <tbody>
+        <% @school_years.each do |school_year| %>
+          <tr>
+            <td><%= school_year.name %></td>
+            <td><%= school_year.date_begin %></td>
+            <td><%= school_year.date_end %></td>
+            <td><%= school_year.description %></td>
+            <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_school_year_path(school_year), class: "edit-icon-button format-link tooltip", title: "Editar" %></td>
+            <td><%= link_to '<i class="fa fa-times"></i>'.html_safe, school_year, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(StudentSubGrade,'school_year_id',school_year) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

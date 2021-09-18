@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Teacher:</strong>
+  <%= @teacher_asignature.teacher_id %>
+</p>
+
+<p>
+  <strong>Sub grade:</strong>
+  <%= @teacher_asignature.sub_grade_id %>
+</p>
+
+<p>
+  <strong>Educational asignature:</strong>
+  <%= @teacher_asignature.educational_asignature_id %>
+</p>
+
+<%= link_to 'Edit', edit_teacher_asignature_path(@teacher_asignature) %> |
+<%= link_to 'Back', teacher_asignatures_path %>

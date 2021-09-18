@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Grade:</strong>
+  <%= @sub_grade.grade_id %>
+</p>
+
+<p>
+  <strong>Course director:</strong>
+  <%= @sub_grade.course_director_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @sub_grade.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @sub_grade.description %>
+</p>
+
+<%= link_to 'Edit', edit_sub_grade_path(@sub_grade) %> |
+<%= link_to 'Back', sub_grades_path %>

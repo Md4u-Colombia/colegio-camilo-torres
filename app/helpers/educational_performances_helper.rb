@@ -1,0 +1,2 @@
+module EducationalPerformancesHelper
+end

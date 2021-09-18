@@ -1,0 +1,43 @@
+<br><br>
+<% if @grades.size != 0 %>
+  <div class="content-table">
+    <table id="sorter" class="tablesorter style-table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :education_level, t('.education_level')) %></th>
+          <th><%= sort_link(@search, :name, t('.name')) %></th>
+          <th><%= sort_link(@search, :description, t('.description')) %></th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @grades.each do |grade| %>
+          <tr>
+            <td class="item-td"><%= grade.education_level.name %></td>
+            <td><%= grade.name %></td>
+            <td><%= grade.description %></td>
+            <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_grade_path(grade), class: "format-link tooltip", title: "Editar" %></td>
+            <td><%= link_to '<i class="fa fa-times"></i>'.html_safe, grade, method: :delete, data: { confirm: t('str_msg_destroy') }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(EducationalPerformance,'grade_id',grade) or assigned_id(GradeAsignature,'grade_id',grade) or assigned_id(SubGrade,'grade_id',grade)%></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            <%= t('.label_total') %>: <%= @grades.size %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

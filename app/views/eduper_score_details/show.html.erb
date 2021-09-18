@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @eduper_score_detail.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @eduper_score_detail.description %>
+</p>
+
+<p>
+  <strong>Educational performance:</strong>
+  <%= @eduper_score_detail.educational_performance %>
+</p>
+
+<p>
+  <strong>Sd detail:</strong>
+  <%= @eduper_score_detail.sd_detail %>
+</p>
+
+<p>
+  <strong>Sub grade teacher:</strong>
+  <%= @eduper_score_detail.sub_grade_teacher %>
+</p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @eduper_score_detail.weight %>
+</p>
+
+<%= link_to 'Edit', edit_eduper_score_detail_path(@eduper_score_detail) %> |
+<%= link_to 'Back', eduper_score_details_path %>

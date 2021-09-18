@@ -1,0 +1,141 @@
+<%= form_for(@students_grade) do |f| %>
+
+  <div class="error_explanation"  style="display:none;">
+    <%= t('errors.template.body') %>
+    <ul>
+      <li id="error_school_year" style="display:none;" ><i class="fa fa-hand-o-right"></i>&nbsp; Seleccione Año Escolar.</li>
+      <li id="error_grade" style="display:none;" ><i class="fa fa-hand-o-right"></i>&nbsp; Seleccione Grado.</li>
+      <li id="show_error" style="display:none;"><i class="fa fa-hand-o-right"></i>&nbsp; Debes seleccionar al menos una opción.</li>
+    </ul>
+  </div>
+
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :school_year_id, SchoolYear.order("name").map{|c| [ c.name,c.id]}, {include_blank: "Seleccione Año Escolar"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :grade_id, Grade.order("education_level_id").map{|c| [ c.education_level.name.to_s+" / "+c.name,c.id]}, {include_blank: "Seleccione Grado"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <%if @students_grade.new_record?
+      display = ""
+    else
+      display = "display:none;"
+    end%>
+    <div class="form__item showbt" style="<%= display %>">
+       <div class="wrapper">
+        <%if(@students_grade.new_record?)%>
+          <div class="field__placeholder_icon_select" style="height: 250px; overflow: scroll;">
+            <div id="show_students"></div>
+            <div id="show_table">
+              <%if(params[:action].to_s == 'create')%>
+                <table width="100%" border="0" style="margin-left: -22px;">
+                  <%for student in  @update_student_list %>
+                    <tr>
+                      <td align="center">
+                        <%= check_box_tag 'chk[student][]',student.id %>
+                      </td>
+                      <td>
+                        <%= student.reverse_complete_name %>
+                      </td>
+                    </tr>
+                  <%end%>
+                </table>
+              </div>
+              <%end%>
+            </div>
+          </div>
+        <!--%else%-->
+          <!--div class="field__placeholder_icon_select">
+            <div class="fa fa-bars text_field__icon"></div>
+              <%#= f.select :student_id, User.where("id=?",@students_grade.student_id).map{|c| [ c.reverse_complete_name,c.id]} %>
+            <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+          </div-->
+        <%end%>
+      </div>
+    </div>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_students_grade_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button enviar") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> Guardar
+      <% end %>
+    </div>
+  </div>
+
+<% end %>
+<script>
+  $(function(){
+    $(".showbt").hide();
+    $('#students_grade_school_year_id').change(function(){
+      if($('#students_grade_school_year_id').val() != ""){
+        $.get("/students_grades/update_student_list",{stid: $('#students_grade_school_year_id').val()},function(data){
+          //alert(data);
+          $(".showbt").fadeIn(5);
+          $("#show_students").html(data);
+          if($("#show_table").is(":visible") == true) {
+            $("#show_table").fadeOut(5);
+          }
+        });
+      }else{
+        $(".showbt").fadeOut(5);
+        if($("#show_table").is(":visible") == true) {
+          $("#show_table").fadeOut(5);
+        }
+      }
+    });
+
+    $('.enviar').click(function(){
+      if($("#show_table").is(":visible") == true) {
+        var clases = new Array();
+        $('#new_students_grade input[type=checkbox]').each(function(){
+          if(this.checked){
+            clases.push($(this).val());
+          }
+        });
+        if(clases == ''){
+          $(".error_explanation").fadeIn(5);
+          $("#show_error").fadeIn(5);
+          return false;
+        }else{
+          $(".error_explanation").hide();
+          $("#show_error").hide();
+        }
+      }
+      if($("#students_grade_school_year_id").val() == ''){
+        $(".error_explanation").fadeIn(5);
+        $("#error_school_year").fadeIn(5);
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#error_school_year").hide();
+      }
+      if($("#students_grade_grade_id").val() == ''){
+        $("#error_grade").fadeIn(5);
+        $(".error_explanation").fadeIn(5);
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#error_grade").hide();
+      }
+    });
+
+  });
+</script>

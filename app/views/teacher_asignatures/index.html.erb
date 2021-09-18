@@ -1,0 +1,72 @@
+<br>
+<% if @teacher_asignatures.size != 0 %>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@teacher_asignatures) %></center>
+    </div>
+  </div>
+  <div class="content-table">
+    <table id="sorter" class="tablesorter style-table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :teacher_asignature_sub_grade_teacher_school_year_id, "Año Escolar") %></th>
+          <th><%= sort_link(@search, :teacher_id, t('.teacher_id')) %></th>
+          <th><%= sort_link(@search, :sub_grade_id, t('.sub_grade_id')) %></th>
+          <th><%= sort_link(@search, :educational_asignature_id, t('.educational_asignature_id')) %></th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%= search_form_for @search, url: new_teacher_asignature_url, method: :post do |f| %>
+          <tr>
+            <td><%= f.select :sub_grade_teacher_school_year_id_eq, SchoolYear.order("date_begin").map{|e| [ e.name,e.id]},{include_blank: "Seleccione Año Escolar", selected: get_current_school_year(Time.now.year)}, class: "form-control" %></td>
+            <td><%= f.select :teacher_id_eq, User.where("role_id=2 AND status=1").order("last_name").map{|el| [ el.reverse_complete_name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.teacher_id')}"}, class: "form-control" %></td>
+            <td><%= f.select :sub_grade_id_eq, SubGrade.order("grade_id").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"}, class: "form-control" %></td>
+            <td><%= f.select :educational_asignature_id_eq, EducationalAsignature.includes(:educational_area).order( 'educational_areas.education_level_id').map{|el| [ el.educational_area.education_level.name.to_s+" / "+el.name.to_s,el.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}"}, class: "form-control" %></td>
+            <th colspan="3" width="100px">
+              <%= button_tag(type: 'submit', title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+                <span class="fa fa-search fa-lg"></span>
+              <% end %>
+              <%= link_to(new_teacher_asignature_url,{class: 'button-link color-button-red tooltip', title: "Limpiar",  style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"}}) do %>
+                  <span class="fa fa-eraser fa-lg"></span>
+              <% end %>
+            </th>
+          </tr>
+        <% end %>
+        <% @teacher_asignatures.each do |teacher_asignature| %>
+          <tr>
+            <td><%= teacher_asignature.sub_grade_teacher.school_year.name %></td>
+            <td><%= teacher_asignature.teacher.reverse_complete_name %></td>
+            <td><%= teacher_asignature.sub_grade.name %></td>
+            <td><%= teacher_asignature.educational_asignature.educational_area.education_level.name.to_s+" / "+teacher_asignature.educational_asignature.name %></td>
+            <!--td align="center"><% link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_teacher_asignature_path(teacher_asignature) , class: "edit-icon-button format-link tooltip", title: "Editar" %></td-->
+            <td align="center"><%= link_to '<i class="fa fa-trash fa-lg"></i>'.html_safe, teacher_asignature, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(PeriodNotesDetail,'teacher_asignature_id',teacher_asignature) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+            <%= t('.label_total') %>: <%= @teacher_asignatures.size %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@teacher_asignatures) %></center>
+    </div>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

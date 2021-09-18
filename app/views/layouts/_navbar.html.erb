@@ -1,0 +1,210 @@
+<% if (current_user.role_id < 2) %>
+  <ul id="menu-md4u" class="hidden">
+    <li>
+      <div class="content-link">
+        <div class="icon flat-blue-icon">
+          <i class="fa fa-user fa-2x"></i>
+        </div>
+        <div class="link flat-blue">Administración</div>
+      </div>
+      <ul class="submenu-md4u hidden">
+        <li>
+          <%= link_to(new_user_path, class: "color-hover-blue") do %>
+            <div class="fa fa-graduation-cap icon-link"></div>
+            <p>Usuarios</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_education_level_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Niveles Educativos</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_educational_area_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Áreas Educativas</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_grade_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Grados Educativos</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_sub_grade_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Cursos Educativos</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_educational_asignature_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Asignaturas</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_educational_performances_list_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-institution icon-link"></span> Desempeños Educativos<% end %>
+        </li>
+        <li>
+          <%= link_to(new_educational_performance_grade_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-cog icon-link"></span> Configuración Desempeños<% end %>
+        </li>
+        <li>
+          <%= link_to( {controller: "educational_performance_grades", action: "duplicate_educational_performance_grades"}, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-cog icon-link"></span> Duplicar Desempeños<% end %>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="content-link">
+        <div class="icon flat-green-icon">
+          <i class="fa fa-cog fa-2x"></i>
+        </div>
+        <div class="link flat-green">Academico</div>
+      </div>
+      <ul class="submenu-md4u hidden">
+        <li>
+          <%= link_to(average_student_sub_grades_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-trophy icon-link"></span> Lista de Posiciones<% end %>
+        </li>
+        <li>
+          <%= link_to(new_students_grade_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-users icon-link"></span> Matriculas Estudiantes<% end %>
+        </li>
+        <li>
+          <%= link_to(new_student_sub_grade_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-file-text-o icon-link"></span> Generación de Informes<% end %>
+        </li>
+        <li>
+          <%= link_to(final_value_records_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-file-text-o icon-link"></span> Registro Final Valorativo<% end %>
+        </li>
+        <li>
+          <%= link_to(student_trackings_score_tracking_report_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-file-text-o icon-link"></span> Reporte seguimiento notas<% end %>
+        </li>
+        <li>
+          <%= link_to(new_sub_grade_teacher_path, {class: "color-hover-blue"}) do %>
+          <span class="fa fa-institution icon-link"></span> Cursos Docentes<% end %>
+        </li>
+        <li>
+          <%= link_to(new_teacher_asignature_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Docentes Asignaturas</p>
+          <% end -%>
+        </li>
+        <li>
+          <%= link_to(new_grade_asignature_path, class: "color-hover-blue") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Grados Asignaturas</p>
+          <% end -%>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="content-link">
+        <div class="icon flat-red-icon">
+          <i class="fa fa-cog fa-2x"></i>
+        </div>
+        <div class="link flat-red">Configuración</div>
+      </div>
+      <ul class="submenu-md4u hidden">
+        <li>
+          <%= link_to(new_school_year_path, class: "color-hover-red") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Año Escolar</p>
+          <% end -%>
+        </li>
+        <!--li>
+          <%#= link_to(new_company_path, class: "color-hover-red") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Centro Educativo</p>
+          <%# end -%>
+        </li-->
+        <!--li>
+          <%#= link_to(new_localization_path, class: "color-hover-red") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Sedes</p>
+          <%# end -%>
+        </li-->
+        <!--li>
+          <%#= link_to(new_country_path, class: "color-hover-red") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Paises</p>
+          <%# end -%>
+        </li-->
+        <!--li>
+          <%#= link_to(new_city_path, class: "color-hover-red") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Ciudad</p>
+          <%# end -%>
+        </li-->
+
+        <li>
+          <%= link_to(new_educational_period_path, class: "color-hover-red") do %>
+            <div class="fa fa-puzzle-piece icon-link"></div>
+            <p>Periodos Educativos</p>
+          <% end -%>
+        </li>
+        <!--li>
+          <= link_to(new_sd_detail_path, {class: "color-hover-red"}) do %>
+          <span class="fa fa-institution icon-link"></span> Detalle de calificaciones< end %>
+        </li-->
+
+      </ul>
+    </li>
+  </ul>
+<% else %>
+  <ul id="menu-md4u" class="hidden">
+    <li>
+      <div class="content-link">
+        <div class="icon flat-blue-icon">
+          <i class="fa fa-user fa-2x"></i>
+        </div>
+        <div class="link flat-blue">Docentes</div>
+      </div>
+      <ul class="submenu-md4u hidden">
+        <li>
+          <%= link_to(new_educational_performance_grade_path, {class: "color-hover-blue"}) do %>
+            <span class="fa fa-institution icon-link"></span> Configuración Desempeños
+          <% end %>
+        </li>
+        <% if (SubGrade.where("course_director_id = ?", current_user.id).any?) %>
+          <li>
+            <%= link_to(sub_grades_path, {class: "color-hover-blue"}) do %>
+              <span class="fa fa-institution icon-link"></span> Curso Estudiantes
+            <% end %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to(sub_grades_path, {class: "color-hover-blue"}) do %>
+              <span class="fa fa-institution icon-link"></span> Mis Estudiantes
+            <% end %>
+          </li>
+        <% end %>
+        <!--li>
+          <= link_to(new_score_detail_path, {class: "color-hover-blue"}) do %>
+            <span class="fa fa-list-alt icon-link"></span> Detalles de calificación
+          < end %>
+        </li-->
+        <li>
+          <%= link_to(new_student_tracking_path, {class: "color-hover-blue"}) do %>
+            <span class="fa fa-list-alt icon-link"></span> Calificaciones
+          <% end %>
+        </li>
+        <!-- VALIDAR SI ES DIRECTOR DE CURSO Y MOSTRAR OPCION DE COMENTARIOS -->
+        <% @sub_grades = SubGrade.where("course_director_id = ?", current_user.id) %>
+        <% if @sub_grades.any? %>
+          <li>
+          <%= link_to({controller: "student_trackings", action: "student_comment"}, {class: "color-hover-blue"}) do %>
+            <span class="fa fa-list-alt icon-link"></span> Ingreso de observaciones
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+<% end %>

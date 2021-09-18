@@ -1,0 +1,101 @@
+<%if(params[:action].to_s == 'update_students')%>
+  <option value="<%= user.id %>"><%= user.reverse_complete_name.titleize %></option>
+<%else%>
+  <tr>
+    <td>
+      <div class="avatar">
+        <%= image_tag '/images/thumb/missing-boy.png' %>
+      </div>
+    </td>
+    <td>
+      <div><%= user.last_name.mb_chars.titleize %></div>
+    </td>
+    <td>
+      <div><%= user.name.mb_chars.titleize %></div>
+    </td>
+    <%
+    @student_trackings = StudentTracking.where("user_id = ? AND score_detail_id IN (?)", user.id, @score_details.pluck(:id))
+    %>
+    <% @score_details.each do |score_detail| %>
+      <% @student_tracking = StudentTracking.where("user_id = ? AND score_detail_id = ?", user.id, score_detail.id) %>
+      <td width="50">
+        <% if @student_tracking.any? %>
+          <%
+          score = @student_tracking.last.score.to_f
+          # puts "-------------score: #{@student_tracking.last}"
+          if score >= 0 and score <= 3.2
+            classColor = "colorRed"
+          elsif score >= 3.3 and score <= 3.9
+            classColor = "colorOrange"
+          elsif score >= 4.0 and score <= 4.5
+            classColor = "colorYellow"
+          elsif score >= 4.6 and score <= 5.0
+            classColor = "colorGreen"
+          end
+          %>
+          <% unless @student_tracking.last.score.nil? %>
+            <div class="score-field scores-<%= user.id %> <%= classColor %>" id="scoreField-<%= user.id%>_<%= score_detail.id %>">
+              <%= '%.1f' % score %>
+            </div>
+          <% else %>
+            <div class="score-field scores-<%= user.id %>" id="scoreField-<%= user.id%>_<%= score_detail.id %>" ></div>
+          <% end %>
+        <% else %>
+          <div class="score-field scores-<%= user.id %>" id="scoreField-<%= user.id%>_<%= score_detail.id %>" ></div>
+        <% end %>
+        <%
+        # if @student_
+        %>
+        <%= hidden_field_tag "score-#{user.id}_#{score_detail.id}", score %>
+      </td>
+    <% end %>
+    <td>
+
+    </td>
+    <td width="50">
+
+      <%
+      @sumScorePercentage = 0
+      @student_trackings.where("score IS NOT NULL").each do |score_detail|
+        weight_detail = ScoreDetail.find(score_detail.score_detail_id).weight.to_f
+        @sumScorePercentage += score_detail.score.to_f * weight_detail.to_f / 100.0
+      end
+
+      # CALCULO NOTA ACUMULADA
+      @sumWeightNotNull = ScoreDetail.where("id IN (?)", @student_trackings.where("score IS NOT NULL").pluck(:score_detail_id)).sum(:weight).to_f
+
+      if @sumScorePercentage.to_f != 0.0
+        @score_acum = (100 / @sumWeightNotNull) * @sumScorePercentage.to_f
+        @score_acum = '%.1f' % @score_acum
+        @color_class_acum = getColorClass(@score_acum)
+      else
+        @score_acum = ""
+        @color_class_acum = "score-field-final"
+      end
+      %>
+
+      <div class="<%= @color_class_acum %>" id="score-acu_<%= user.id %>">
+        <% if @student_trackings.any? %>
+          <%= @score_acum %>
+        <% end %>
+      </div>
+    </td>
+    <td width="50">
+
+      <%
+        # CALCULO NOTA DEFINITIVA
+        if @student_trackings.where("score IS NOT NULL").any?
+          @score_def = '%.1f' % @student_trackings.sum(:compliance).to_f
+          @color_class_def = getColorClass(@score_def)
+        else
+          @score_def = ""
+          @color_class_def = "score-field-final color-final"
+        end
+      %>
+
+      <div class="<%= @color_class_def %>" id="score-def_<%= user.id %>">
+        <%= @score_def %>
+      </div>
+    </td>
+  </tr>
+<%end%>

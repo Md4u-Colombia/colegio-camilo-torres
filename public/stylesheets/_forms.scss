@@ -1,0 +1,279 @@
+/*
+=============================================
+CSS para los estilos de los formularios
+=============================================
+ */
+
+//Variables de Color
+$color--fields: #edeff0;
+$radius: 5px;
+
+.form__block {
+  //box-shadow: 0px 1px 5px lighten(#888888, 10%);
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  margin: 0;
+  @include border-radius-top($radius);
+  @include border-radius-bottom($radius);
+}
+
+.form__block_style {
+  background: #fff;
+  @include border-radius($radius);
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+}
+
+.form__title {
+  height: 50px;
+  background: $color1;
+  line-height: 50px;
+  padding-left: 20px;
+  @include border-radius-top($radius);
+  box-shadow: 0px -4px rgba(0, 0, 0, .3) inset;
+  h3 {
+    font-family: $header--font-family;
+    font-weight: normal;
+    color: #fff;
+  }
+}
+
+.field__placeholder_icon {
+  border: 1px solid $color--fields;//darken($color2,10%);
+  background: $color2;
+  @include border-radius($radius - 1);
+  width: 100%;
+  padding: .3em 0 .3em 2em;
+  font-size: 1em;
+  color: $body--color;
+  &:focus {
+    background: none repeat scroll 0% 0% #FFF;
+    border: 2px solid $color--fields;
+  }
+}
+
+.field__placeholder_icon_select {
+  border: 1px solid $color--fields;//darken($color2,10%);
+  background: $color2;
+  @include border-radius($radius - 1);
+  width: 100%;
+  padding: .3em 0 .3em 1.7em;
+  font-size: 1em;
+  color: $body--color;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0;
+
+  &:focus {
+    background: #FFF;
+    border: 2px solid $color--fields;
+    //outline: none;
+  }
+
+  &:hover {
+    background: #fff;
+    border: 2px solid $color1;
+  }
+
+  & select {
+    position: relative;
+    z-index: 20;
+    padding: 0;
+    margin: 0;
+    float: left;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    &:focus {
+      //background: none repeat scroll 0% 0% #FFF;
+      //border: 2px solid $color--fields;
+    }
+
+    &:hover + .text_field__icon_select {
+      background: #fff;
+      color: $color1;
+    }
+  }
+
+}
+
+.form__style {
+  border: 1px solid $color--fields;//darken($color2,10%);
+  background: #fff;
+  border-top: 0;
+  padding: 10px;
+}
+
+.form__item {
+  padding: 2.5px 0;
+}
+
+.form__button {
+  height: 50px;
+  background: $color2;
+  border: 1px solid $color--fields;//darken($color2,10%);
+  border-top: 0;
+  @include border-radius-bottom($radius);
+}
+
+.button__border_radius {
+  .form__submit_button {
+      margin: 9px 10px;
+      padding: 8px 40px;
+      white-space: nowrap;
+      vertical-align: middle;
+      line-height: normal;
+      font: 12px $header--font-family;
+      color: white;
+      -webkit-appearance: none; /* stop mobile safari from using default button styles */
+      //border: 1px solid darken($color1,10%);
+      border: 0 none;
+      box-shadow: 0px -4px rgba(0, 0, 0, .3) inset;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      background: $color1;
+      cursor: pointer;
+  }
+}
+
+.wrapper { position: relative; }
+
+.text_field__icon {
+  font-size: 1em;
+  margin-top: 2px;
+  color: darken($color--fields, 10%);
+  position: absolute; top: 6px; left: 8px;
+}
+
+.text_field__icon_select {
+  font-size: 1.4em;
+  color: darken($color--fields, 10%);
+  position: absolute; top: 6px; right: 8px;
+  &:hover {
+    color: $color1;
+  }
+}
+
+.text_field__icon_select2 {
+  font-size: 1.4em;
+  color: darken($color--fields, 10%);
+  position: absolute; top: 6px; right: 20px;
+  &:hover {
+    color: $color1;
+  }
+}
+
+.error_explanation {
+  border-bottom: 2px solid darken($color2,10%);
+  background-color: lighten($color-alert-danger, 40%);
+  overflow: hidden;
+  padding: 10px 20px;
+  font-size: 12px;
+  line-height: 18px;
+  -webkit-transition: background 3s;
+  -moz-transition: background 3s;
+  transition: background 3s;
+  color: $color-alert-danger;
+  h2 {
+    margin: 0;
+    padding: 0 0 5px 0;
+    font-weight: bold;
+    font-size: 13px;
+    color: $color-alert-danger;
+  }
+
+  ul {
+    margin: 0;
+    padding-top: 5px;
+  }
+}
+
+.format-link {
+  text-decoration: none;
+  color: $color1;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.format-link-gray {
+  text-decoration: none;
+  color: lighten($body--color, 30%);
+  &:hover {
+    color: $body--color;
+  }
+}
+
+.animate-left-arrow i.fa {
+    left: 5px;
+    position: relative;
+    z-index: 300;
+    /*-webkit-transition: transform .5s;
+    transition: transform .5s;*/
+}
+
+.animate-left-arrow:hover i {
+  -webkit-animation: movein 1s;
+    animation: movein 1s;
+  -webkit-transition: transform 0.5s;
+  transition: transform 0.5s;
+  -webkit-transform: translateX(30px);
+}
+
+@-webkit-keyframes movein {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: -30px;
+    }
+}
+@keyframes movein {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: -30px;
+    }
+}
+
+.static-element {
+  position: fixed;
+}
+
+.position-arrow {
+  top: 50%;
+
+  @include hasta(movil) {
+    top: 20%;
+    font-size: 5px;
+  }
+}
+
+/* ESTILO PARA MOSTRA LOS CAMPOS REQUERIDOS EN CASO DE ERROR */
+.field_with_errors:before {
+  content: '\f0a4';
+  font-family: 'Fontawesome';
+  color: lighten($color-alert-danger, 30%);
+  position: absolute;
+  left: -30px;
+  line-height: 30px;
+  animation: animate-hand 1s infinite;
+}
+
+@keyframes animate-hand {
+  to {
+    left: -30px;
+  }
+
+  from {
+    left: -50px;
+  }
+}
+/* FIN ESTILOS FORMULARIOS */

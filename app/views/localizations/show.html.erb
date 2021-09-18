@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @localization.name %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @localization.parent_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @localization.status %>
+</p>
+
+<%= link_to 'Edit', edit_localization_path(@localization) %> |
+<%= link_to 'Back', localizations_path %>

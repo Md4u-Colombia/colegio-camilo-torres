@@ -1,0 +1,27 @@
+$pagination-radius: 3px;
+.pagination {
+  margin: 20px 20px;
+  & .first, .last, .prev, .next, .page {
+    & a {
+      background: darken($color2, 20%);
+      padding: 5px 10px;
+      color: #fff;
+      &:hover {
+        background: $color2;
+        color: #000;
+      }
+    }
+  }
+
+  & .first {
+    & a {
+      @include border-radius-left($pagination-radius);
+    }
+  }
+
+  & .last {
+    & a {
+      @include border-radius-right($pagination-radius);
+    }
+  }
+}

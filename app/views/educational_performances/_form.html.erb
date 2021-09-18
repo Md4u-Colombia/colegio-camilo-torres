@@ -1,0 +1,171 @@
+<%= form_for(@educational_performance) do |f| %>
+  <% if @educational_performance.errors.any? %>
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@educational_performance.errors.size,:model=>t('activerecord.models.educational_performance')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @educational_performance.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%if(flash[:error]) %>
+     <div class="error_explanation">
+        <p><%= t('errors.template.body') %></p>
+        <%= flash[:error].html_safe %>
+     </div>
+  <% end %>
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :school_year_id, SchoolYear.order("name").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= f.select :educational_period_id, EducationalPeriod.order("internal_order").map{|el| [ el.name ,el.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_period_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <!--%= f.select :sub_grade_id, @update_sub_grade.map{|el| [ el.grade.name ,el.grade_id]},{include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"}, class: "field__placeholder_icon" %-->
+            <%= f.select :grade_id, @grades.map{|g| [ g.education_level.name.to_s+" / "+g.name ,g.id]},{include_blank: "#{t('str_select_field')} #{t('.grade_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :educational_asignature_id, @update_educational_asignature.map{|u| [u.educational_asignature.name,u.educational_asignature_id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <%if @educational_performance.new_record?
+      display = ""
+    else
+      display = "display:none;"
+    end%>
+    <div class="form__item showbt" style="<%= display %>">
+       <div class="wrapper">
+        <%if(@educational_performance.new_record?)%>
+          <div class="field__placeholder_icon_select" style="height: 250px; overflow: scroll;">
+            <div id="show_students"></div>
+            <div id="show_table">
+              <%if(params[:action].to_s == 'create')%>
+                <table width="100%" border="0" style="margin-left: -22px;" id="table-peformance">
+                  <% position_checks_selected = 0 %>
+                  <% @update_performances_lists.each do |performance| %>
+                    <tr>
+                      <td align="center">
+                        <% if @checks_selected[position_checks_selected].to_i == performance.id.to_i %>
+                          <%= check_box_tag 'chk[performance][]', performance.id, checked: true %>
+                          <% position_checks_selected += 1 %>
+                        <% else %>
+                          <%= check_box_tag 'chk[performance][]', performance.id %>
+                        <% end %>
+                      </td>
+                      <td>
+                        <%= performance.description %>
+                      </td>
+                    </tr>
+                  <%end%>
+                </table>
+              </div>
+              <%end%>
+            </div>
+          </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_educational_performance_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button enviar") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<script>
+ $(function(){
+    $('#educational_performance_grade_id').change(function(){
+      if($('#educational_performance_grade_id').val() != ""){
+        $.get("/educational_performances/update_educational_asignature",{gid: $('#educational_performance_grade_id').val()},function(data){
+          //alert(data);
+        });
+      }
+    });
+  });
+</script>
+
+<script>
+  $(function(){
+    //$(".showbt").hide();
+
+    // GENERACION DE TABLA PARA DESEMPEÑOS
+    $('#educational_performance_educational_asignature_id').change(function(){
+      if($('#educational_performance_school_year_id').val() != ""){
+        $.get("/educational_performances/update_performances_lists", {
+           gid: $('#educational_performance_grade_id').val(),
+           eaid: $('#educational_performance_educational_asignature_id').val()
+         },function(data){
+          //alert(data);
+          $(".showbt").fadeIn(5);
+          $("#show_students").html(data);
+          if($("#show_table").is(":visible") == true) {
+            $("#show_table").fadeOut(5);
+          }
+        });
+      }else{
+        $(".showbt").fadeOut(5);
+        if($("#show_table").is(":visible") == true) {
+          $("#show_table").fadeOut(5);
+        }
+      }
+    });
+    // FIN GENERACION DE TABLA DESEMPEÑOS
+
+    $('.enviar').click(function(){
+      //if($("#show_table").is(":visible") == true) {
+        var clases = new Array();
+        $('#new_educational_performance input[type=checkbox]').each(function(){
+          if(this.checked){
+            clases.push($(this).val());
+          }
+        });
+        if(clases == ''){
+          $(".error_explanation").fadeIn(5);
+          $("#show_error").fadeIn(5);
+          alert("Debe seleccionar al menos un desempeño.");
+          return false;
+        }else{
+          $(".error_explanation").hide();
+          $("#show_error").hide();
+        }
+      //}
+    });
+
+  });
+</script>

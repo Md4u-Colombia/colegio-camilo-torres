@@ -1,0 +1,17 @@
+<div class="grupo">
+  <div class="caja movil-90 tablet-70 centrar-caja">
+    <div class="form__block">
+      <div class="form__title">
+        <h3><%= t('.title') %></h3>
+      </div>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>
+
+<!--div style="padding: 0 10%;">
+  <= render template: "student_progresses/index" %>
+</div-->
+
+<%= link_to 'Show', @student_progress %> |
+<%= link_to 'Back', student_progresses_path %>

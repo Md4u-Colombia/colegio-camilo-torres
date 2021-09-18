@@ -1,0 +1,73 @@
+<%= form_for(@school_year) do |f| %>
+  <% if @school_year.errors.any? %>
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@school_year.errors.size, :model=>t('activerecord.models.school_year')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @school_year.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form__style">
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_field :name, class: "field__placeholder_icon", placeholder: "#{t('.name')}" %>
+      </div>
+    </div>
+    
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-calendar text_field__icon"></div>
+        <%= f.text_field :date_begin, class: "cldate_begin field__placeholder_icon", readonly: true, placeholder: "#{t('.date_begin')}" %>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-calendar text_field__icon"></div>
+        <%= f.text_field :date_end, class: "cldate_end field__placeholder_icon", readonly: true, placeholder: "#{t('.date_end')}" %>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_area :description, class: "field__placeholder_icon", placeholder: "#{t('.description')}", style:"height:150px;" %>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_school_year_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+ <script>
+ $(function() {
+  $( ".cldate_begin" ).datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat: 'yy-mm-dd',
+    minDate: "-1Y", 
+    // maxDate: "-1D"
+  });
+  $( ".cldate_end" ).datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat: 'yy-mm-dd',
+    minDate: +1,
+    maxDate: "+12M"
+  });
+});
+</script>

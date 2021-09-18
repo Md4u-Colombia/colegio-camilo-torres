@@ -1,0 +1,95 @@
+<h1>Lista de puestos</h1>
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<div class="grupo">
+  <div class="caja">
+    <h3></h3>
+    <br>
+  </div>
+</div>
+<div class="grupo total">
+  <%= form_tag average_student_sub_grades_path, method: :get do %>
+    <div class="caja form__block_style">
+      <div class="grupo">
+        <div class="caja tablet-20">
+        </div>
+        <div class="caja tablet-10">
+          <strong><%= label_tag :school_year_id, "Año escolar" %></strong><br>
+          <%= @school_year_current %>
+          <%= hidden_field_tag :school_year_id, @school_year.id %>
+        </div>
+        <div class="caja tablet-30">
+          <div class="wrapper">
+            <div class="field__placeholder_icon_select">
+              <div class="fa fa-bars text_field__icon"></div>
+              <%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name", @sub_grade_id), prompt: "#{t('str_select_field')} Curso" %>
+              <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caja tablet-10">
+          <strong><%= label_tag :school_year_id, "Seleccione Periodo" %></strong><br>
+        </div>
+        <div class="caja tablet-30">
+          <div class="wrapper">
+            <div class="field__placeholder_icon_select">
+              <div class="fa fa-bars text_field__icon"></div>
+              <%= select_tag "educational_period_id", options_from_collection_for_select(@educational_periods, "id", "name", @educational_period_id), prompt: "#{t('str_select_field')} Periodo" %>
+              <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caja">
+          <!--%= link_to "Aceptar", "#", class: "button-link" %-->
+          <br>
+          <div class="button__border_radius left">
+            <%= button_tag(type: 'submit', name: "commit", value: "filter_recalculate", class: "form__submit_button", id: "filter-button") do %>
+              <i class="fa fa-calculator fa-lg"></i> Generar
+            <% end %>
+          </div>
+          <!--div class="button__border_radius right">
+            <%#= button_tag(type: 'submit', name: "commit", value: "filter", class: "form__submit_button", id: "filter-button") do %>
+              <i class="fa fa-search fa-lg"></i> Filtrar
+            <%# end %>
+          </div -->
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<br>
+<table class="tablesorter style-table">
+  <thead>
+    <tr>
+      <th>Año Escolar</th>
+      <th>Estudiante</th>
+      <th>Curso</th>
+      <th>Periodo</th>
+      <th>Promedio</th>
+      <th>Puesto</th>
+      <!-- <th colspan="3"></th> -->
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @average_student_sub_grades.each do |average_student_sub_grade| %>
+      <tr>
+        <td><%= average_student_sub_grade.student_sub_grade.school_year.name%></td>
+        <td><%= average_student_sub_grade.student_sub_grade.student.complete_name %></td>
+        <td><%= average_student_sub_grade.student_sub_grade.sub_grade.name %></td>
+        <td><%= average_student_sub_grade.educational_period.name %></td>
+        <td><%= average_student_sub_grade.average %></td>
+        <td><%= average_student_sub_grade.place %></td>
+        <!--td><= link_to 'Show', average_student_sub_grade %></td>
+        <td><= link_to 'Edit', edit_average_student_sub_grade_path(average_student_sub_grade) %></td>
+        <td><= link_to 'Destroy', average_student_sub_grade, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<!-- %= link_to 'New Average student sub grade', new_average_student_sub_grade_path % -->

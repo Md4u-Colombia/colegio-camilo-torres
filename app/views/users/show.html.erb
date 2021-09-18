@@ -1,0 +1,89 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @user.username %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Encrypted password:</strong>
+  <%= @user.encrypted_password %>
+</p>
+
+<p>
+  <strong>Identity:</strong>
+  <%= @user.identity %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @user.gender %>
+</p>
+
+<p>
+  <strong>Since date:</strong>
+  <%= @user.since_date %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @user.company_id %>
+</p>
+
+<p>
+  <strong>Area:</strong>
+  <%= @user.area_id %>
+</p>
+
+<p>
+  <strong>Localization:</strong>
+  <%= @user.localization_id %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @user.position_id %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @user.group_id %>
+</p>
+
+<p>
+  <strong>Business unite:</strong>
+  <%= @user.business_unite_id %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @user.country_id %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @user.city_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @user.status %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

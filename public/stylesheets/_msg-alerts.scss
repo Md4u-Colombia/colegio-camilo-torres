@@ -1,0 +1,42 @@
+$color-alert-info: #2980b9;
+$color-alert-success: #27ae60;
+$color-alert-warning: #f39c12;
+$color-alert-danger: #c0392b;
+
+$tam-border-msg: 3px;
+
+.msg-info {
+  padding: 10px;
+  border: 1px solid lighten($color-alert-info, 35%);
+  background-color: lighten($color-alert-info, 40%);
+  color: $color-alert-info;
+  font-size: 12px;
+  @include border-radius($tam-border-msg);
+}
+
+.msg-success {
+  padding: 10px;
+  border: 1px solid lighten($color-alert-success, 35%);
+  background-color: lighten($color-alert-success, 40%);
+  color: $color-alert-success;
+  font-size: 12px;
+  @include border-radius($tam-border-msg);
+}
+
+.msg-warning {
+  padding: 10px;
+  border: 1px solid lighten($color-alert-warning, 35%);
+  background-color: lighten($color-alert-warning, 40%);
+  color: $color-alert-warning;
+  font-size: 12px;
+  @include border-radius($tam-border-msg);
+}
+
+.msg-danger {
+  padding: 10px;
+  border: 1px solid lighten($color-alert-danger, 35%);
+  background-color: lighten($color-alert-danger, 40%);
+  color: $color-alert-danger;
+  font-size: 12px;
+  @include border-radius($tam-border-msg);
+}

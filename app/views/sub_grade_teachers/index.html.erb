@@ -1,0 +1,63 @@
+<br><br><br>
+<% if @sub_grade_teachers.size != 0 %>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@sub_grade_teachers) %></center>
+    </div>
+  </div>
+  <div class="content-table">
+    <table class="style-table">
+      <thead>
+        <tr>
+          <th><%=sort_link(@search, :school_year_id, "Año escolar") %></th>
+          <th><%=sort_link(@search, :teacher_last_name, "Docente") %></th>
+          <th><%=sort_link(@search, :sub_grade, "Curso") %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= search_form_for @search, url: new_sub_grade_teacher_url, method: :post do |f| %>
+          <tr>
+            <td><%= f.select :school_year_id_eq, SchoolYear.order("date_begin").map{|e| [ e.name,e.id]},{include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"}, class: "form-control" %></td>
+            <td><%= f.select :teacher_id_eq, User.where("role_id=2").order("last_name").map{|el| [ el.reverse_complete_name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.teacher_id')}"}, class: "form-control" %></td>
+            <td><%= f.select :sub_grade_id_eq, SubGrade.order("grade_id").map{|el| [ el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"}, class: "form-control" %></td>
+            <th width="100px">
+              <%= button_tag(type: 'submit',title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+                <i class="fa fa-search fa-lg"></i>
+              <% end %>
+              <%= link_to(new_sub_grade_teacher_url,{class: 'button-link color-button-red tooltip', title: "Limpiar", style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Limpiar"}}) do %>
+                  <span class="fa fa-eraser fa-lg"></span>
+              <% end %>
+            </th>
+          </tr>
+        <% end %>
+        <% @sub_grade_teachers.each do |sub_grade_teacher| %>
+          <tr>
+            <td align="center"><%= sub_grade_teacher.school_year.name %></td>
+            <td><%= sub_grade_teacher.teacher.reverse_complete_name %></td>
+            <td><%= sub_grade_teacher.sub_grade.grade.education_level.name.to_s+" / "+sub_grade_teacher.sub_grade.name.to_s %></td>
+            <td align="center"><%= link_to '<i class="fa fa-trash fa-lg"></i>'.html_safe, sub_grade_teacher, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(TeacherAsignature,'sub_grade_teacher_id',sub_grade_teacher.id) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@sub_grade_teachers) %></center>
+    </div>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>
+
+

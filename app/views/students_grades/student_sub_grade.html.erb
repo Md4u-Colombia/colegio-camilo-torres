@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= t('home.title') %></title>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+    <%= form_for(@student_sub_grade) do |f| %>
+      <div class="grupo">
+        <div class="caja movil-90 tablet-70 centrar-caja">
+          <div class="form__block">
+            <div class="form__title">
+              <h3>Asignar estudiante a curso</h3>
+            </div>
+            <div class="form__style">
+              <div class="form__item">
+                <div class="wrapper">
+                  <div class="field__placeholder_icon_select">
+                    <div class="fa fa-bars text_field__icon"></div>
+                    <%if(exist_student_sub_grade(params[:students_grade_id]).blank?)%>
+                      <%= f.select :sub_grade_id, SubGrade.where("grade_id=?",params[:grade_id]).order("grade_id").map{|c| [ c.grade.name.to_s+" / "+c.name,c.id]} %>
+                    <%else%>
+                      <%= f.select :sub_grade_id, SubGrade.where("grade_id=?",params[:grade_id]).order("grade_id").map{|c| [ c.grade.name.to_s+" / "+c.name,c.id]}, selected: exist_student_sub_grade(params[:students_grade_id]).last.sub_grade_id %>
+                    <%end%>
+                    <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%= f.hidden_field :student_id, value: params[:student_id] %>
+            <%= f.hidden_field :school_year_id, value: params[:school_year_id] %>
+            <%= f.hidden_field :students_grade_id, value: params[:students_grade_id] %>
+            <div class="form__button">
+              <div class="button__border_radius right">
+                <%= button_tag(type: 'submit', class: "form__submit_button") do %>
+                  <i class="fa fa-floppy-o fa-lg"></i> Guardar
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%end%>
+</head>
+</html>

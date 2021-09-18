@@ -1,0 +1,27 @@
+<h1>Listing countries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%=Country.human_attribute_name('name')%></th>
+      <th><%=Country.human_attribute_name('language_id')%></th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @countries.each do |country| %>
+      <tr>
+        <td><%= country.name %></td>
+        <td><%= country.language_id == 1? t('str_language_es') : t('str_language_en') %></td>
+        <td><%= link_to 'Show', country %></td>
+        <td><%= link_to 'Edit', edit_country_path(country) %></td>
+        <td><%= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' } unless assigned_id(User,'country_id',country.id) or assigned_id(City,'country_id',country.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Country', new_country_path %>

@@ -1,0 +1,83 @@
+// Añada aqui sus propios mixins.
+// Puede ver una documentación de los mixins que trae ED GRID en
+// http://grid.escueladigital.pe/mixins
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin border-radius-right($radius) {
+  -webkit-border-radius: 0 $radius $radius 0;
+     -moz-border-radius: 0 $radius $radius 0;
+      -ms-border-radius: 0 $radius $radius 0;
+       -o-border-radius: 0 $radius $radius 0;
+          border-radius: 0 $radius $radius 0;
+}
+
+@mixin border-radius-left($radius) {
+  -webkit-border-radius: $radius 0 0 $radius;
+     -moz-border-radius: $radius 0 0 $radius;
+      -ms-border-radius: $radius 0 0 $radius;
+       -o-border-radius: $radius 0 0 $radius;
+          border-radius: $radius 0 0 $radius;
+}
+
+@mixin border-radius-top-left($radius) {
+  -webkit-border-radius: $radius 0 0 0;
+     -moz-border-radius: $radius 0 0 0;
+      -ms-border-radius: $radius 0 0 0;
+       -o-border-radius: $radius 0 0 0;
+          border-radius: $radius 0 0 0;
+}
+
+@mixin border-radius-top-right($radius) {
+  -webkit-border-radius: 0 $radius 0 0;
+     -moz-border-radius: 0 $radius 0 0;
+      -ms-border-radius: 0 $radius 0 0;
+       -o-border-radius: 0 $radius 0 0;
+          border-radius: 0 $radius 0 0;
+}
+
+@mixin border-radius-bottom-left($radius) {
+  -webkit-border-radius: 0 0 0 $radius;
+     -moz-border-radius: 0 0 0 $radius;
+      -ms-border-radius: 0 0 0 $radius;
+       -o-border-radius: 0 0 0 $radius;
+          border-radius: 0 0 0 $radius;
+}
+
+@mixin border-radius-bottom-right($radius) {
+  -webkit-border-radius: 0 0 $radius 0;
+     -moz-border-radius: 0 0 $radius 0;
+      -ms-border-radius: 0 0 $radius 0;
+       -o-border-radius: 0 0 $radius 0;
+          border-radius: 0 0 $radius 0;
+}
+
+@mixin border-radius-bottom($radius) {
+  -webkit-border-radius: 0 0$radius $radius;
+     -moz-border-radius: 0 0$radius $radius;
+      -ms-border-radius: 0 0$radius $radius;
+       -o-border-radius: 0 0$radius $radius;
+          border-radius: 0 0$radius $radius;
+}
+
+@mixin border-radius-top($radius) {
+  -webkit-border-radius: $radius $radius 0 0;
+     -moz-border-radius: $radius $radius 0 0;
+      -ms-border-radius: $radius $radius 0 0;
+       -o-border-radius: $radius $radius 0 0;
+          border-radius: $radius $radius 0 0;
+}
+
+@mixin background-gradient-linear($color_one, $color_two) {
+  background-color: $color_one; /*top colour*/
+  background-image: -webkit-linear-gradient(top, $color_one, $color_two);
+  background-image:    -moz-linear-gradient(top, $color_one, $color_two);
+  background-image:      -o-linear-gradient(top, $color_one, $color_two);
+  background-image:         linear-gradient(to bottom, $color_one, $color_two);
+}

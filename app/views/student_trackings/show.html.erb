@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Score detail:</strong>
+  <%= @student_tracking.score_detail_id %>
+</p>
+
+<p>
+  <strong>Educational period:</strong>
+  <%= @student_tracking.educational_period_id %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @student_tracking.score %>
+</p>
+
+<p>
+  <strong>Compliance:</strong>
+  <%= @student_tracking.compliance %>
+</p>
+
+<%= link_to 'Edit', edit_student_tracking_path(@student_tracking) %> |
+<%= link_to 'Back', student_trackings_path %>

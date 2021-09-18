@@ -1,0 +1,3 @@
+class StudentCommentController < ApplicationController
+  
+end

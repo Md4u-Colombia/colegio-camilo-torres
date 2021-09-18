@@ -1,0 +1,181 @@
+<style>
+  .content-login-final .field {
+    float: left;
+    margin-right: 20px;
+  }
+
+  .edit-fields {
+    height: 50px;
+  }
+
+  .edit-fields input {
+    position: relative;
+    top: 50%;
+    border-radius: 4px;
+    border: 1px #ecf0f1 solid;
+    height: 40px;
+    width: 250px;
+    color: #546883;
+    padding-left: 10px;
+    -webkit-transform: translateY(-50%);
+       -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+         -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+
+  .content-login-final .field::last-child {
+    margin-right: 0;
+  }
+
+  #title-platform-educative {
+
+  }
+
+  .center-hv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+       -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+         -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
+
+  .content-login-form {
+    margin: auto;
+    width: 691px;
+  }
+
+  .sign-in-button {
+    position: relative;
+    top: 5px;
+    width: 60px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #1bc2a1;
+    border: 1px solid #1bc2a1;
+    color: #fff;
+  }
+
+  body {
+    /*width: 100%;*/
+    background: #fff url("/images/backgrounds/fondo_plataforma_2.jpg") center center no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+  }
+
+  #title-platform-educative {
+    color: #ecf0f1;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"] + label {
+    color: #ecf0f1;
+  }
+  input[type="checkbox"] + label .fa-check  {
+    display: none;
+  }
+  /* Styling the "check" status */
+  input[type="checkbox"]:checked + label .fa-check {
+    display: block;
+    color: DarkTurquoise;
+  }
+  /* Styling checkboxes */
+  input[type="checkbox"]:checked + label .fa-check {
+    position: relative;
+    left: .125em;
+    bottom: .125em;
+  }
+
+  .fa-stack {
+    left: -5px;
+    width: 20px;
+    color: #ecf0f1;
+  }
+
+  .color-white-text a {
+    color: #ecf0f1;
+    text-decoration: none;
+  }
+
+  .color-white-text a:hover {
+    text-decoration: underline;
+  }
+</style>
+<div class="grupo center-hv">
+  <div class="caja total">
+    <h2 id="title-platform-educative" class="centrar-texto">PLATAFORMA EDUCATIVA<!--%= t('users.title') %--></h2>
+  </div>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="caja total content-login-final">
+    <div class="content-login-form">
+      <div class="field">
+        <% user = User.find(1) %>
+        <%= image_tag '/avatars/small/missing-boy.png', style: "width: 50px; border-radius: 50%; max-width: none; border: 3px solid #fff", id: "avatar-user" %>
+      </div>
+
+      <div class="field edit-fields">
+        <%= f.text_field :username, placeholder: User.human_attribute_name('username'), autofocus: true %>
+      </div>
+
+      <div class="field edit-fields">
+        <%= f.password_field :password, placeholder: User.human_attribute_name('password'), autocomplete: "off" %>
+      </div>
+
+      <div class="actions field">
+        <%= f.button :submit, class: "sign-in-button" do %>
+          <i class='fa fa-lock fa-lg' aria-hidden='true'></i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="caja total">
+    <% if devise_mapping.rememberable? -%>
+      <div class="content-login-form">
+        <div style="width: 50px; margin-right: 20px; float: left;">&nbsp;</div>
+        <div class="field" style="width: 200px; float: left;">
+          <%= f.check_box :remember_me, style: "background: red;", id: "user_check1", name: "option" %>
+          <%= f.label "check1" do %>
+            <span class="fa-stack">
+              <i class="fa fa-square-o fa-stack-1x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span><%=  User.human_attribute_name('remember_me') %>
+          <% end %>
+        </div>
+        <div class="field color-white-text" style="width: 300px; float: left; height: 32px; line-height: 32px;"><%= render "devise/shared/links" %></div>
+      </div>
+    <% end -%>
+  </div>
+<% end %>
+</div>
+
+
+<script>
+  $(".sign-in-button").hover(function() {
+    $(this).html("<i class='fa fa-unlock-alt fa-lg' aria-hidden='true'></i>");
+  }, function() {
+    $(this).html("<i class='fa fa-lock fa-lg' aria-hidden='true'></i>");
+  });
+  $(".sign-in-button").mousedown(function() {
+    $(this).html("<i class='fa fa-unlock fa-lg' aria-hidden='true'></i>");
+  });
+
+  $("#user_username").val("");
+  $("#user_username").keyup(function() {
+    console.log($(this).val());
+    $.get("automatic_avatar", {username: $(this).val()}, function(data) {
+      console.log(data);
+      if (data != "")
+        $("#avatar-user").attr('src', data);
+      else
+        $("#avatar-user").attr('src', '/avatars/small/missing-boy.png');
+    });
+  });
+</script>

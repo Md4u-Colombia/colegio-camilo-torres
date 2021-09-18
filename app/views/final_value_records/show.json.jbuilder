@@ -1,0 +1,1 @@
+json.partial! "final_value_records/final_value_record", final_value_record: @final_value_record

@@ -1,0 +1,351 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+
+*{
+  -webkit-font-smoothing:antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+/* entypo */
+/*[class*="icon-"]:before {
+  font-family: 'entypo', sans-serif;
+}*/
+/*Main Colors*/
+$color-main-background: #edeff1;
+$color-option-text-menu: #fafafa;
+$color-background-link: #37474f;
+$color-background-icon-menu: #3e474e;
+$color-icon-menu: #788189;
+
+/* COLORES FLAT */
+$color-flat-blue: #2196f3;
+$color-flat-blue-dark: #0288d1;
+
+$color-flat-green: #00e676;
+$color-flat-green-dark: #00c853;
+
+$color-flat-red: #ef5350;
+$color-flat-red-dark: #e53935;
+
+$color-gamma:#bdc3c7;
+$color-delta:#343739;
+$color-epsilon:#151618;
+$color-zeta:#2980b9;
+$color-background-icon: #eee;
+/* Change base color for each links*/
+$color-alpha-2: #2ecc71;
+$color-zeta-2 : #27ae60;
+$color-alpha-3: #9b59b6;
+$color-zeta-3 : #8e44ad;
+$color-alpha-4: #e67e22;
+$color-zeta-4 : #d35400;
+$color-alpha-5: #e74c3c;
+$color-zeta-5 : #c0392b;
+
+
+$shade-1:rgba(0,0,0,.05);
+
+$time-1: .4s;
+$time-2: ($time-1/1.54);
+
+$width-div-icon: 70px; //Ancho del div donde está el icono
+$width-div-link: 200px; //Ancho del div donde está el link
+$width-div-border-link: 20px; //Ancho del div donde está el link
+$height-sub-option-link: 35px;
+$height-general: 60px;
+body{
+  background:$color-main-background;
+}
+
+#menu-md4u {
+  position: fixed;
+  top: $height-general;
+  left: 0;
+  z-index: 100;
+}
+
+.submenu-md4u {
+  //display: block;
+  & li {
+    margin: 0;
+    padding: 0;
+    font-family: 'Varela Round', arial, helvetica, tahoma;
+    a {
+      display: block;
+      text-decoration: none;
+      background: lighten($color-background-link, 60%);
+      width: $width-div-icon + $width-div-link;
+      height: $height-sub-option-link;
+      color: $color-background-link;
+      line-height: $height-sub-option-link;
+
+      .icon-link {
+        margin: 0 10px;
+        float: left;
+        line-height: $height-sub-option-link;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+        line-height: $height-sub-option-link;
+        float: left;
+      }
+
+      &:hover {
+        color: #fff;
+        font-weight: 700;
+      }
+    }
+
+    .color-hover-blue:hover {
+      background: $color-flat-blue;
+    }
+
+    .color-hover-green:hover {
+      background: $color-flat-green;
+    }
+
+    .color-hover-red:hover {
+      background: $color-flat-red;
+    }
+  }
+}
+
+p {
+  position: relative;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  .content-link {
+    height: $height-general;
+    .icon {
+      background: $color-background-icon-menu;
+      float: left;
+      height: 100%;
+      line-height: $height-general;
+      text-align: center;
+      width: $width-div-icon;
+      color: $color-icon-menu;
+      -webkit-transition: all 0.4s ease;
+         -moz-transition: all 0.4s ease;
+           -o-transition: all 0.4s ease;
+              transition: all 0.4s ease;
+      &>i {
+        height: 100%;
+        line-height: $height-general;
+      }
+    }
+
+    &:hover {
+      .flat-blue-icon {
+        color: $color-flat-blue;
+      }
+      .flat-green-icon {
+        color: $color-flat-green;
+      }
+      .flat-red-icon {
+        color: $color-flat-red;
+      }
+
+      .flat-blue {
+          background: $color-flat-blue-dark;
+          border-left: $width-div-border-link solid $color-flat-blue;
+          border-right: $width-div-border-link solid $color-flat-blue;
+      }
+
+      .flat-green {
+          background: $color-flat-green-dark;
+          border-left: $width-div-border-link solid $color-flat-green;
+          border-right: $width-div-border-link solid $color-flat-green;
+      }
+
+      .flat-red {
+          background: $color-flat-red-dark;
+          border-left: $width-div-border-link solid $color-flat-red;
+          border-right: $width-div-border-link solid $color-flat-red;
+      }
+    }
+    .link {
+      background: $color-background-link;
+      float: left;
+      height: 100%;
+      width: $width-div-link;
+      color: $color-option-text-menu;
+      font-family: 'Varela Round', arial, helvetica, tahoma;
+      text-align: center;
+      line-height: $height-general;
+      font-size: 15px;
+      border-left: 20px solid darken($color-background-link, 10%);
+      border-right: 20px solid darken($color-background-link, 10%);
+      -webkit-transition: all 0.4s ease;
+         -moz-transition: all 0.4s ease;
+           -o-transition: all 0.4s ease;
+              transition: all 0.4s ease;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  height: $height-general;
+  left: 0;
+  z-index: 200;
+  background: #fff;
+  width: 100%;
+  border-bottom: 1px solid #e8e8e8;
+  line-height: $height-general;
+  color: darken($color-background-link, 10%);;
+  font-size: 11px;
+  font-family: 'Varela Round', arial, helvetica, tahoma;
+
+  &>i {
+    height: $height-general;
+    width: $width-div-icon;
+    float: left;
+    line-height: $height-general;
+    text-align: center;
+    color: $color-icon-menu;
+    cursor: pointer;
+    -webkit-transition: all 0.4s ease;
+     -moz-transition: all 0.4s ease;
+       -o-transition: all 0.4s ease;
+          transition: all 0.4s ease;
+  }
+
+  .activate-color-black {
+    background: $color-background-icon-menu;
+  }
+
+  #icon-home {
+    float: left;
+    margin-left: 10px;
+    text-decoration: none;
+    a {
+      color: darken($color-background-link, 10%);;
+    }
+    cursor: pointer;
+  }
+
+  #profile {
+    float: right;
+    margin: 10px 10px;
+
+    #icon-profile {
+      width: 36px;
+      height: 36px;
+      border: 3px solid darken($color-background-link, 10%);
+      @include border-radius(50%);
+      text-align: center;
+      color: $color-icon-menu;
+      cursor: pointer;
+      &>i {
+        display: block;
+        width: 30px;
+        height: 30px;
+        line-height: 25px;
+        border: 3px solid darken($color-main-background, 15%);
+        @include border-radius(50%);
+        font-size: 15px;
+      }
+    }
+
+    .profile-dropdown {
+      //display: none;
+      position: fixed;
+      top: $height-general - 2px;
+      right: 10px;
+      //z-index: 300;
+      width: 200px;
+      background: #f9fafa;
+      border: 1px solid darken(#f9fafa, 10%);
+      @include border-radius(5px);
+      box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1), 0px 0px 1px 1px rgba(0, 0, 0, 0.08);
+
+      a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        font-size: 1.2em;
+        font-weight: 700;
+        color: $body--color;
+      }
+
+      &:before {
+        position: absolute;
+        content: "";
+        background: none repeat scroll 0% 0% #f9fafa;
+        width: 12px;
+        height: 12px;
+        border-radius: 3px 0px 0px;
+        transform: rotate(45deg);
+        box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.08);
+        top: -6px;
+        right: 12px;
+      }
+
+      #header--profile-dropdown {
+        padding: 10px;
+        font-size: 1.2em;
+        font-weight: 700;
+        color: $body--color;
+        border-bottom: 1px solid darken(#f9fafa, 10%);
+
+        & span {
+          display: block;
+          font-weight: 400;
+          font-size: .9em;
+        }
+      }
+
+    }
+  }
+}
+
+.show {
+  display: block;
+}
+
+.content-partial {
+  padding: 20px;
+  margin: 40px 1.5% 20px 1.5%;
+  width: 97%;
+}
+
+
+.arrow-up {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  @include border-radius(3px);
+  background: lighten($body--color, 30%);
+  width: 50px;
+  height: 50px;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  z-index: 100;
+
+  & i {
+    margin: 0;
+    padding: 0;
+    line-height: 50px;
+  }
+
+  &:hover {
+    background: $body--color;
+  }
+}

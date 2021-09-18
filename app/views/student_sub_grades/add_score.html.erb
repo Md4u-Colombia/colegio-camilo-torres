@@ -1,0 +1,179 @@
+<%if(current_user.role_id < 2)%>
+  <%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, new_student_sub_grade_path , class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<%else%>
+  <%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, {:controller=>"student_sub_grades",:action=> "index", :ssg_id=> params[:ssg_id].to_i}, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<%end%>
+<link href="/stylesheets/application.css" rel="stylesheet">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<%= form_for 'add_score', {:name => 'add_score_form'} do |f|%>
+  <%= hidden_field_tag('sg_id', params[:sg_id]) %>
+  <%= hidden_field_tag('ssg_id', params[:ssg_id]) %>
+  <%= f.hidden_field :student_sub_grade_id, value: params[:sg_id] %>
+  <div class="grupo">
+    <div class="caja movil-90 tablet-70 centrar-caja">
+      <div class="form__block">
+        <div class="form__title">
+          <h3>Ingreso de Calificaciones Alumno(a) <%= @student %>.</h3>
+        </div>
+        <div class="form__style">
+          <div class="form__item">
+            <div class="wrapper">
+              <div class="icon-menu text_field__icon"></div>
+                <%if(params[:commit].to_s == "Buscar")
+                  period_id = params[:add_score][:period_id].to_i
+                  educational_asignature_id = params[:add_score][:educational_asignature_id].to_i
+                else
+                  period_id = 0
+                  educational_asignature_id = 0
+                end%>
+                <%= f.select :period_id, EducationalPeriod.order("internal_order").map{|el| [ el.name,el.id]} ,{include_blank: "#{t('str_select_field')} #{t('.periodo_id')}",:selected =>period_id.to_i}, class: "field__placeholder_icon" %>
+            </div>
+          </div>
+
+          <div class="form__item">
+            <div class="wrapper">
+              <div class="icon-menu text_field__icon"></div>
+              <!--%= f.select :educational_asignature_id, EducationalAsignature.includes(:educational_area).order( 'educational_areas.education_level_id' ).map{|el| [ el.educational_area.education_level.name.to_s+" / "+el.educational_area.name.to_s+" / "+el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}",:selected =>educational_asignature_id.to_i}, class: "field__placeholder_icon" %-->
+              <%= f.select :educational_asignature_id, @gradeasignature.map{|ga| [ ga.educational_asignature.name,ga.educational_asignature_id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}",:selected =>educational_asignature_id.to_i}, class: "field__placeholder_icon" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form__button">
+          <div class="button__border_radius left">
+            <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, {:action=>"add_score",:sg_id=>params[:sg_id], :ssg_id=> params[:ssg_id].to_i }, class: "button-link color-button-green", style: "position: absolute;" %>
+          </div>
+          <div class="button__border_radius right">
+            <%= button_tag(type: 'submit', :name => "commit", :value => "Buscar", class: "form__submit_button") do %>
+             <i class="fa fa-search fa-lg"></i> <%= t('.search')%>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grupo">
+    <div class="caja">
+      <br>
+      <center>
+        <%if(flash[:success] != "" )%>
+          <div class="msg-success" style="font-size:14px;">
+            <%= flash[:success] %>
+          </div>
+        <% end %>
+      </center>
+    </div>
+  </div>
+<% end %>
+<br><br>
+<%if(params[:commit].to_s == "Buscar")%>
+    <%if(@educational_performances.any?)%>
+      <%= form_tag 'add_score', {:name => 'add_stocks_form'} do %>
+        <%= hidden_field_tag('sg_id', params[:sg_id]) %>
+        <%= hidden_field_tag('ssg_id', params[:ssg_id]) %>
+        <div class="content-table">
+          <table class="style-table">
+            <thead>
+              <tr>
+                <th>Asignatura educativa</th>
+                <th>Competencias educativas</th>
+                <th>Calificacion del periodo</th>
+                <th>Observaciones</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%comment_v = 0 %>
+              <% @educational_performances.each do |educational_performance| %>
+                <%= hidden_field_tag "heducational_period_id[]", educational_performance.educational_period_id.to_i %>
+                <%= hidden_field_tag "heducational_performance_id[]", educational_performance.id.to_i %>
+                <%= hidden_field_tag "hgrade_id[]", educational_performance.grade_id.to_i %>
+                <% @student_progresses = StudentProgress.where("student_sub_grade_id=? AND educational_performance_id=? AND educational_asignature_id=? AND period_id=?",params[:sg_id],educational_performance.id,educational_performance.educational_asignature_id,educational_performance.educational_period_id)
+                if(@student_progresses.any?)
+                  score_val = @student_progresses.map{|e| e.score}[0].to_f
+                  str_comment = @student_progresses.map{|e| e.comments}[0].to_s
+                  str_log = @student_progresses.map{|e| e.log}[0].to_s
+                else
+                  score_val = nil
+                  str_comment = nil
+                  str_log = nil
+                end%>
+                <tr>
+                  <td>
+                    <%= educational_performance.educational_asignature.name %>
+                    <%= hidden_field_tag "heducational_asignature_id[]", educational_performance.educational_asignature_id.to_i %>
+                  </td>
+                  <td><%= educational_performance.description %></td>
+                  <td align="center">
+                      <%= text_field_tag "score[]",score_val,size: "10", id: "score_"+educational_performance.id.to_s, class: "decimal" %>
+                  </td>
+                  <td align="center">
+                    <%if(comment_v.to_i == 0) %>
+                      <%= text_area_tag "comments[]",str_comment %>
+                    <%end%>
+                  </td>
+                  <td>
+                    <!--%= link_to("#",{title: "#{str_log.to_s}",  style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"}}) do %-->
+                    <% unless(str_log == nil) %>
+                      <span class="fa fa-comment fa-lg" title="<%= str_log.to_s %>" style="cursor:pointer;"></span>
+                    <% end %>
+                    <!--% end unless(str_log == nil) %-->
+                  </td>
+                </tr>
+                <script language="JavaScript" type="text/JavaScript">
+                  $(document).ready(function(){
+                    $(".decimal").numeric(".");
+                    $('#fvalida').click(function(){
+                      var msg = "";
+                      var score = $("#score_<%=educational_performance.id.to_s%>").val();
+                      if(score > 5.0){
+                        msg += "Debe digitar valores menores o iguales a 5.0\n";
+                        $("#score_<%=educational_performance.id.to_s%>").val("");
+                      }
+                      if(score < 0.0){
+                        msg += "Debe digitar valores positivos.\n";
+                        $("#score_<%=educational_performance.id.to_s%>").val("");
+                      }
+                      if(msg != ""){
+                        msg += "\nCorrija los valores para continuar.";
+                        alert(msg);
+                        return false;
+                      }
+                    });
+                  });
+                </script>
+                <%comment_v +=1 %>
+              <% end %>
+              <tr>
+                <td colspan="5">
+                  <div class="button__border_radius right">
+                    <%= button_tag(type: 'submit', :id=>"fvalida",:name => "commit", :value => "Guardar", class: "form__submit_button") do %>
+                     <i class="fa fa-floppy-o fa-lg"></i> <%= t('.save')%>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <%= t('.label_total') %>: <%= @educational_performances.size %>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      <%end%>
+    <% else %>
+      <br>
+      <div class="grupo">
+        <div class="caja">
+          <div class="caja movil-90 tablet-70 centrar-caja">
+            <div class="msg-info">
+              <strong>¡Atento!</strong> No hay Competencias Educativas creadas para el periodo seleccionado
+            </div>
+          </div>
+        </div>
+      </div>
+    <%end%>
+<%end%>

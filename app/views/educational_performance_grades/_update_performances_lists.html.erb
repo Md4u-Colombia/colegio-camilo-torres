@@ -1,0 +1,61 @@
+<style>
+  .margin {
+    margin-top: 5px; margin-bottom: 5px;
+  }
+
+  .color-red {
+    /*background-color: #F1A9A0;*/
+    text-decoration: line-through;
+  }
+
+  .color-gray {
+    background-color: #F1F1F1;
+  }
+</style>
+<table width="100%" border="0" style="margin-left: -13px;" id="table-peformance">
+  <% update_performances_lists.each_with_index do |performance, index| %>
+      <%
+        if assigned_performances.map { |a| a.educational_performances_list_id }.include?(performance.id)
+          className = "color-red"
+        else
+          className = ""
+        end
+      %>
+    <% unless (index % 2) == 0 %>
+      <% if className != "" %>
+        <tr class="<%= className %>">
+      <% else %>
+        <tr class="color-gray">
+      <% end %>
+    <% else %>
+      <tr class="<%= className %>">
+    <% end %>
+      <td align="center" width="50px">
+        <div class="margin"><%= check_box_tag 'chk[performance][]', performance.id, false, disabled: assigned_performances.map { |a| a.educational_performances_list_id }.include?(performance.id) %></div>
+      </td>
+      <td>
+        <div class="margin"><%= performance.description %></div>
+      </td>
+    </tr>
+  <%end%>
+</table>
+<script>
+ $(function(){
+    $('.enviar').click(function(){
+      var clases = new Array();
+      $('#new_educational_performance_grade input[type=checkbox]').each(function(){
+        if(this.checked){
+          clases.push($(this).val());
+        }
+      });
+      if(clases == ''){
+        $(".error_explanation").show();
+        $("#show_error").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#show_error").hide();
+      }
+    });
+ });
+</script>

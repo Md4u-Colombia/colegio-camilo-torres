@@ -1,0 +1,1 @@
+$("#educational_performance_sub_grade_id").empty().prepend("<option value='' selected='selected'>Seleccione Grado</option>").append("<%= escape_javascript(render(:partial => @update_sub_grade)) %>")

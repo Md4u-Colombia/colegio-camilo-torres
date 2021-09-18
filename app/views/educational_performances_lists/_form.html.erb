@@ -1,0 +1,88 @@
+<%= form_for(@educational_performances_list) do |f| %>
+  <% if @educational_performances_list.errors.any? %>
+
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@educational_performances_list.errors.size,
+:model=>t('activerecord.models.educational_performances_list')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @educational_performances_list.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :grade_id, @grades_select.map { |g| [g.name, g.id] }, {include_blank: "#{t('str_select_field')} #{t('.grade_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+          <%= f.text_area :description, class: "field__placeholder_icon", placeholder: "#{t('.description')}", rows: 5 %>
+      </div>
+    </div>
+
+    <% if @educational_performances_list.new_record? %>
+      <%= f.hidden_field :status, value: 1 %>
+    <% else %>
+      <div class="form__item">
+        <div class="wrapper">
+          <%= f.label :status %>&nbsp;
+          <% if @educational_performances_list.status.nil? %>
+            <%= f.check_box :status, checked: true %>
+          <% else %>
+            <%= f.check_box :status %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_educational_performances_list_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+ $(function(){
+    $('#grade_id').change(function(){
+      if($('#grade_id').val() != ""){
+        $.get("/educational_performances_lists/update_educational_asignature",{gid: $('#grade_id').val()},function(data){
+          //alert(data);
+        });
+      }
+    });
+  });
+</script>
+
+<script>
+<% @educational_performances_list.errors.full_messages.each do |message| %>
+    <% if message.include? "Grado" %>
+      $("#grade_id").wrap('<div class="field_with_errors"></div>');
+    <% end %>
+    <% if message.include? "Asignatura" %>
+      $("#educational_asignature_id").wrap('<div class="field_with_errors"></div>');
+    <% end %>
+    $(".field_with_errors").removeClass("field_with_errors", function() {
+      $(this).addClass("field_with_errors");
+    }); // Para que las manitas se muestren al mismo tiempo
+<% end %>
+</script>

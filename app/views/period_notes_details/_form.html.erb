@@ -1,0 +1,95 @@
+<script language="JavaScript" type="text/javascript">
+  $(document).ready(function(){
+    $('#period_notes_detail_teacher_asignature_id').change(function(){
+      //alert($('#period_notes_detail_teacher_asignature_id').val());
+      if($('#period_notes_detail_teacher_asignature_id').val() != 0){
+        $.get("period_notes_details",{pndt_asignature_id: $('#period_notes_detail_teacher_asignature_id').val()},function(data){
+          //alert(data);
+        });
+      }else{
+          $('#period_notes_detail_teacher_asignature_id').val("");
+      }
+    });
+ });
+</script>
+<%= form_for(@period_notes_detail) do |f| %>
+  <% if @period_notes_detail.errors.any? %>
+        <div class="error_explanation">
+          <h2><%= t('errors.template.header', :count=>@period_notes_detail.errors.size, :model=>t('activerecord.models.period_notes_detail')) %>:</h2>
+          <%= t('errors.template.body') %>
+          <ul>
+          <% @period_notes_detail.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+  <% end %>
+  <%if(flash[:error]) %>
+     <div class="error_explanation">
+       <%= flash[:error].html_safe %>
+     </div>
+  <% end %>
+  <%= f.hidden_field :teacher_id, :value => current_user.id%>
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-menu text_field__icon"></div>
+        <%= f.select :school_year_id, SchoolYear.order("name").map{|u| [ u.name,u.id]},{include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"}, class: "field__placeholder_icon" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-menu text_field__icon"></div>
+        <%= f.select :educational_period_id, EducationalPeriod.order("name").map{|u| [ u.name,u.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_period_id')}"}, class: "field__placeholder_icon" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-pencil text_field__icon"></div>
+        <%= f.text_field :period_weight, class: "field__placeholder_icon", placeholder: "#{t('.period_weight')}" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-menu text_field__icon"></div>
+        <%= f.select :teacher_asignature_id, TeacherAsignature.where("teacher_id=?",current_user.id).order("id").map{|u| [ u.sub_grade.name.to_s+" / "+u.educational_asignature.name, u.id]},{include_blank: "#{t('str_select_field')} #{t('.teacher_asignature_id')}"}, class: "field__placeholder_icon" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-menu text_field__icon"></div>
+          <%if(@period_notes_detail.new_record?)%>
+            <% 
+            @period_notes_details= EducationalPerformance.where("educational_asignature_id IN (?)",TeacherAsignature.where("teacher_id=?",current_user.id).map { |e| e.educational_asignature_id}.uniq).order("description") %>
+            <%= f.select :educational_performance_id, @period_notes_details.map{ |u| [u.description.titleize, u.id] },{include_blank: "#{t('str_select_field')} #{t('.educational_performance_id')}"}, class: "field__placeholder_icon" %>
+          <%else%>
+            <% @period_notes_details= EducationalPerformance.where("educational_asignature_id IN (?)",TeacherAsignature.find(@period_notes_detail.teacher_asignature_id).educational_asignature_id).order("description") %>
+            <%= f.select :educational_performance_id, @period_notes_details.map{ |u| [u.description.titleize, u.id] },{:selected=>@period_notes_detail.educational_performance_id , include_blank: "#{t('str_select_field')} #{t('.educational_performance_id')}"}, class: "field__placeholder_icon" %>
+          <%end%>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-pencil text_field__icon"></div>
+        <%= f.text_field :performance_weight, class: "field__placeholder_icon", placeholder: "#{t('.performance_weight')}" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-menu text_field__icon"></div>
+        <%= f.select :sd_detail_id, SdDetail.order("name").map{|u| [ u.name,u.id]},{include_blank: "#{t('str_select_field')} #{t('.sd_detail_id')}"}, class: "field__placeholder_icon" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="icon-pencil text_field__icon"></div>
+        <%= f.text_field :detail_weight,   class: "field__placeholder_icon", placeholder: "#{t('.detail_weight')}" %>
+      </div>
+    </div>
+  </div>
+  <div class="form__button">
+    <div class="button__border_radius right">
+      <%= f.submit t('.save'), class: "form__submit_button" %>
+    </div>
+  </div>
+<% end %>

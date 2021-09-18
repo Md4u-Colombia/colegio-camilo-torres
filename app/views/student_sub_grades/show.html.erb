@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= t('home.title') %></title>
+  	<meta name=viewport content="width=device-width, initial-scale=1">
+	  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+	  <%= javascript_include_tag "application" %>
+	  <%= csrf_meta_tags %>
+		<!--style>
+			p{
+				font-size: 14px;
+				color: #000;
+			}
+			#notice{
+				text-align: center;
+				padding: 3px;
+				width: 90%;
+				border: 1px solid;
+				border-radius: 3px;
+		    		border-color: green;
+				background-color: #61BD6D;
+			}
+		</style-->
+		<center><p class="msg-success"><%= notice %></p></center>
+		<p>
+		  <strong>Alumno:</strong>
+		  <%= @student_sub_grade.student.reverse_complete_name %>
+		</p>
+		<p>
+		  <strong>Año Escolar:</strong>
+		  <%= @student_sub_grade.school_year.name %>
+		</p>
+		<p>
+		  <strong>Grado:</strong>
+		  <%= @student_sub_grade.sub_grade.grade.name %>
+		</p>
+		<p>
+		  <strong>Curso:</strong>
+		  <%= @student_sub_grade.sub_grade.name %>
+		</p>
+	</head>
+</html>

@@ -1,0 +1,128 @@
+$color-fondo-login: #ecf0f1;
+#particles-js {
+  width: 100%;
+  height: 100%;
+  //@include background-gradient-linear($color1, $color2);
+  background: url('../images/backgrounds/fondo_hex1.jpg') no-repeat;
+  background-size: 100% auto;
+  position: fixed;
+  -webkit-animation: slider-background 10s infinite;
+  -moz-animation: slider-background 10s infinite;
+  animation: slider-background 10s infinite;
+  animation-direction: alternate;
+}
+
+.field, .actions {
+  //position: absolute;
+}
+
+@-webkit-keyframes slider-background {
+  0% {
+    background: url('../images/backgrounds/fondo_hex1.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+  25% {
+   background: url('../images/backgrounds/fondo_hex2.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  50% {
+   background: url('../images/backgrounds/fondo_hex3.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  75% {
+   background: url('../images/backgrounds/fondo_hex4.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  100%
+  { background: url('../images/backgrounds/fondo_hex5.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+}
+@-moz-keyframes slider-background {
+  0% {
+    background: url('../images/backgrounds/fondo_hex1.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+  25% {
+   background: url('../images/backgrounds/fondo_hex2.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  50% {
+   background: url('../images/backgrounds/fondo_hex3.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  75% {
+   background: url('../images/backgrounds/fondo_hex4.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  100%
+  { background: url('../images/backgrounds/fondo_hex5.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+}
+@-ms-keyframes slider-background {
+  0% {
+    background: url('../images/backgrounds/fondo_hex1.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+  25% {
+   background: url('../images/backgrounds/fondo_hex2.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  50% {
+   background: url('../images/backgrounds/fondo_hex3.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  75% {
+   background: url('../images/backgrounds/fondo_hex4.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  100%
+  { background: url('../images/backgrounds/fondo_hex5.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+}
+@-o-keyframes slider-background {
+  0% {
+    background: url('../images/backgrounds/fondo_hex1.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+  25% {
+   background: url('../images/backgrounds/fondo_hex2.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  50% {
+   background: url('../images/backgrounds/fondo_hex3.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  75% {
+   background: url('../images/backgrounds/fondo_hex4.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  100%
+  { background: url('../images/backgrounds/fondo_hex5.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+}
+@keyframes slider-background {
+  0% {
+    background: url('../images/backgrounds/fondo_hex1.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+  25% {
+   background: url('../images/backgrounds/fondo_hex2.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  50% {
+   background: url('../images/backgrounds/fondo_hex3.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  75% {
+   background: url('../images/backgrounds/fondo_hex4.jpg') no-repeat;
+   background-size: 100% auto;
+ }
+  100%
+  { background: url('../images/backgrounds/fondo_hex5.jpg') no-repeat;
+    background-size: 100% auto;
+  }
+}

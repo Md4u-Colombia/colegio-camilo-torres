@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @educational_performances_list.name %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @educational_performances_list.status %>
+</p>
+
+<%= link_to 'Edit', edit_educational_performances_list_path(@educational_performances_list) %> |
+<%= link_to 'Back', educational_performances_lists_path %>

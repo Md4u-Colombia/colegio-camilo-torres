@@ -1,0 +1,27 @@
+<%= form_for(@business_unit) do |f| %>
+  <% if @business_unit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@business_unit.errors.count, "error") %> prohibited this business_unit from being saved:</h2>
+
+      <ul>
+      <% @business_unit.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <%if(params[:action] == 'edit' or params[:action] == 'update')%>
+    <div class="field">
+      <%= f.label :status %><br>
+      <%= f.check_box :status %>
+    </div>
+  <%end%>
+  <div class="actions">
+    <%= f.submit t('business_units.save') %>
+  </div>
+<% end %>

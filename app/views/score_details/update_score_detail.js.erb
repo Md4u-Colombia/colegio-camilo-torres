@@ -1,0 +1,9 @@
+<% if @score_details.any? %>
+  $("#tbody").empty().append("<%= escape_javascript(render(:partial => @score_details)) %>").hide();
+<% end %>
+
+$("#tbody").show('slow');
+
+<% if @flag_save_success == 1 %>
+  alert('Se han guardado los registros');
+<% end %>

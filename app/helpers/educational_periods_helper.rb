@@ -1,0 +1,2 @@
+module EducationalPeriodsHelper
+end

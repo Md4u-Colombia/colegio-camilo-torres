@@ -1,0 +1,1 @@
+json.extract! @period_notes_detail, :id, :school_year_id, :teacher_asignature_id, :educational_performance_id, :performance_weight, :sd_detail_id, :detail_weight, :educational_period_id, :period_weight, :teacher_id, :created_at, :updated_at

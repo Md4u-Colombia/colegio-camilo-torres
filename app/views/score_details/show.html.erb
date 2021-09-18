@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sd detail:</strong>
+  <%= @score_detail.sd_detail_id %>
+</p>
+
+<p>
+  <strong>Educational period:</strong>
+  <%= @score_detail.educational_period_id %>
+</p>
+
+<p>
+  <strong>Sub grade teacher:</strong>
+  <%= @score_detail.sub_grade_teacher_id %>
+</p>
+
+<p>
+  <strong>Educational asignature:</strong>
+  <%= @score_detail.educational_asignature_id %>
+</p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @score_detail.weight %>
+</p>
+
+<%= link_to 'Edit', edit_score_detail_path(@score_detail) %> |
+<%= link_to 'Back', score_details_path %>

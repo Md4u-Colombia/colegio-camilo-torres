@@ -1,0 +1,285 @@
+<style>
+  .auto-save {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #34495e;
+    border-radius: 3px;
+    text-align: center;
+    color: #ecf0f1;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+  }
+
+  .auto-save i {
+    margin-right: 10px;
+  }
+
+  .hide-element {
+    display: none;
+  }
+</style>
+<%= form_for(@score_detail) do |f| %>
+  <% if @score_detail.errors.any? %>
+  <div class="error_explanation">
+    <h2><%= t('errors.template.header', :count=>@score_detail.errors.size,
+:model=>t('activerecord.models.score_detail')) %>:</h2>
+    <%= t('errors.template.body') %>
+    <ul>
+    <% @score_detail.errors.full_messages.each do |message| %>
+      <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="auto-save hide-element">
+    <i class="fa fa-refresh fa-spin"></i>Guardando automáticamente ...
+  </div>
+
+  <br>
+  <div class="grupo">
+    <div class="caja tablet-10">
+        <strong><%= f.label :school_year_id, "Año escolar" %></strong><br>
+        <%= @school_year_current %>
+        <%= f.hidden_field :school_year_id, value: @school_year.id %>
+    </div>
+
+    <%= hidden_field_tag "data_autosave", 0 %>
+
+    <div class="caja tablet-30">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= f.select :educational_period_id, EducationalPeriod.order("internal_order").map{|c| [c.name, c.id]},{include_blank: "#{t('str_select_field')} Periodo"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caja tablet-30">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name"), prompt: "#{t('str_select_field')} Curso" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caja tablet-30">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :educational_asignature_id, @educational_asignatures.map{|c| [ c.name, c.id]}, {include_blank: "#{t('str_select_field')} Asignatura"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caja">
+      <!--%= link_to "Aceptar", "#", class: "button-link" %-->
+      <br>
+      <div class="button-link" id="filter-button" style="width:132px; margin-left: 0; right: 0;">
+        <i class="fa fa-filter"></i>&nbsp;Filtrar
+      </div>
+    </div>
+  </div>
+
+  <div class="grupo">
+    <div class="caja">
+      <br><hr class="hr-style"><br>
+      <table class="table-form">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Nombre de la Actividad</th>
+              <th>Detalle</th>
+              <th>Peso</th>
+              <th>Descripción</th>
+              <th width="60"><i class="fa fa-plus-circle fa-lg" id="add-button"></i></th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <td colspan="6">La suma del total de los pesos no debe superar el 100%</td>
+            </tr>
+          </tfoot>
+          <tbody id="tbody">
+
+          </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(function() {
+    $("#add-button").hide();
+    //$("#sub_grade_id").prop("disabled", "disabled");
+    $("#sub_grade_id").click(function(){
+      if ($("#score_detail_educational_period_id").val() == "") {
+        alert("Por favor, seleccione periodo.");
+      }
+    });
+
+    $("#score_detail_educational_asignature_id").click(function(){
+      if ($("#score_detail_educational_period_id").val() == "") {
+          alert("Por favor, seleccione periodo.");
+      } else {
+        if ($("#sub_grade_id").val() == "") {
+          alert("Por favor, seleccione curso.");
+        }
+      }
+    });
+
+    $('#sub_grade_id').change(function(){
+      if($(this).val() != ""){
+        $.get("/score_details/update_asignatures",{sg_id: $(this).val()}, function(data){
+          // alert(data);
+        });
+      }
+    });
+
+    $("#filter-button").click(function(){
+      var ano = $("#score_detail_school_year_id").val();
+      var period_id = $("#score_detail_educational_period_id").val();
+      var sub_grade_id = $("#sub_grade_id").val();
+      var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+      if (ano != "" && period_id != "" && sub_grade_id != "" && educational_asignature_id != "") {
+        $.get("/score_details/update_field_form",{year_actual: ano, period_id: period_id, sub_grade_id: sub_grade_id, educational_asignature_id: educational_asignature_id}, function(data){
+          // alert(data);
+          $("#add-button").fadeIn('slow');
+          /* setInterval(function(){
+            $('#data_autosave').val('1');
+            // $('.auto-save').removeClass('hide-element');
+            var sum = 0;
+            $("tbody").find(".weight-field").each(function(){
+              sum += parseInt($(this).val());
+            });
+
+            if (sum > 100) {
+              alert("El total de los pesos no puede sobre pasar el 100%.");
+            } else {
+              $.get("/score_details/update_score_detail", $("#new_score_detail").serialize(), function(data){
+                  $('.auto-save').removeClass('hide-element');
+                $('#data_autosave').val('0');
+                setTimeout(function() {
+                  $('.auto-save').addClass('hide-element');
+                }, 800);
+              });
+            }
+          }, 60000);*/
+
+        });
+      } else {
+        alert("Debe seleccionar periodo, curso y asignatura.");
+        $("#add-button").hide();
+      }
+    });
+
+    $("#add-button").click(function() {
+      var ano = $("#score_detail_school_year_id").val();
+      var period_id = $("#score_detail_educational_period_id").val();
+      var sub_grade_id = $("#sub_grade_id").val();
+      var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+      $.get("/score_details/update_field_form",{year_actual: ano, period_id: period_id, sub_grade_id: sub_grade_id, educational_asignature_id: educational_asignature_id, flag_add_fields: "1"}, function(data){
+        // alert(data);
+      });
+    });
+
+    $("tbody").delegate(".save-button", "click", function(){
+      var ano = $("#score_detail_school_year_id").val();
+      var period_id = $("#score_detail_educational_period_id").val();
+      var sub_grade_id = $("#sub_grade_id").val();
+      var educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+
+      // Obtener score_detail_id
+      score_detail_id = $(this).prop("id").split("_")[1];
+      // alert();
+      var arrayField = new Array();
+      var index = 0;
+      $(this).parent().siblings().children().find(":input").each(function( i ) {
+        //name = $()
+        arrayField[index] = $(this).val();
+        index = 3;
+      });
+
+      var index = 0;
+      var index_tmp = 1
+      $(this).parent().siblings().children().each(function( i ) {
+        //name = $()
+        if (index == 1 || index == 2) {
+          arrayField[index_tmp] = $(this).val();
+          index_tmp = 2;
+        }
+        index++;
+      });
+
+      if (arrayField[0] != "" && arrayField[1] != "" && arrayField[2] != "") {
+        sum = 0;
+        $("tbody").find(".weight-field").each(function(){
+          sum += parseInt($(this).val());
+        });
+
+        var array_names = new Array();
+
+        $(".field-name").each(function(i){
+          array_names[i] = $(this).val();
+        });
+
+        flag_repeat_name = isDuplicateName(array_names);
+
+        if (flag_repeat_name) {
+          alert("El nombre de la actividad es igual a uno ya existente.");
+        } else {
+          if (sum > 100) {
+            alert("El total de los pesos no puede sobre pasar el 100%.");
+          } else {
+            $.get("/score_details/update_score_detail", $("#new_score_detail").serialize(), function(data){
+              //alert('Se han guardado los registros.');
+            });
+            //$.get("/score_details/update_score_detail", {score_detail_id: score_detail_id, name: arrayField[0], sd_detail_id: arrayField[1], school_year_id: ano, educational_period_id: period_id, sub_grade_id: sub_grade_id, educational_asignature_id: educational_asignature_id, weight: arrayField[2], description: arrayField[3]}, function(data){
+               //alert("fin");
+            // });
+          }
+        }
+      } else {
+        alert("Debe ingresar el nombre de la actividad, detalle y peso");
+      }
+    });
+
+    $("tbody").delegate("#delete-fields", "click", function(){
+      $(".add-fields").remove();
+    });
+
+    $("tbody").delegate(".delete-button", "click", function(){
+      if (confirm("Está segur@?")) {
+        score_detail_id = $(this).prop("id").split("_")[1];
+        $.get("/score_details/delete_register", {score_detail_id: score_detail_id}, function(data){
+           alert("Registro eliminado.");
+           $("#fields_" + score_detail_id).remove();
+           $("#hidden_sd_" + score_detail_id).remove();
+        });
+      }
+    });
+
+    $(document).keypress(function(e) {
+	    if(e.which == 13) {
+	        alert('Por favor, hacer clic en el icono de Guardar.');
+	        return false;
+	    }
+	});
+  });
+
+  function isDuplicateName( A ) {                          // finds any duplicate array elements using the fewest possible comparison
+  	var i, j, n;
+  	n=A.length // to ensure the fewest possible comparisons
+  	for (i=0; i<n; i++) {                        // outer loop uses each item i at 0 through n
+  		for (j=i+1; j<n; j++) {              // inner loop only compares items j at i+1 to n
+  			if (A[i]==A[j]) return true;
+  	}	}
+  	return false;
+  }
+</script>

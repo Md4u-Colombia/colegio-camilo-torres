@@ -1,0 +1,210 @@
+<center><h3>Generación de Informes de Alumnos</h3></center>
+<%if(current_user.role_id > 1)%>
+  <%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, sub_grades_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<%end%>
+<%if @student_sub_grades.size != 0 %>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@student_sub_grades) %></center>
+    </div>
+  </div>
+  <div class="content-table">
+    <table class="style-table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :school_year_id, t('.school_year_id')) %></th>
+          <th><%= sort_link(@search, :student_id, t('.student_id')) %></th>
+          <th><%= sort_link(@search, :sub_grade_id, t('.sub_grade_id')) %></th>
+          <th></th>
+          <th>P1</th>
+          <th>P2</th>
+          <th>P3</th>
+          <th>P4</th>
+          <th>RFV</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%if(current_user.role_id < 2)%>
+          <%= search_form_for @search, url: new_student_sub_grade_url, method: :post do |f| %>
+            <tr>
+              <td><%= f.select :school_year_id_eq, SchoolYear.order("name").map{|el| [ el.name, el.id]},{include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"}, class: "form-control" %></td>
+              <td><%= f.text_field :student_name_or_student_last_name_cont, class: "form-control" %></td>
+              <td><%= f.select :sub_grade_id_eq, SubGrade.order("grade_id").map{|c| [ c.grade.name.to_s+" / "+c.name,c.id]},{include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"}, class: "form-control" %></td>
+              <td width="30px"></td>
+              <th colspan="6" width="100px">
+                <%= button_tag(type: 'submit', title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+                  <span class="fa fa-search fa-lg"></span>
+                <% end %>
+                <%= link_to(new_student_sub_grade_url,{class: 'button-link color-button-red tooltip', title: "Limpiar",  style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"}}) do %>
+                    <span class="fa fa-eraser fa-lg"></span>
+                <% end %>
+              </th>
+            </tr>
+          <% end %>
+        <%end%>
+        <% @student_sub_grades.each do |student_sub_grade| %>
+          <tr>
+            <td><%= student_sub_grade.school_year.name %></td>
+            <td><%= student_sub_grade.student.reverse_complete_name %></td>
+            <td><%= student_sub_grade.sub_grade.name %></td>
+            <td>
+              <!--%=link_to '<i class="fa fa-file-text fa-lg"></i>'.html_safe,{:action => 'add_score', :sg_id => student_sub_grade.id,:ssg_id => params[:ssg_id].to_i}, class: "edit-icon-button format-link tooltip", title: "Ingresar Calificaciones"%-->
+            </td>
+            <%
+            if 1 == student_sub_grade.school_year_id.to_i
+              controller_pdf = "student_progresses"
+              action_pdf = "generate_pdf"
+            else
+              controller_pdf = "export_pdf"
+              action_pdf = "student_report_individual"
+            end
+            # -----------Para revisar si se genera pdf o no
+            period_id = 1
+            @sub_grade = SubGrade.find(student_sub_grade.sub_grade_id)
+            grade_id = @sub_grade.grade_id
+            @grade_asignature = GradeAsignature.where("grade_id IN (?) AND school_year_id = ?", grade_id, get_current_school_year(Time.now.year))
+            @assignatures_quantity = @grade_asignature.size
+            @student_progresses = StudentProgress.where("student_sub_grade_id = ? AND period_id = ?", student_sub_grade, period_id)
+            @student_progresses_quantity = @student_progresses.size
+            @educational_asignatures_empty_score = @grade_asignature.pluck(:educational_asignature_id) - @student_progresses.pluck(:educational_asignature_id)
+            #----------------------------------------------
+            %>
+            <td>
+              <% if @student_progresses_quantity.to_i == @assignatures_quantity.to_i %>
+                <%=link_to '<i class="fa fa-file-pdf-o fa-2x" style="color: #c0392b;"></i>'.html_safe,{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   '1', sy_id: student_sub_grade.school_year}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %>
+              <% else %>
+                <%
+                  @str_asignatures = ''
+                  EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).each_with_index do |educational_asignature, index|
+                    if (index + 1)  == EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).size
+                      @str_asignatures += educational_asignature.name + '.'
+                    else
+                      @str_asignatures += educational_asignature.name + ', '
+                    end
+                  end
+                %>
+                <i class="fa fa-file-pdf-o fa-2x" , title="No se puede descargar el boletín hasta que se ingresen todas las notas. Notas faltantes: <%=  @assignatures_quantity.to_i - @student_progresses_quantity.to_i %> Asignaturas: <%= @str_asignatures %>"></i>
+              <% end %>
+                <!--%=link_to image_tag('pdf.png',:size=>"20x20"),{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   2}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %-->
+            </td>
+            <%
+            # -----------Para revisar si se genera pdf o no
+            period_id = 2
+            @sub_grade = SubGrade.find(student_sub_grade.sub_grade_id)
+            grade_id = @sub_grade.grade_id
+            @grade_asignature = GradeAsignature.where("grade_id IN (?) AND school_year_id = ?", grade_id, get_current_school_year(Time.now.year))
+            @assignatures_quantity = @grade_asignature.size
+            @student_progresses = StudentProgress.where("student_sub_grade_id = ? AND period_id = ?", student_sub_grade, period_id)
+            @student_progresses_quantity = @student_progresses.size
+            @educational_asignatures_empty_score = @grade_asignature.pluck(:educational_asignature_id) - @student_progresses.pluck(:educational_asignature_id)
+            #----------------------------------------------
+            %>
+            <td>
+              <% if @student_progresses_quantity.to_i == @assignatures_quantity.to_i %>
+                <%=link_to '<i class="fa fa-file-pdf-o fa-2x" style="color: #c0392b;"></i>'.html_safe,{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   '2', sy_id: student_sub_grade.school_year}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %>
+              <% else %>
+                <%
+                  @str_asignatures = ''
+                  EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).each_with_index do |educational_asignature, index|
+                    if (index + 1)  == EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).size
+                      @str_asignatures += educational_asignature.name + '.'
+                    else
+                      @str_asignatures += educational_asignature.name + ', '
+                    end
+                  end
+                %>
+                <i class="fa fa-file-pdf-o fa-2x" , title="No se puede descargar el boletín hasta que se ingresen todas las notas. Notas faltantes: <%=  @assignatures_quantity.to_i - @student_progresses_quantity.to_i %> Asignaturas: <%= @str_asignatures %>"></i>
+              <% end %>
+                <!--%=link_to image_tag('pdf.png',:size=>"20x20"),{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   2}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %-->
+            </td>
+            <%
+            # -----------Para revisar si se genera pdf o no
+            period_id = 3
+            @sub_grade = SubGrade.find(student_sub_grade.sub_grade_id)
+            grade_id = @sub_grade.grade_id
+            @grade_asignature = GradeAsignature.where("grade_id IN (?) AND school_year_id = ?", grade_id, get_current_school_year(Time.now.year))
+            @assignatures_quantity = @grade_asignature.size
+            @student_progresses = StudentProgress.where("student_sub_grade_id = ? AND period_id = ?", student_sub_grade, period_id)
+            @student_progresses_quantity = @student_progresses.size
+            @educational_asignatures_empty_score = @grade_asignature.pluck(:educational_asignature_id) - @student_progresses.pluck(:educational_asignature_id)
+            #----------------------------------------------
+            %>
+            <td>
+              <% if @student_progresses_quantity.to_i == @assignatures_quantity.to_i %>
+                <%=link_to '<i class="fa fa-file-pdf-o fa-2x" style="color: #c0392b;"></i>'.html_safe,{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   '3', sy_id: student_sub_grade.school_year}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %>
+              <% else %>
+                <%
+                  @str_asignatures = ''
+                  EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).each_with_index do |educational_asignature, index|
+                    if (index + 1)  == EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).size
+                      @str_asignatures += educational_asignature.name + '.'
+                    else
+                      @str_asignatures += educational_asignature.name + ', '
+                    end
+                  end
+                %>
+                <i class="fa fa-file-pdf-o fa-2x" , title="No se puede descargar el boletín hasta que se ingresen todas las notas. Notas faltantes: <%=  @assignatures_quantity.to_i - @student_progresses_quantity.to_i %> Asignaturas: <%= @str_asignatures %>"></i>
+              <% end %>
+            </td>
+            <%
+            # -----------Para revisar si se genera pdf o no
+            period_id = 4
+            @sub_grade = SubGrade.find(student_sub_grade.sub_grade_id)
+            grade_id = @sub_grade.grade_id
+            @grade_asignature = GradeAsignature.where("grade_id IN (?) AND school_year_id = ?", grade_id, get_current_school_year(Time.now.year - 1))
+            @assignatures_quantity = @grade_asignature.size
+            @student_progresses = StudentProgress.where("student_sub_grade_id = ? AND period_id = ?", student_sub_grade, period_id)
+            @student_progresses_quantity = @student_progresses.size
+            @educational_asignatures_empty_score = @grade_asignature.pluck(:educational_asignature_id) - @student_progresses.pluck(:educational_asignature_id)
+            #----------------------------------------------
+            %>
+            <!--%= EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).pluck(:name) %-->
+            <td>
+              <% if @student_progresses_quantity.to_i == @assignatures_quantity.to_i %>
+                <%=link_to '<i class="fa fa-file-pdf-o fa-2x" style="color: #c0392b;"></i>'.html_safe,{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   '4', sy_id: student_sub_grade.school_year}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %>
+              <% else %>
+                <%
+                  @str_asignatures = ''
+                  EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).each_with_index do |educational_asignature, index|
+                    if (index + 1)  == EducationalAsignature.where("id IN (?)",@educational_asignatures_empty_score).size
+                      @str_asignatures += educational_asignature.name + '.'
+                    else
+                      @str_asignatures += educational_asignature.name + ', '
+                    end
+                  end
+                %>
+                <i class="fa fa-file-pdf-o fa-2x" , title="No se puede descargar el boletín hasta que se ingresen todas las notas. Notas faltantes: <%=  @assignatures_quantity.to_i - @student_progresses_quantity.to_i %> Asignaturas: <%= @str_asignatures %>"></i>
+              <% end %>
+                <!--%=link_to image_tag('pdf.png',:size=>"20x20"),{controller: controller_pdf, action: action_pdf, ssg_id: student_sub_grade.id, peid:   2}, class: "edit-icon-button format-link tooltip", title: "Descargar Boletin" %-->
+            </td>
+            <td align="center"><%=link_to '<i class="fa fa-file-pdf-o fa-2x" style="color: #c0392b;"></i>'.html_safe,{ controller: "export_pdf", action: "final_value_record_pdf", ssg_id: student_sub_grade.id, peid: '4', sy_id: student_sub_grade.school_year_id }, class: "edit-icon-button format-link tooltip", title: "Descargar Registro final valorativo" %></td>
+            <td><%#= link_to '<i class="fa fa-times"></i>'.html_safe, student_sub_grade, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(StudentProgress,'student_sub_grade_id',student_sub_grade) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="11">
+            <%= t('.label_total') %>: <%= @student_sub_grades.size %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@student_sub_grades) %></center>
+    </div>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('general.msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

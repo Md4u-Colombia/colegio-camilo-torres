@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Student sub grade:</strong>
+  <%= @final_value_record.student_sub_grade %>
+</p>
+
+<p>
+  <strong>Educational area:</strong>
+  <%= @final_value_record.educational_area %>
+</p>
+
+<p>
+  <strong>Average total score:</strong>
+  <%= @final_value_record.average_total_score %>
+</p>
+
+<p>
+  <strong>Recovered score:</strong>
+  <%= @final_value_record.recovered_score %>
+</p>
+
+<%= link_to 'Edit', edit_final_value_record_path(@final_value_record) %> |
+<%= link_to 'Back', final_value_records_path %>

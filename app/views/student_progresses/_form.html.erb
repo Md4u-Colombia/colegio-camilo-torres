@@ -1,0 +1,602 @@
+<style>
+  .auto-save {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #34495e;
+    border-radius: 3px;
+    text-align: center;
+    color: #ecf0f1;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+  }
+
+  .auto-save i {
+    margin-right: 10px;
+  }
+
+  .save-score {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #27ae60;
+    border-radius: 3px;
+    text-align: center;
+    color: #ecf0f1;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 300;
+  }
+
+  .save-score i {
+    margin-right: 10px;
+  }
+
+  .hide-element {
+    display: none;
+  }
+
+  .rotate-text-90 {
+    text-align:bottom;
+    white-space:nowrap;
+    transform-origin:50% 50%;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    width: 30px;
+  }
+  .rotate-text-90:before {
+      content:'';
+      padding-top:110%;/* takes width as reference, + 10% for faking some extra padding */
+      display:inline-block;
+      vertical-align:middle;
+    }
+
+  .rotate-text-90-anti {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+
+  th.rotate {
+    /* Something you can count on */
+    height: 131px;
+    white-space: nowrap;
+  }
+
+  th.rotate > div {
+    transform:
+      /* Magic Numbers */
+      translate(0px, 40px)
+      /* 45 is really 360 - 45 */
+      rotate(-90deg);
+    width: 50px;
+  }
+  th.rotate > div > span {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 17px 25px;
+    border-radius: 3px;
+    display: block;
+    font-size: .7em;
+    width: 130px;
+  }
+
+  th.rotate-expand {
+    /* Something you can count on */
+    height: 131px;
+    white-space: nowrap;
+  }
+
+  th.rotate-expand > div {
+    transform:
+      /* Magic Numbers */
+      translate(0px, 56px)
+      /* 45 is really 360 - 45 */
+      rotate(-90deg);
+    width: 50px;
+  }
+  th.rotate-expand > div > span {
+    background-color: #16a085;
+    color: #ecf0f1;
+    padding: 14px 25px;
+    border-radius: 3px;
+    display: block;
+    width: 163px;
+  }
+
+  .table-form-score {
+    margin: auto;
+  }
+
+  .table-form-score #main-header th {
+    padding: 1px;
+  }
+  .table-form-score #main-header th div {
+    padding: 5px;
+    background-color: #7f8c8d;
+    box-sizing: border-box;
+    border-radius: 3px;
+    color: #ecf0f1;
+  }
+
+  .table-form-score tbody td div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    border: 1px solid #bdc3c7;
+    margin: 1px;
+    border-radius: 3px;
+    height: 46px;
+    line-height: 32px;
+    text-align: center;
+    position: relative;
+  }
+
+  .table-form-score  tbody tr:hover {
+    background-color: #ecf7ff;
+  }
+
+  .table-form-score  tbody td div.score-field-final {
+    background-color: #b9e1d9;
+  }
+
+  .table-form-score  tbody td div.score-field-final.color-final {
+    background-color: #f8dbc8;
+  }
+
+  .table-form-score  tbody td div.score-field:hover {
+    background-color: #d6eeff;
+    cursor: pointer;
+  }
+
+  .table-form-score  tbody td div.score-field:after {
+      content: '';
+      width:0px;
+      height:0px;
+      border-left:5px solid transparent; /* izquierda flecha */
+      border-right:5px solid transparent; /* derecha flecha */
+      border-top:5px solid #3d566e; /* base flecha y color*/
+      font-size:0px;
+      line-height:0px;
+      position: absolute;
+      bottom: 5px;
+      left: 18px;
+  }
+
+  .table-form-score tbody td .avatar {
+    padding: 5px;
+  }
+
+  .table-form-score .avatar img {
+    border-radius: 50px;
+    height: 35px;
+  }
+
+  .header-performance {
+    background-color: red;
+    height: 30px;
+    font-size: .7em;
+    line-height: 30px;
+    margin: 1px;
+    padding: 0 5px;
+    border-radius: 3px;
+    color: #ecf0f1;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .colorRed {
+    background-color: #e74c3c;
+    color: #ecf0f1;
+  }
+  .colorOrange {
+    background-color: #e67e22;
+    color: #ecf0f1;
+  }
+  .colorYellow {
+    background-color: #f1c40f;
+    color: #ecf0f1;
+  }
+  .colorGreen {
+    background-color: #2ecc71;
+    color: #ecf0f1;
+  }
+
+  .colorRedText {
+    color: #e74c3c;
+  }
+  .colorOrangeText {
+    color: #e67e22;
+  }
+  .colorYellowText {
+    color: #f1c40f;
+  }
+  .colorGreenText {
+    color: #2ecc71;
+  }
+
+  .colorRedDark {
+    background-color: #c0392b;
+    color: #ecf0f1;
+  }
+
+  .colorOrangeDark {
+    background-color: #d35400;
+    color: #ecf0f1;
+  }
+
+  .colorYellowDark {
+    background-color: #f39c12;
+    color: #ecf0f1;
+  }
+
+  .colorGreenDark {
+    background-color: #27ae60;
+    color: #ecf0f1;
+  }
+
+  .colorGreenLight {
+    background-color: #b9e1d9;
+    color: #ecf0f1;
+  }
+
+  .colorOrangeLight {
+    background-color: #f8dbc8;
+    color: #ecf0f1;
+  }
+
+  .table-form-score  tbody td div.colorRed:hover {
+    background-color: #c0392b;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+  .table-form-score  tbody td div.colorOrange:hover {
+    background-color: #d35400;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+  .table-form-score  tbody td div.colorYellow:hover {
+    background-color: #f39c12;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+  .table-form-score  tbody td div.colorGreen:hover {
+    background-color: #27ae60;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+
+  .select-score {
+    background: #dceeff;
+    border-radius: 5px;
+    border: 4px solid #bdc3c7;
+    width: 200px;
+    height: 320px;
+    position: absolute;
+    z-index: 100;
+  }
+
+  .select-score:before {
+    content: '';
+    width:0px;
+    height:0px;
+    border-top: 8px solid transparent; /* izquierda flecha */
+    border-bottom: 8px solid transparent; /* derecha flecha */
+    border-right: 11px solid #bdc3c7; /* base flecha y color*/
+    font-size:0px;
+    line-height:0px;
+    position: absolute;
+    top: 5px;
+    left: -15px;
+  }
+
+  .select-score:after {
+    content: '';
+    width:0px;
+    height:0px;
+    border-top: 8px solid transparent; /* izquierda flecha */
+    border-bottom: 8px solid transparent; /* derecha flecha */
+    border-right: 11px solid #dceeff; /* base flecha y color*/
+    font-size:0px;
+    line-height:0px;
+    position: absolute;
+    top: 5px;
+    left: -8px;
+  }
+
+  .close-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #bdc3c7;
+    cursor: pointer;
+  }
+
+  .items-score {
+    position: relative;
+    top: 30px;
+    margin: auto;
+    display: table;
+  }
+
+  .items-score table div {
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    line-height: 25px;
+    font-size: .7em;
+    margin: 1px;
+    color: #ecf0f1;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  /*.items-score table th div {
+    background: #8e44ad;
+  }
+
+  .items-score table td div {
+    background: #9b59b6;
+  }*/
+
+  .weights {
+    font-size: .8em;
+    height: 30px;
+    line-height: 20px;
+  }
+
+  .info-colors {
+    background-color: #f8fafa;
+    padding: 10px;
+    border: 4px solid #22A7F0;
+    border-radius: 4px;
+    font-size: .7em;
+    width: 270px;
+    position: absolute;
+    top: 220px;
+  }
+
+  .window-disabled {
+    background: rgba(0, 0, 0, 0.5);
+    width: 3000px;
+    height: 3000px;
+    position: absolute;
+    top: -200px;
+    left: -1000px;
+    z-index: 100;
+  }
+
+  @media only screen and (max-width: 768px) {
+      .info-colors {
+        top: 300px;
+      }
+  }
+</style>
+
+<div class="select-score">
+  <i class="fa fa-times-circle fa-lg close-icon"></i>
+  <div class="items-score">
+    <table>
+      <tr>
+        <th><div class="score-val colorRedDark">1.0</div></th>
+        <th><div class="score-val colorRedDark">2.0</div></th>
+        <th><div class="score-val colorRedDark">3.0</div></th>
+        <th><div class="score-val colorYellowDark">4.0</div></th>
+        <th><div class="score-val colorGreenDark">5.0</div></th>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.1</div></td>
+        <td><div class="score-val colorRed">2.1</div></td>
+        <td><div class="score-val colorRed">3.1</div></td>
+        <td><div class="score-val colorYellow">4.1</div></td>
+        <th><div class="score-val" style="background-color: #2c3e50;"><i class="fa fa-trash-o"></i></div></th>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.2</div></td>
+        <td><div class="score-val colorRed">2.2</div></td>
+        <td><div class="score-val colorRed">3.2</div></td>
+        <td><div class="score-val colorYellow">4.2</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.3</div></td>
+        <td><div class="score-val colorRed">2.3</div></td>
+        <td><div class="score-val colorOrange">3.3</div></td>
+        <td><div class="score-val colorYellow">4.3</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.4</div></td>
+        <td><div class="score-val colorRed">2.4</div></td>
+        <td><div class="score-val colorOrange">3.4</div></td>
+        <td><div class="score-val colorYellow">4.4</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.5</div></td>
+        <td><div class="score-val colorRed">2.5</div></td>
+        <td><div class="score-val colorOrange">3.5</div></td>
+        <td><div class="score-val colorYellow">4.5</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.6</div></td>
+        <td><div class="score-val colorRed">2.6</div></td>
+        <td><div class="score-val colorOrange">3.6</div></td>
+        <td><div class="score-val colorGreen">4.6</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.7</div></td>
+        <td><div class="score-val colorRed">2.7</div></td>
+        <td><div class="score-val colorOrange">3.7</div></td>
+        <td><div class="score-val colorGreen">4.7</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.8</div></td>
+        <td><div class="score-val colorRed">2.8</div></td>
+        <td><div class="score-val colorOrange">3.8</div></td>
+        <td><div class="score-val colorGreen">4.8</div></td>
+      </tr>
+      <tr>
+        <td><div class="score-val colorRed">1.9</div></td>
+        <td><div class="score-val colorRed">2.9</div></td>
+        <td><div class="score-val colorOrange">3.9</div></td>
+        <td><div class="score-val colorGreen">4.9</div></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<%= form_tag new_student_progress_path do |f| %>
+  <% if @student_progress.errors.any? %>
+    <div class="error_explanation">
+          <h2><%= t('errors.template.header', :count=>@student_progress.errors.size,
+    :model=>t('activerecord.models.student_progress')) %>:</h2>
+          <%= t('errors.template.body') %>
+          <ul>
+          <% @student_progress.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+  <% end %>
+
+  <div class="auto-save hide-element">
+    <i class="fa fa-refresh fa-spin"></i>Guardando automáticamente ...
+  </div>
+
+  <div class="save-score hide-element">
+    <i class="fa fa-refresh fa-spin"></i>Nota guardada ...
+  </div>
+
+  <div class="window-disabled">asdfasdfa</div>
+
+  <br>
+  <div class="grupo">
+    <div class="caja tablet-20">
+        <strong><%= label_tag :school_year_id, "Año escolar" %></strong><br>
+        <%= @school_year_current %>
+        <%= hidden_field_tag :school_year_id, @school_year.id %>
+    </div>
+
+    <%= hidden_field_tag "data_autosave", 0 %>
+
+    <div class="caja tablet-40">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= select_tag "educational_period_id", options_from_collection_for_select(@educational_periods, "id", "name", @period_id), prompt: "#{t('str_select_field')} Periodo" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caja tablet-40">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name", @sub_grade_id), prompt: "#{t('str_select_field')} Curso" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <!--div class="caja tablet-40">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <= select_tag "score_detail_educational_asignature_id", options_from_collection_for_select(@educational_asignatures, "id", "name", @score_detail_educational_asignature_id), prompt: "#{t('str_select_field')} Asignatura" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div-->
+
+    <div class="caja">
+      <!--%= link_to "Aceptar", "#", class: "button-link" %-->
+      <br>
+      <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', name: "commit", value: "filter", class: "form__submit_button", id: "filter-button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> Filtrar
+      <% end %>
+    </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(function() {
+    $(".window-disabled").hide();
+    $(".select-score").hide();
+    $(".select-score").hide();
+
+    // ACTUALIZACIÓN DE ASIGNATURAS SEGÚN CURSO
+    $('#sub_grade_id').change(function(){
+      if($(this).val() != ""){
+        $.get("/eduper_score_details/update_asignatures", {
+            sg_id: $(this).val(),
+            syid: $("#school_year_id").val()
+          }, function(data){
+        });
+      }
+    });
+
+    // FUNCION QUE MUESTRA LA VENTANA DE NOTAS
+    $(".select-score").hide();
+    $(".score-field").click( function(){
+      $(".select-score").hide('fast');
+      var p = $( this );
+      var position = p.position();
+      $(".select-score").css({top: position.top + 165, left: position.left + 65});
+      $(".select-score").show("fast");
+      valIds = $(this).prop("id").split("-")[1];
+      // alert(valIds);
+      $(".select-score").attr("id", "ids-" + String(valIds));
+    });
+
+    $(".close-icon").click(function(){
+      $(".select-score").hide('fast');
+    });
+
+    // FUNCION QUE AGREGA COLORES Y VALORES A CAMPO DE NOTA
+    $(".score-val").click(function(){
+      parentId = $(".items-score").parents("div").attr("id").split("-")[1];
+      classColor = $(this).prop("class").split(" ")[1];
+      student_progress_id = parentId.split("_")[0];
+      valueScore = $(this).html();
+      if ($(this).html().length <= 4) {
+        //$("#scoreField-" + parentId).removeClass().addClass("score-field scores-" + userId);
+
+        if (classColor.search("Dark") != -1) {
+          classColor = classColor.replace("Dark", "");
+        }
+
+        $("#scoreField-" + parentId).html(valueScore).addClass(classColor);
+      } else { //Esta opción es cuando usan el icono de trash
+        valueScore = -1;
+        classColor = $("#scoreField-" + parentId).prop("class").split(" ")[2];
+        $("#scoreField-" + parentId).html("").removeClass(classColor);
+      }
+      $("#score-" + parentId).val(valueScore);
+
+      // GUARDAR NOTA
+      $('.window-disabled').show();
+      $('.save-score').removeClass('hide-element');
+      $.get("/student_progresses/save_data", {
+        student_progress_id: student_progress_id,
+        score: valueScore
+      }, function(data) {
+
+        //alert("Guardada...");
+        // PONER UN DIV CON UN MENSAJE DE GUARDADO
+        //$("body").html("<div class='auto-save\ hide-element'>\
+        //   <i class='fa fa-refresh fa-spin'></i>Guardando automáticamente ...\
+        // </div>'");
+      });
+
+      $(".select-score").hide('fast');
+    });
+  });
+</script>

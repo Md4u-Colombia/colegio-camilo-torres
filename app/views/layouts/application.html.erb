@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= t('home.title') %></title>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <link href="/stylesheets/jquery-ui.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <!--link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"-->
+  <link rel="stylesheet" href="/stylesheets/pnotify.custom.min.css">
+  <%= javascript_include_tag "application" %>
+  <script src="/javascripts/period_notes_details.js"></script>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/jquery-ui.min.js"></script>
+  <script src="/javascripts/jquery-ujs.js"></script>
+  <script src="/javascripts/jquery.tablesorter.min.js"></script>
+  <script src="/javascripts/jquery.numeric.js"></script>
+  <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
+  <script src="/javascripts/pnotify.custom.min.js"></script>
+  <script src="/javascripts/FancyBox2/source/jquery.fancybox.js?v=2.1.4"></script>
+  <%= stylesheet_link_tag "/javascripts/FancyBox2/source/jquery.fancybox.css?v=2.1.4"%>
+
+  <%= csrf_meta_tags %>
+  <%= yield(:head) %>
+
+  <style>
+    #icon-profile {
+      position: relative;
+    }
+
+    #icon-profile img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -12.5px;
+      margin-left: -12.5px;
+    }
+  </style>
+
+</head>
+<body class="desarrollo1">
+<% if alert %>
+  <!--p class="alert alert-danger" style="position:absolute;bottom:0;z-index: 1000;"><= alert %></p-->
+  <script type="text/javascript">
+      $(function(){
+        new PNotify({
+          title: 'Alerta',
+          text: "<%= alert %>",
+          type: 'error'
+        });
+      });
+    </script>
+<% end %>
+<!--p class="navbar-text pull-right"-->
+<% if user_signed_in? %>
+  <!-- HEADER -->
+  <header id="header">
+    <i class="fa fa-bars fa-2x"></i>
+    <div id="icon-home" style="margin-top:6px;"><%= link_to '<i class="fa fa-home fa-3x"></i>'.html_safe,root_path, :class => 'navbar-link' %></div>
+    <div id="profile">
+      <div id="icon-profile">
+        <%= image_tag current_user.avatar.url(:small), style: "width: 25px; border-radius: 50%; max-width: none;" %>
+      </div>
+      <!--%= t('home.hi') %>, <strong><= "#{current_user.name} #{current_user.last_name}" %></strong-->
+      <ul class="profile-dropdown">
+        <li id="header--profile-dropdown">
+           <%= "#{current_user.name.capitalize} #{current_user.last_name.capitalize}" %><span><%= t('home.view_profile') %></span>
+        </li>
+        <li id="footer--profile-dropdown">
+          <%= link_to t('home.logout'), destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <!-- FIN HEADER -->
+
+  <!-- MENU -->
+  <% if user_signed_in? %>
+    <%= render 'layouts/navbar' %>
+  <% end %>
+  <!-- FIN DEL MENU -->
+
+  <div class="arrow-up">
+    <i class="fa fa-arrow-up fa-2x"></i>
+  </div>
+
+  <% if notice %>
+    <!--p class="alert alert-success" style="position:absolute;top:0;z-index: 1000;"><= notice %></p-->
+    <script type="text/javascript">
+      $(function(){
+        new PNotify({
+          title: 'Noticia',
+          text: "<%= notice %>",
+          type: 'info'
+        });
+      });
+    </script>
+  <% end %>
+  <!-- <br><br><br> -->
+  <!-- Logged in as <strong><%= current_user.email %></strong>. -->
+  <!--%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %-->
+<!--   <= link_to "home",root_path, :class => 'navbar-link' %> | -->
+
+<% else %>
+  <!--%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+  <= link_to "Login", new_user_session_path, :class => 'navbar-link'  %-->
+<% end %>
+
+<% if user_signed_in? %>
+  <div class="content-partial">
+    <%= yield %>
+  </div>
+<% else %>
+  <%= yield %>
+<% end %>
+
+<!--%= debug session %-->
+<% if params[:debug].to_i == 1 %>
+  <%= debug params %>
+<% end %>
+</body>
+</html>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var Accordion = function(el, multiple){
+      this.el = el || {};
+      this.multiple = multiple || false;
+
+      // Variables privadas
+      var links =this.el.find('.content-link');
+      // Evento
+      links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+    }
+
+    Accordion.prototype.dropdown = function(e) {
+      var $el = e.data.el;
+          $this = $(this),
+          $next = $this.next();
+
+      $next.slideToggle();
+      $this.parent().toggleClass('open');
+
+      if (!e.data.multiple) {
+        $el.find('.submenu-md4u').not($next).slideUp().parent().removeClass('open');
+      };
+    }
+
+    var accordion = new Accordion($("#menu-md4u"));
+
+    $("#header>i").click(function(){
+      $(this).toggleClass("activate-color-black");
+      $("#menu-md4u").toggleClass("show");
+    });
+
+    $(".profile-dropdown").toggleClass("hidden");
+    $("#icon-profile").click(function(){
+      $(".profile-dropdown").toggleClass("show");
+      //$(".profile-dropdown").toggleClass("hidden");
+    });
+
+    /*$("div").not("#icon-profile").click(function(){
+      $(".profile-dropdown").removeClass("show");
+      $(".profile-dropdown").addClass("hidden");
+    });*/
+
+    $(".arrow-up").click(function(){
+      $('html, body').animate({scrollTop:(0)}, '2000');
+    });
+
+  });
+
+  // CON EL SIGUIENTE CÓDIGO MANTENEMOS EL SCROLL EN LA POSICIÓN FINAL DONDE QUEDÓ ANTES DE HACER EL SUBMIT
+  var flag_scroll = true
+  $(".edit-icon-button").click(function(){
+    window.scrollTo(0,0);
+  });
+  if(flag_scroll) {
+    window.onload=function(){
+      var pos=window.name || 0;
+      window.scrollTo(0,pos);
+    }
+    window.onunload=function(){
+      window.name=self.pageYOffset || (document.documentElement.scrollTop+document.body.scrollTop);
+    }
+  }
+
+  $.datepicker.regional['es'] = {
+   closeText: 'Cerrar',
+   prevText: '<Ant',
+   nextText: 'Sig>',
+   currentText: 'Hoy',
+   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+   monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+   dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+   dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+   dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+   weekHeader: 'Sm',
+   dateFormat: 'dd/mm/yy',
+   firstDay: 1,
+   isRTL: false,
+   showMonthAfterYear: false,
+   yearSuffix: ''
+   };
+   $.datepicker.setDefaults($.datepicker.regional['es']);
+
+</script>

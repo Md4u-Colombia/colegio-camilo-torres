@@ -1,0 +1,36 @@
+<% if @students.any? %>
+  <%
+  stringHTMLActivities = ""
+  stringHTMLWeight = ""
+
+  if @score_details.sum(:weight).to_f == 100.0
+    @score_details.each do |score_detail|
+      stringHTMLActivities += "<th class='rotate'><div><span>#{score_detail.name}</span></div></th>"
+      stringHTMLWeight += "<th width='50'><div id='weight-#{score_detail.weight}' class='weights'>#{score_detail.weight} %</div></th>"
+    end
+  end
+  %>
+  
+  $("#tbody").empty();
+  $("#header-table").empty();
+
+  $("#header-table").append("<tr>\
+    <th colspan='3' height='131px'></th>\
+    <%= stringHTMLActivities.html_safe %>\
+    <th width='50' rowspan='20'></th>\
+    <th class='rotate-expand' rowspan='20'><div><span>Acumulado</span></div></th>\
+    <th class='rotate-expand' rowspan='20'><div><span style='background-color: #d35400;'>Definitiva</span></div></th>\
+  </tr>").hide();
+
+  $("#header-table").append("<tr id='main-header'>\
+    <th width='50'><div>&nbsp;</div></th>\
+    <th><div>Apellidos</div></th>\
+    <th><div>Nombres</div></th>\
+    <%= stringHTMLWeight.html_safe %>\
+  </tr>").hide();
+  $("#tbody").append("<%= escape_javascript(render(:partial => @students)) %>").hide();
+<% end %>
+
+$("#header-table").show('slow');
+$("#tbody").show('slow');
+$(".table-form-score").show('slow');

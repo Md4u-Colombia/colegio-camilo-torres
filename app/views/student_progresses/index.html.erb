@@ -1,0 +1,60 @@
+<% unless params[:action] == "new" || params[:action] == "edit" %>
+  <h1>Listing student_progresses</h1>
+<% else%>
+  <br><br><br>
+<% end %>
+<br>
+<%= link_to 'back', current_user.role_id == 2? sub_grades_path : root_path %>
+<br>
+<%= paginate(@student_progresses, ) %>
+<% if @student_progresses.size != 0 %>
+  <table  id="sorter" class="tablesorter style-table">
+    <thead>
+      <tr>
+        <th>Period</th>
+        <th>Student sub grade</th>
+        <th>Grade asignature</th>
+        <th>Educational asignature</th>
+        <th>Educational performance</th>
+        <th>Score</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @student_progresses.each do |student_progress| %>
+        <tr>
+          <td><%= EducationalPeriod.find(student_progress.period_id).name %></td>
+          <td><%= student_progress.student_sub_grade.student.reverse_complete_name %></td>
+          <td><%= student_progress.grade_asignature.grade.name %></td>
+          <td><%= student_progress.educational_asignature.name %></td>
+          <td><%= student_progress.educational_performance.description %></td>
+          <td><%= student_progress.score %></td>
+          <td><%= link_to 'Edit', edit_student_progress_path(student_progress) %></td>
+          <td><% link_to 'Destroy', student_progress, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= paginate(@student_progresses) %>
+<br>
+<!--%= link_to 'Generar PDF', {action: "generate_pdf"} %-->
+<!--%= link_to 'New Student progress', new_student_progress_path %-->
+<script>
+  $(document).ready(function()
+    {
+        $("#sorter").tablesorter();
+    }
+);
+</script>

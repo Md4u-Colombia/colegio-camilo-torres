@@ -1,0 +1,1 @@
+ $("#teacher_asignature_educational_asignature_id").empty().prepend("<option value='' selected='selected'><%= t('str_select_field') + " " + t('.educational_asignature_id') %></option>").append("<%= escape_javascript(render(:partial => @update_asignatures)) %>")

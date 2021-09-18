@@ -1,0 +1,888 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+es:
+  msg_info: "No existen resultados para este criterio de busqueda, por favor, hacer clic en Cancelar para volver a la tabla."
+  general:
+    msg_info: "No existen resultados para este criterio de busqueda, por favor, hacer clic en Cancelar para volver a la tabla."
+  views:
+    pagination:
+      next: "Siguiente"
+      last: "Ultimo"
+      truncate: "..."
+      previous: "Anterior"
+      first: "Primero"
+  home:
+    title: "Plataforma Educativa - Institución educativa Camilo Torres Zipaquirá"
+    educational_periods: "Periodos Educativos"
+    educational_areas: "Areas Educativas"
+    grades: "Grados"
+    sub_grades: "Cursos Educativos"
+    student_trackings: "Seguimiento de los estudiantes"
+    educational_performances: "Desempeños Educativos"
+    educational_performances_grades: "Desempeños Educativos"
+    educational_performances_lists: "Lista de Desempeños Educativos"
+    student_progresses: "Progreso del estudiante"
+    educational_asignatures: "Asignaturas Educativas"
+    score_details: "Detalles de notas"
+    sd_details: "Detalles"
+    student_sub_grades: "Cursos - Estudiantes"
+    school_years: "Años Escolares"
+    sub_grade_teachers: "Profesor - Cursos"
+    teacher_asignatures: "Asignar Asignaturas a Docente"
+    period_notes_details: "Detalle de Notas de Periodo"
+    users: "Usuarios"
+    cityes: "Ciudades"
+    companies: "Institución Educativa"
+    localizations: "Sedes"
+    countries: "Paises"
+    roles: "Roles"
+    logout: "Cerrar sesión"
+    view_profile: "Perfil usuario"
+  areas:
+    new:
+      title: "Nueva Area"
+    edit:
+      title: "Editar Area"
+    index:
+      title: "Listando Areas"
+    save: "Guardar"
+  business_units:
+    save: "Guardar"
+  cities:
+    save: "Guardar"
+    new:
+      title: "Nueva Ciudad"
+    edit:
+      title: "Editar Ciudad"
+    index:
+      title: "Listando Ciudades"
+  countries:
+    save: "Guardar"
+  companies:
+    save: "Guardar"
+  education_levels:
+    index:
+      title: "Niveles Educativos"
+      name: "Nivel Educativo"
+      description: "Descripción"
+      label_total: "Total de Elementos"
+    new:
+      title: "Nuevo Nivel Educativo"
+    edit:
+      title: "Editar Nivel Educativo"
+    form:
+      name: "Nivel Educativo"
+      description: "Descripción"
+      save: "Guardar"
+  educational_areas:
+    index:
+      title: "Areas Educativas"
+      education_level: "Nivel Educativo"
+      name: "Área Educativa"
+      description: "Descripción"
+      label_total: "Total de Elementos"
+      eliminate: "Está seguro?"
+    new:
+      title: "Nueva Area Educativa"
+    edit:
+      title: "Editar Area Educativa"
+    form:
+      education_level_id: "Nivel Educativo"
+      name: "Area Educativa"
+      description: "Descripción"
+      save: "Guardar"
+  educational_asignatures:
+    index:
+      title: "Asignaturas Educativas"
+      educational_area_id: "Area Educativa"
+      name: "Asignatura"
+      description: "Descripción"
+      label_total: "Total de Elementos"
+    new:
+      title: "Nueva Asignatura Educativa"
+    edit:
+      title: "Editar Asignatura Educativa"
+    form:
+      educational_area_id: "Area Educativa"
+      name: "Asignatura"
+      description: "Descripción"
+      save: "Guardar"
+  educational_periods:
+    index:
+      title: "Periodos Educativos"
+      name: "Periodo Educativo"
+      description: "Descripción"
+      internal_order: "Orden Interno"
+      start_date: "Fecha Inicial"
+      end_date: "Fecha Final"
+      label_total: "Total de Elementos"
+    new:
+      title: "Nuevo Periodo Educativo"
+    edit:
+      title: "Editar Periodo Educativo"
+    form:
+      name: "Periodo Educativo"
+      description: "Descripción"
+      internal_order: "Orden Interno"
+      start_date: "Fecha Inicial"
+      end_date: "Fecha Final"
+      save: "Guardar"
+  eduper_score_details:
+    form:
+      name: "Actividad"
+      description: "Descripción"
+  export_pdf:
+    student_report_individual:
+      boletin: "Boletin"
+      title_boletin: "INSTITUCION EDUCATIVA CAMILO TORRES - ZIPAQUIRA"
+      boletin_report: "BOLETIN DE INFORMES"
+      period: "PERIODO"
+      date: "FECHA"
+      student_name: "NOMBRE"
+      grade: "GRADO"
+      rating: "VALORACIÓN"
+      rating_excelent: "E: EXCELENTE DE 46 A 50"
+      rating_outstanding: "S: SOBRESALIENTE DE 40 A 45"
+      rating_acceptable: "A: ACEPTABLE DE 33 A 39"
+      rating_insufficient: "I: INSUFICIENTE DE 1 A 32"
+      rating_excelent_super: "DESEMPEÑO SUPERIOR DE 46 A 50"
+      rating_outstanding_super: "DESEMPEÑO ALTO DE 40 A 45"
+      rating_acceptable_super: "DESEMPEÑO BÁSICO DE 33 A 39"
+      rating_insufficient_super: "DESEMPEÑO BAJO DE 1 A 32"
+    final_value_record_pdf:
+      boletin: "Boletin"
+      title_boletin: "INSTITUCION EDUCATIVA CAMILO TORRES - ZIPAQUIRA"
+      boletin_report: "BOLETIN DE INFORMES"
+      period: "PERIODO"
+      date: "FECHA"
+      student_name: "NOMBRE"
+      grade: "GRADO"
+      rating: "VALORACIÓN"
+      rating_excelent: "E: EXCELENTE DE 46 A 50"
+      rating_outstanding: "S: SOBRESALIENTE DE 40 A 45"
+      rating_acceptable: "A: ACEPTABLE DE 33 A 39"
+      rating_insufficient: "I: INSUFICIENTE DE 1 A 32"
+      rating_excelent_super: "DESEMPEÑO SUPERIOR DE 46 A 50"
+      rating_outstanding_super: "DESEMPEÑO ALTO DE 40 A 45"
+      rating_acceptable_super: "DESEMPEÑO BÁSICO DE 33 A 39"
+      rating_insufficient_super: "DESEMPEÑO BAJO DE 1 A 32"
+  grades:
+    new:
+      title: "Nuevo Grado"
+    edit:
+      title: "Editar Grado"
+    index:
+      education_level: "Nivel Educativo"
+      name: "Grado"
+      description: "Descripción"
+      label_total: "Total de Elementos"
+    form:
+      education_level_id: "Nivel Educativo"
+      name: "Grado"
+      description: "Descripción"
+      save: "Guardar"
+  grade_asignatures:
+    new:
+      title: "Nuevo Grado Asignatura"
+    edit:
+      title: "Editar Grado Asignatura"
+    form:
+      educational_asignature_id: "Asignatura"
+      grade_id: "Grado"
+      internal_order: "Orden interno"
+      save: "Guardar"
+    index:
+      educational_asignature_id: "Asignatura"
+      grade_id: "Grado"
+      internal_order: "Orden interno"
+      label_total: "Total de Elementos"
+      eliminate: "Está seguro?"
+  sub_grade_teachers:
+    form:
+      teacher_id: "Docente"
+      save: "Guardar"
+    new:
+      title: "Cursos Docente"
+    index:
+      teacher_id: "Docente"
+      sub_grade_id: "Curso"
+      school_year_id: "Año escolar"
+  school_years:
+    form:
+      name: "Año escolar"
+      date_begin: "Fecha de inicio"
+      date_end: "Fecha final"
+      description: "Descripción"
+      save: "Guardar"
+    new:
+      title: "Nuevo año escolar"
+    index:
+      name: "Año escolar"
+      date_begin: "Fecha de inicio"
+      date_end: "Fecha final"
+      description: "Descripción"
+
+  groups:
+    save: "Guardar"
+    new:
+      title: "Nuevo Grupo"
+    edit:
+      title: "Editar Grupo"
+    index:
+      title: "Listando Grupos"
+  localizations:
+    save: "Guardar"
+  positions:
+    new:
+      title: "Nuevo Cargo"
+    edit:
+      title: "Editar Cargo"
+    index:
+      title: "Listando Cargos"
+    save: "Guardar"
+  position_levels:
+    save: "Guardar"
+    new:
+      title: "Nuevo Nivel de Cargo"
+    edit:
+      title: "Editar Nivel de Cargo"
+    index:
+      title: "Listando Niveles de Cargo"
+  period_notes_details:
+    form:
+        school_year_id: "Año Escolar"
+        teacher_asignature_id: "Curso"
+        educational_performance_id: "Desempeño"
+        performance_weight: "Peso Desempeño"
+        sd_detail_id: "Detalle"
+        detail_weight: "Peso Detalle"
+        educational_period_id: "Periodo"
+        period_weight: "Peso Periodo"
+        teacher_id: "Profesor"
+        save: "Guardar"
+    new:
+      title: "Nuevo Detalle de Notas del Periodo"
+    edit:
+      title: "Editar Detalle de Notas del Periodo"
+    index:
+      title: "Listar Detalles de Notas del Periodo"
+  roles:
+    save: "Guardar"
+  sd_details:
+    index:
+      name: "Detalle"
+      description: "Descripción"
+      label_total: "Total de Elementos"
+    form:
+        name: "Detalle"
+        description: "Descripción"
+        save: "Guardar"
+        cancel: "Cancelar"
+    new:
+      title: "Nuevo Detalle"
+    edit:
+      title: "Editar Detalle"
+  student_progresses:
+    generate_pdf:
+      boletin: "Boletin"
+      title_boletin: "INSTITUCION EDUCATIVA CAMILO TORRES - ZIPAQUIRA"
+      boletin_report: "BOLETIN DE INFORMES"
+      period: "PERIODO"
+      date: "FECHA"
+      student_name: "NOMBRE"
+      grade: "GRADO"
+      rating: "VALORACIÓN"
+      rating_excelent: "E: EXCELENTE DE 46 A 50"
+      rating_outstanding: "S: SOBRESALIENTE DE 40 A 45"
+      rating_acceptable: "A: ACEPTABLE DE 33 A 39"
+      rating_insufficient: "I: INSUFICIENTE DE 1 A 32"
+      rating_excelent_super: "DESEMPEÑO SUPERIOR DE 46 A 50"
+      rating_outstanding_super: "DESEMPEÑO ALTO DE 40 A 45"
+      rating_acceptable_super: "DESEMPEÑO BÁSICO DE 33 A 39"
+      rating_insufficient_super: "DESEMPEÑO BAJO DE 1 A 32"
+  teacher_asignatures:
+    form:
+        teacher_id: "Docente"
+        sub_grade_id: "Curso"
+        educational_asignature_id: "Asignatura"
+        save: "Guardar"
+    index:
+      title: "Docente Asignaturas"
+      teacher_id: "Docente"
+      sub_grade_id: "Grado"
+      educational_asignature_id: "Asignatura"
+      label_total: "Total de Elementos"
+      eliminate: "Está seguro?"
+    new:
+      title: "Nuevo Docente Asignatura"
+    edit:
+      title: "Editar Docente Asignatura"
+    update_sub_grade:
+      sub_grade_id: "Curso"
+    update_asignatures:
+      educational_asignature_id: "Asignatura"
+  score_details:
+    new:
+      title: "Detalle de calificaciones"
+  student_trackings:
+    new:
+      title: "Ingreso de calificaciones"
+    student_comment:
+      title: "Ingreso de observaciones"
+    score_tracking_report:
+      title: "Reporte seguimiento notas"
+  sub_grades:
+    form:
+        course_director_id: "Director de Curso"
+        grade_id: "Grado"
+        name: "Curso"
+        description: "Descripción"
+        save: "Guardar"
+    index:
+      title: "Cursos Educativos"
+      course_director_id: "Director de Curso"
+      grade_id: "Grado"
+      name: "Curso"
+      description: "Descripción"
+      label_total: "Total de Elementos"
+      eliminate: "Está seguro?"
+    new:
+      title: "Nuevo Curso Educativo"
+    edit:
+      title: "Editar Curso Educativo"
+  student_sub_grades:
+    add_score:
+          periodo_id: "Periodo"
+          grade_asignature_id: "Asignatura grado"
+          educational_asignature_id: "Asignaturas"
+          search: "Buscar"
+          save: "Guardar"
+          label_total: "Total de Elementos"
+
+    form:
+        school_year_id: "Año Escolar"
+        student_id: "Alumno"
+        sub_grade_id: "Curso"
+        save: "Guardar"
+    index:
+      title: "Cursos Estudiantes"
+      school_year_id: "Año Escolar"
+      student_id: "Alumno"
+      sub_grade_id: "Curso"
+      label_total: "Total de Elementos"
+    new:
+      title: "Nuevo Curso Estudiante"
+    edit:
+      title: "Editar Curso Estudiante"
+  users:
+    login: "Entrar"
+    index:
+      title: "Listando Usuarios"
+      name: "Nombres"
+      last_name: "Apellidos"
+      username: "Usuario"
+      email: "Correo"
+      password: "Contraseña"
+      identity: "Identificación"
+      company_id: "Centro Educativo"
+      localization_id: "Sede"
+      country_id: "País"
+      city_id: "Ciudad"
+      role_id: "Rol"
+      gender: "Género"
+      status: "Estado"
+    new:
+      title: "Nuevo Usuario"
+    edit:
+      title: "Editar Usuario"
+    form:
+      name: "Nombres"
+      last_name: "Apellidos"
+      username: "Usuario"
+      email: "Correo"
+      password: "Contraseña"
+      identity: "Identificación"
+      company_id: "Centro Educativo"
+      localization_id: "Sede"
+      country_id: "País"
+      city_id: "Ciudad"
+      role_id: "Rol"
+      gender_m: "Mujer"
+      gender_h: "Hombre"
+      save: "Guardar"
+
+  educational_performances:
+    form:
+      educational_performances_list_id: "Desempeño"
+      description: "Desempeños educativos"
+      educational_asignature_id: "Asignatura"
+      educational_period_id: "Periodo"
+      grade_id: "Grado"
+      school_year_id: "Año escolar"
+      save: "Guardar"
+    index:
+      description: "Desempeños Educativos"
+      educational_asignature_id: "Asignatura"
+      grade_id: "Grado"
+      school_year_id: "Año escolar"
+      label_total: "Total de Elementos"
+      educational_period_id: "Periodo"
+      eliminate: " Esta seguro?"
+    new:
+      title: "Desempeños Educativos"
+    edit:
+      title: "Desempeños Educativos"
+
+
+  educational_performance_grades:
+    form:
+      educational_performances_list_id: "Desempeño"
+      description: "Desempeños educativos"
+      educational_asignature_id: "Asignatura"
+      educational_period_id: "Periodo"
+      grade_id: "Grado"
+      school_year_id: "Año escolar"
+      save: "Guardar"
+    index:
+      description: "Desempeños Educativos"
+      educational_asignature_id: "Asignatura"
+      grade_id: "Grado"
+      school_year_id: "Año escolar"
+      label_total: "Total de Elementos"
+      educational_period_id: "Periodo"
+      eliminate: " Esta seguro?"
+    new:
+      title: "Configuración Desempeños Educativos"
+    edit:
+      title: "Configuración Desempeños Educativos"
+
+  educational_performances_lists:
+    form:
+      description: "Desempeño"
+      grade_id: "Grado"
+      educational_asignature_id: "Asignatura"
+      status: "Estado"
+      save: "Guardar"
+    index:
+      name: "Desempeño"
+      grade_id: "Grado"
+      educational_asignature_id: "Asignatura"
+      status: "Estado"
+      eliminate: " Esta seguro?"
+      label_total: "Total de Elementos"
+    new:
+      title: "Lista de Desempeños Educativos"
+    edit:
+      title: "Lista de Desempeños Educativos"
+
+  activerecord:
+    models:
+      students_grade: " matricula estudiante"
+      area: "area"
+      education_level: "nivel educativo"
+      educational_area: "area educativa"
+      educational_asignature: "asignatura educativa"
+      educational_period: "periodo educativo"
+      grade: "grado"
+      teacher_asignature: "Docente Asignaturas"
+      sd_detail: "Detalle de notas"
+      user: "Usuario"
+      sub_grade: "Curso Educativo"
+      student_sub_grade: "Cursos a Estudiantes"
+      grade_asignature: "grado asignatura"
+      educational_performance: "desempeños educativos"
+      educational_performance_grade: "desempeños educativos"
+      educational_performances_list: "lista de desempeños educativos"
+      school_year: "año escolar"
+    attributes:
+      students_grade:
+        student_id: "Alumno"
+        school_year_id: "Año escolar"
+        grade_id: "Grado"
+      grade_asignature:
+        educational_asignature_id: "Asignatura"
+        grade_id: "Grado"
+        internal_order: "Orden Interno"
+
+      educational_asignature:
+        educational_area_id: "Area Educativa"
+        name: "Asignatura"
+        description: "Descripción"
+
+      educational_performance:
+        description: "Desempeños educativos"
+        educational_period_id: "Periodo"
+        educational_asignature_id: "Asignatura"
+        grade_id: "Grado"
+        school_year_id: "Año escolar"
+        label_total: "Total de Elementos"
+
+      educational_performance_grade:
+        description: "Desempeños educativos"
+        educational_period_id: "Periodo"
+        educational_asignature_id: "Asignatura"
+        grade_id: "Grado"
+        school_year_id: "Año escolar"
+        label_total: "Total de Elementos"
+
+      educational_performances_list:
+        description: " Desempeño"
+        grade_asignature_id: ""
+        grade_id: "Grado"
+        status: "Estado"
+
+      student_sub_grade:
+        school_year_id: "Año Escolar"
+        student_id: "Alumno"
+        sub_grade_id: "Curso"
+
+
+      area:
+        name: "Area"
+        parent_id: "Superior"
+        status: "Estado"
+      business_unit:
+        name: "Unidad de Negocio"
+        status: "Estado"
+      city:
+        name: "Ciudad"
+        country_id: "País"
+      country:
+        name: "País"
+        language_id: "Idioma"
+      company:
+        name: "Empresa"
+        address: "Dirección"
+        contact: "Contacto"
+        phone: "Teléfono"
+      education_level:
+        name: "Nivel educativo"
+        description: "Descripción"
+      educational_area:
+        education_level_id: "Nivel Educativo"
+        name: "Area Educativa"
+        description: "Descripción"
+      educational_period:
+        name: "Periodo Educativo"
+        description: "Descripción"
+        internal_order: "Orden Interno"
+        start_date: "Fecha Inicial"
+        end_date: "Fecha Final"
+      grade:
+        education_level_id: "Nivel Educativo"
+        name: "Grado"
+        description: "Descripción"
+      group:
+        name: "Grupo"
+        parent_id: "Superior"
+        status: "Estado"
+      localization:
+        name: "Localización"
+        parent_id: "Superior"
+        status: "Estado"
+      position:
+        name: "Cargo"
+        position_level_id: "Nivel de Cargo"
+        description: "Descripción"
+        status: "Estado"
+      position_level:
+        name: "Nivel de Cargo"
+      role:
+        name: "Rol"
+      teacher_asignature:
+        teacher_id: "Docente"
+        sub_grade_id: "Curso"
+        educational_asignature_id: "Asignaturas"
+      sub_grade:
+        course_director_id: "Director de Curso"
+        grade_id: "Grado"
+        name: "Curso"
+        description: "Descripción"
+      student_sub_grade:
+        school_year_id: "Año Escolar"
+        student_id: "Alumno"
+        sub_grade_id: "Curso"
+      sd_detail:
+        name: "Detalle"
+      school_year:
+        name: "Año escolar"
+        date_begin: "Fecha de inicio"
+        date_end: "Fecha final"
+      user:
+        username: 'Usuario'
+        password: 'Clave'
+        remember_me: 'Recuerdame'
+        name: "Nombre"
+        last_name: "Apellidos"
+        email: "Correo"
+        identity: "Identificación"
+        gender: "Género"
+        since_date: "Fecha de Ingreso"
+        company_id: "Centro Educativo"
+        area_id: "Area"
+        localization_id: "Sede"
+        position_id: "Cargo"
+        group_id: "Grupo"
+        business_unite_id: "Unidad de Negocio"
+        country_id: "Pais"
+        city_id: "Ciudad"
+        role_id: "Rol"
+        status: "Estado"
+    errors:
+      models:
+        students_grade:
+          attributes:
+            student_id:
+              blank: " es requerido"
+            school_year_id:
+              blank: " es requerido"
+            grade_id:
+              blank: " es requerido"
+        school_year:
+          attributes:
+            name:
+              blank: " es requerido"
+            date_begin:
+              blank: " es requerido"
+            date_end:
+              blank: " es requerido"
+        grade_asignature:
+          attributes:
+            educational_asignature_id:
+              blank: " es requerido"
+            grade_id:
+              blank: " es requerido"
+            internal_order:
+              blank: " es requerido"
+
+        educational_performance:
+          attributes:
+            school_year_id:
+              blank: " es requerido"
+            educational_period_id:
+              blank: " es requerido"
+            educational_asignature_id:
+              blank: " es requerido"
+            grade_id:
+              blank: " es requerido"
+            description:
+              blank: " es requerido"
+
+        educational_performance_grade:
+          attributes:
+            school_year_id:
+              blank: " es requerido"
+            educational_period_id:
+              blank: " es requerido"
+            educational_asignature_id:
+              blank: " es requerido"
+            grade_id:
+              blank: " es requerido"
+            description:
+              blank: " es requerido"
+
+        educational_performances_list:
+          attributes:
+            description:
+              blank: " es requerido"
+              taken: " ya está creado"
+            grade_id:
+              blank: " es requerido"
+            educational_asignature:
+              blank: " es requerido"
+
+        student_sub_grade:
+          attributes:
+            student_id:
+              blank: " es requerido"
+            school_year_id:
+              blank: " es requerido"
+            sub_grade_id:
+              blank: " es requerido"
+
+        area:
+          attributes:
+            name:
+              blank: " es requerido"
+        education_level:
+          attributes:
+            name:
+              blank: "es requerido"
+              taken: "ya está creado"
+        educational_area:
+          attributes:
+            education_level_id:
+              blank: "es requerido"
+            name:
+              blank: "es requerido"
+              taken: "ya está creado"
+        educational_asignature:
+          attributes:
+            educational_area_id:
+              blank: "es requerido"
+            name:
+              blank: "es requerido"
+              taken: "ya está creado"
+        educational_period:
+          attributes:
+            name:
+              blank: "es requerido"
+              taken: "ya está creado"
+            internal_order:
+              blank: "es requerido"
+              taken: "ya está asignado"
+              not_a_number: "no es un número entero"
+            start_date:
+              blank: "es requerida"
+              taken: "ya está asignada"
+            end_date:
+              blank: "es requerida"
+              taken: "ya está asignada"
+        group:
+          attributes:
+            name:
+              blank: " es requerido"
+        grade:
+          attributes:
+            name:
+              blank: " es requerido"
+              taken: " ya está creado"
+            education_level_id:
+              blank: "es requerido"
+        position:
+          attributes:
+            name:
+              blank: " es requerido"
+            position_level_id:
+              blank: " es requerido"
+        position_level:
+          attributes:
+            name:
+              blank: " es requerido"
+        city:
+          attributes:
+            name:
+              blank: " es requerido"
+            country_id:
+              blank: " es requerido"
+        teacher_asignature:
+          attributes:
+            teacher_id:
+              blank: " es requerido"
+              invalid: " ya se encuentra asignado a la asignatura del curso seleccionado."
+            sub_grade_id:
+              blank: " es requerido"
+            educational_asignature_id:
+              blank: " es requerido"
+        sd_detail:
+          attributes:
+            name:
+              blank: "es requerido"
+        sub_grade:
+          attributes:
+            grade_id:
+              blank: "es requerido"
+            name:
+              blank: " es requerido"
+              taken: "ya se encuentra asignado al Grado"
+            course_director_id:
+              blank: " es requerido"
+        user:
+          attributes:
+            name:
+              blank: " es requerido"
+            last_name:
+              blank: " es requerido"
+            username:
+              blank: " es requerido"
+            identity:
+              blank: " es requerido"
+              not_a_number: " debe ser un número"
+              too_short: " ingrese mínimo 8 dígitos"
+            role_id:
+              blank: " es requerido"
+            email:
+              taken: " ya está creado"
+            password:
+              blank: " es requerido"
+            email:
+              blank: " es requerido"
+            email:
+              invalid: "correo invalido"
+            email:
+              blank: " es requerido"
+            email:
+              invalid: " correo invalido"
+  eliminate: "Está seguro?"
+  str_gender_m: "Mujer"
+  str_gender_h: "Hombre"
+  str_status_active: "Activo"
+  str_status_inactive: "Inactivo"
+  str_language_es: "Español"
+  str_language_en: "Ingles"
+  error_form: " corrija los datos para guardar: "
+  str_select_field: "Seleccione"
+  str_msg_destroy: "Seleccione"
+
+  devise:
+    confirmations:
+      confirmed: "Su email ha sido confirmada satisfactoriamente."
+      send_instructions: "Usted recibirá un correo electrónico con instrucciones sobre cómo confirmar su dirección de correo electrónico en unos pocos minutos ."
+      send_paranoid_instructions: "Si existe su dirección de correo electrónico en nuestra base de datos , usted recibirá un correo electrónico con instrucciones sobre cómo confirmar su dirección de correo electrónico en unos pocos minutos ."
+    failure:
+      already_authenticated: "Usted ya está registrado."
+      inactive: "Su cuenta aún no está activada."
+      invalid: "Invalido %{authentication_keys} o clave."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid %{authentication_keys} or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "Necesita ingresar para continuar."
+      unconfirmed: "You have to confirm your email address before continuing."
+    mailer:
+      confirmation_instructions:
+        subject: "Confirmation instructions"
+      reset_password_instructions:
+        subject: "Reset password instructions"
+      unlock_instructions:
+        subject: "Unlock instructions"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
+    passwords:
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password has been changed successfully. You are now signed in."
+      updated_not_active: "Your password has been changed successfully."
+    registrations:
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
+      updated: "Your account has been updated successfully."
+    sessions:
+      signed_in: "Ingreso satisfactorio."
+      signed_out: "Sesión Cerrada"
+      already_signed_out: "Signed out successfully."
+    unlocks:
+      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
+    template:
+      body: "Hay inconvenientes con los siguientes campos:"
+      header:
+        one: "1 error ha impedido que este %{model} se guarde"
+        other: "%{count} errores han impedido que este %{model} se guarde"

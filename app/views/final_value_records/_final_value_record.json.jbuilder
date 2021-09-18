@@ -1,0 +1,2 @@
+json.extract! final_value_record, :id, :student_sub_grade_id, :educational_area_id, :average_total_score, :recovered_score, :created_at, :updated_at
+json.url final_value_record_url(final_value_record, format: :json)

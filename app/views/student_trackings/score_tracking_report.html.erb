@@ -1,0 +1,418 @@
+<style>
+
+  .table-form-score {
+    margin: auto;
+    margin-top: 50px;
+  }
+
+  .table-form-score #main-header th {
+    padding: 1px;
+  }
+  .table-form-score #main-header th div {
+    padding: 5px;
+    background-color: #7f8c8d;
+    box-sizing: border-box;
+    border-radius: 3px;
+    height: 50px;
+    color: #ecf0f1;
+  }
+
+  .table-form-score tbody td div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    border: 1px solid #bdc3c7;
+    margin: 1px;
+    border-radius: 3px;
+    height: 46px;
+    line-height: 32px;
+    text-align: center;
+    position: relative;
+  }
+
+  .table-form-score  tbody tr:hover {
+    background-color: #ecf7ff;
+  }
+
+  .table-form-score  tbody td div.score-field-final {
+    background-color: #b9e1d9;
+  }
+
+  .table-form-score  tbody td div.score-field-final.color-final {
+    background-color: #f8dbc8;
+  }
+
+  .table-form-score  tbody td div.score-field:hover {
+    background-color: #d6eeff;
+    cursor: pointer;
+  }
+
+  .table-form-score  tbody td div.score-field:after {
+      content: '';
+      width:0px;
+      height:0px;
+      border-left:5px solid transparent; /* izquierda flecha */
+      border-right:5px solid transparent; /* derecha flecha */
+      border-top:5px solid #3d566e; /* base flecha y color*/
+      font-size:0px;
+      line-height:0px;
+      position: absolute;
+      bottom: 5px;
+      left: 18px;
+  }
+
+  .table-form-score tbody td .avatar {
+    padding: 5px;
+  }
+
+  .table-form-score .avatar img {
+    border-radius: 50px;
+    height: 35px;
+  }
+
+  .header-performance {
+    background-color: red;
+    height: 30px;
+    font-size: .7em;
+    line-height: 30px;
+    margin: 1px;
+    padding: 0 5px;
+    border-radius: 3px;
+    color: #ecf0f1;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .colorRed {
+    background-color: #e74c3c;
+    color: #ecf0f1;
+  }
+  .colorOrange {
+    background-color: #e67e22;
+    color: #ecf0f1;
+  }
+  .colorYellow {
+    background-color: #f1c40f;
+    color: #ecf0f1;
+  }
+  .colorGreen {
+    background-color: #2ecc71;
+    color: #ecf0f1;
+  }
+
+  .colorRedText {
+    color: #e74c3c;
+  }
+  .colorOrangeText {
+    color: #e67e22;
+  }
+  .colorYellowText {
+    color: #f1c40f;
+  }
+  .colorGreenText {
+    color: #2ecc71;
+  }
+
+  .colorRedDark {
+    background-color: #c0392b;
+    color: #ecf0f1;
+  }
+
+  .colorOrangeDark {
+    background-color: #d35400;
+    color: #ecf0f1;
+  }
+
+  .colorYellowDark {
+    background-color: #f39c12;
+    color: #ecf0f1;
+  }
+
+  .colorGreenDark {
+    background-color: #27ae60;
+    color: #ecf0f1;
+  }
+
+  .colorGreenLight {
+    background-color: #b9e1d9;
+    color: #ecf0f1;
+  }
+
+  .colorOrangeLight {
+    background-color: #f8dbc8;
+    color: #ecf0f1;
+  }
+
+  .table-form-score  tbody td div.colorRed:hover {
+    background-color: #c0392b;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+  .table-form-score  tbody td div.colorOrange:hover {
+    background-color: #d35400;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+  .table-form-score  tbody td div.colorYellow:hover {
+    background-color: #f39c12;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+  .table-form-score  tbody td div.colorGreen:hover {
+    background-color: #27ae60;
+    color: #ecf0f1;
+    cursor: pointer;
+  }
+
+  .select-score {
+    background: #dceeff;
+    border-radius: 5px;
+    border: 4px solid #bdc3c7;
+    width: 200px;
+    height: 320px;
+    position: absolute;
+    z-index: 100;
+  }
+
+  .select-score:before {
+    content: '';
+    width:0px;
+    height:0px;
+    border-top: 8px solid transparent; /* izquierda flecha */
+    border-bottom: 8px solid transparent; /* derecha flecha */
+    border-right: 11px solid #bdc3c7; /* base flecha y color*/
+    font-size:0px;
+    line-height:0px;
+    position: absolute;
+    top: 5px;
+    left: -15px;
+  }
+
+  .select-score:after {
+    content: '';
+    width:0px;
+    height:0px;
+    border-top: 8px solid transparent; /* izquierda flecha */
+    border-bottom: 8px solid transparent; /* derecha flecha */
+    border-right: 11px solid #dceeff; /* base flecha y color*/
+    font-size:0px;
+    line-height:0px;
+    position: absolute;
+    top: 5px;
+    left: -8px;
+  }
+
+  .close-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #bdc3c7;
+    cursor: pointer;
+  }
+
+  .items-score {
+    position: relative;
+    top: 30px;
+    margin: auto;
+    display: table;
+  }
+
+  .items-score table div {
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    line-height: 25px;
+    font-size: .7em;
+    margin: 1px;
+    color: #ecf0f1;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  /*.items-score table th div {
+    background: #8e44ad;
+  }
+
+  .items-score table td div {
+    background: #9b59b6;
+  }*/
+
+  .weights {
+    font-size: .8em;
+    height: 30px;
+    line-height: 20px;
+  }
+
+  .info-colors {
+    background-color: #f8fafa;
+    padding: 10px;
+    border: 4px solid #22A7F0;
+    border-radius: 4px;
+    font-size: .7em;
+    width: 270px;
+    position: absolute;
+    top: 220px;
+  }
+
+  .window-disabled {
+    background: rgba(0, 0, 0, 0.5);
+    width: 3000px;
+    height: 3000px;
+    position: absolute;
+    top: -200px;
+    left: -1000px;
+    z-index: 100;
+  }
+
+  .content-table-score {
+    overflow: scroll;
+    height: 500px;
+    width: 1200px;
+    margin: auto;
+  }
+
+  .info-colors {
+    position: initial;
+  }
+
+  .link-add-performance {
+    color: #ecf0f1;
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  .link-add-performance:hover {
+    color: #16a085;
+  }
+
+  .form__block_style {
+    overflow-x: scroll;
+  }
+
+  @media only screen and (max-width: 768px) {
+      .info-colors {
+        top: 300px;
+      }
+  }
+</style>
+
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+
+<div class="grupo">
+  <div class="caja">
+    <h3><%= t('.title') %></h3>
+  </div>
+</div>
+<div class="grupo total">
+  <div class="caja form__block_style">
+    <%= render 'form_tracking' %>
+  </div>
+</div>
+<br>
+<% if @students.any? %>
+  <div class="grupo total">
+    <div class="caja form__block_style">
+      <!--%= render 'table_score' %-->
+      <table class="table-form-score" border="0">
+        <thead>
+          <tr id='main-header'>
+            <th><div style="width: 50px;">&nbsp;</div></th>
+            <th><div style="width: 200px;">Apellidos</div></th>
+            <th><div style="width: 200px;">Nombres</div></th>
+            <% @educational_asignatures.each do |educational_asignature| %>
+              <th><div style="width: <%= (educational_asignature.name.size * 100) < 140 ? educational_asignature.name.size * 10 : 140 %>px;"><%= educational_asignature.name %></div></th>                
+            <% end %>
+            <%# <th><div style="width: 80px;">Def</div></th> %>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <% @students.each do |user| %>
+            <tr>
+              <td>
+                <div class="avatar">
+                  <%= image_tag '/images/thumb/missing-boy.png' %>
+                </div>
+              </td>
+              <td>
+                <div><%= user.last_name.mb_chars.titleize %></div>
+              </td>
+              <td>
+                <div><%= user.name.mb_chars.titleize %></div>
+              </td>
+              <% @educational_asignatures.each do |educational_asignature| %>
+                <%
+                student_sub_grades = StudentSubGrade.where(school_year_id: @school_year_id, student_id: user.id)
+                @student_progresses_tmp = @student_progresses.where("student_progresses.educational_asignature_id = ? AND student_progresses.student_sub_grade_id IN (?)", educational_asignature.id, student_sub_grades.pluck(:id))
+                %>
+                <td>
+                  <div>
+                    <!--%= @student_progresses_tmp.map {|s| s.id}  %>
+                    <br-->
+                    <%= @student_progresses_tmp.any? ? sprintf("%.1f", @student_progresses_tmp.sum(:score).to_f / @student_progresses_tmp.size) : "" %>
+                  </div>
+                </td>
+              <% end %>
+              <%# <td>
+                <div>-</div>
+              </td> %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $("#filter-button").click(function(){
+    ano = $("#school_year_id").val();
+    period_id = $("#educational_period_id").val();
+    sub_grade_id = $("#sub_grade_id").val();
+    educational_asignature_id = $("#score_detail_educational_asignature_id").val();
+    if (ano != "" && period_id != "" && sub_grade_id != "") {
+    } else {
+      alert("Debe selecionar periodo, curso y asignatura.");
+      return false;
+    }
+  });
+  // ************* VERIFICA QUE LAS OPCIONES DEL FILTRO NO ESTÉN VACÍAS ANTES DE FILTAR
+  $("#sub_grade_id").click(function(){
+    if ($("#educational_period_id").val() == "") {
+      alert("Por favor, seleccione periodo.");
+    }
+  });
+
+  $("#score_detail_educational_asignature_id").click(function(){
+    if ($("#educational_period_id").val() == "") {
+        alert("Por favor, seleccione periodo.");
+    } else {
+      if ($("#sub_grade_id").val() == "") {
+        alert("Por favor, seleccione curso.");
+      }
+    }
+  });
+  //********************************************
+
+  if($('#sub_grade_id').val() != ""){
+    $.get("/student_trackings/update_asignatures", {
+        sg_id: $('#sub_grade_id').val(),
+        syid: $("#school_year_id").val(),
+        all_data: "1"
+      }, function(data){
+        $('#score_detail_educational_asignature_id').val("<%= @educational_asignature_id %>");
+      }
+    );
+  }
+  // ACTUALIZACIÓN DE ASIGNATURAS SEGÚN CURSO
+  $('#sub_grade_id').on('change click', function(){
+    if($(this).val() != ""){
+      $.get("/student_trackings/update_asignatures", {
+          sg_id: $(this).val(),
+          syid: $("#school_year_id").val(),
+          all_data: "1"
+        }, function(data){
+      });
+    }
+  });
+</script>

@@ -1,0 +1,66 @@
+<%= form_tag student_trackings_score_tracking_report_path do %>
+  <%# <div class="auto-save hide-element">
+    <i class="fa fa-refresh fa-spin"></i>Guardando automáticamente ...
+  </div>
+
+  <div class="save-score hide-element">
+    <i class="fa fa-refresh fa-spin"></i>Nota guardada ...
+  </div>
+
+  <div class="window-disabled">asdfasdfa</div> %>
+
+  <br>
+  <div class="grupo">
+    <%= hidden_field_tag "data_autosave", 0 %>
+
+    <div class="caja tablet-30">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= select_tag "school_year_id", options_from_collection_for_select(@school_years, "id", "name", @school_year.id), prompt: "#{t('str_select_field')} Año escolar" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="caja tablet-30">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= select_tag "educational_period_id", options_from_collection_for_select(@educational_periods, "id", "name", @educational_period_id_range), prompt: "#{t('str_select_field')} Periodo" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caja tablet-30">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= select_tag "sub_grade_id", options_from_collection_for_select(@sub_grades, "id", "name", @sub_grade_id), prompt: "#{t('str_select_field')} Curso" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <!--div class="caja tablet-20">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <= select_tag "score_detail_educational_asignature_id", options_from_collection_for_select(@educational_asignatures, "id", "name", @score_detail_educational_asignature_id), prompt: "#{t('str_select_field')} Asignatura" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div-->
+
+    <div class="caja">
+      <!--%= link_to "Aceptar", "#", class: "button-link" %-->
+      <br>
+      <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', name: "commit", value: "filter", class: "form__submit_button", id: "filter-button") do %>
+        <i class="fa fa-search fa-lg"></i> Filtrar
+      <% end %>
+    </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<% if @score_details.any? %>
+  $("#tbody").empty().append("<%= escape_javascript(render(:partial => @score_details)) %>").hide();
+  <% if @flag_add_fields == 1 %>
+    $("#tbody").append("<%= escape_javascript(render 'score_detail_empty') %>").hide();
+    <%  @flag_add_fields = 0 %>
+  <% end %>
+<% else %>
+  $("#tbody").empty().append("<%= escape_javascript(render 'score_detail_empty') %>").hide();
+<% end %>
+
+$("#tbody").show('slow');

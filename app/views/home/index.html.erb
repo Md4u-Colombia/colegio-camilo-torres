@@ -1,0 +1,52 @@
+<%if(current_user.role_id ==  0)%>
+	<!--% if (current_user.id == 1 or current_user.id == 2) %>
+		<center><= image_tag("happy_birthday.jpg", :style=>"margin-top: 5px;height: 720px;") %></center>
+	< else %-->
+		<center><%= image_tag("alumnos.jpg",size: "960x720", :style=>"margin-top: 5px;") %></center>
+	<!--% end %-->
+	<% link_to t('home.student_trackings'), student_trackings_path, :class => 'navbar-link'  %><br>
+
+	<% link_to t('home.student_progresses'), student_progresses_path, :class => 'navbar-link'  %><br>
+	<% link_to t('home.educational_asignatures'), educational_asignatures_path, :class => 'navbar-link'  %><br>
+	<!--%= link_to t('home.score_details'), score_details_path, :class => 'navbar-link'  %><br-->
+	<% link_to t('home.student_sub_grades'), student_sub_grades_path, :class => 'navbar-link'  %><br>
+	<% link_to t('home.school_years'), school_years_path, :class => 'navbar-link'  %><br>
+
+	<% link_to t('home.sub_grade_teachers'), sub_grade_teachers_path, :class => 'navbar-link'  %><br>
+
+
+
+
+	  <% link_to t('home.teacher_asignatures'), teacher_asignatures_path, :class => 'navbar-link'  %><br>
+
+	<!--% link_to "Areas", areas_path, :class => 'navbar-link'  %><br-->
+	<!-- %= link_to "Cargos", positions_path, :class => 'navbar-link'  %><br-->
+	<% link_to t('home.countries'), countries_path, :class => 'navbar-link'  %><br>
+	<% link_to  t('home.cityes'), cities_path, :class => 'navbar-link'  %><br>
+	<!--%= link_to "Grupos", groups_path, :class => 'navbar-link'  %><br-->
+	<!--%= link_to "Niveles de Cargos", position_levels_path, :class => 'navbar-link'  %><br-->
+	<% link_to  t('home.companies'), companies_path, :class => 'navbar-link'  %><br>
+	<% link_to t('home.localizations'), localizations_path, :class => 'navbar-link'  %><br>
+	<!--%= link_to "Unidad de Negocio", business_units_path, :class => 'navbar-link'  %><br-->
+	<% link_to t('home.roles'), roles_path, :class => 'navbar-link'  %><br>
+	<% link_to "Grados - Asignaturas", grade_asignatures_path, :class => 'navbar-link'  %><br>
+<%elsif(current_user.role_id == 1)%>
+	<h1>PERFIL ADMINISTRADOR</h1>
+	<div class="caja-finalizado-oscar">
+	  <%= link_to t('home.sub_grades'), sub_grades_path, :class => 'navbar-link'  %><br>
+	</div>
+	<div class="caja-finalizado-oscar">
+	  <%= link_to t('home.student_sub_grades'), student_sub_grades_path, :class => 'navbar-link'  %><br>
+	</div>
+	<div class="caja-finalizado-oscar">
+	  <%= link_to t('home.educational_performances'), educational_performances_path, :class => 'navbar-link'  %><br>
+	</div>
+	<div class="caja-finalizado-oscar">
+	  <%= link_to t('home.student_progresses'), student_progresses_path, :class => 'navbar-link'  %><br>
+	</div>
+	<div class="caja-finalizado-oscar">
+		<%= link_to t('home.users'), users_path, :class => 'navbar-link'  %><br>
+	</div>
+<%else%>
+	<center><%= image_tag("alumnos.jpg",size: "960x720", :style=>"margin-top: 5px;") %></center>
+<%end%>

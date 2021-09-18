@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Period id:</strong>
+  <%= @student_progress.period_id %>
+</p>
+
+<p>
+  <strong>Student sub grade:</strong>
+  <%= @student_progress.student_sub_grade_id %>
+</p>
+
+<p>
+  <strong>Educational asignature:</strong>
+  <%= @student_progress.educational_asignature %>
+</p>
+
+<p>
+  <strong>Educational performance:</strong>
+  <%= @student_progress.educational_performance_id %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @student_progress.score %>
+</p>
+
+<%= link_to 'Edit', edit_student_progress_path(@student_progress) %> |
+<%= link_to 'Back', student_progresses_path %>

@@ -1,0 +1,108 @@
+<style>
+  #form-duplicate-assignatures {
+    display: none;
+  }
+</style>
+
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<div class="grupo">
+  <div class="caja movil-90 tablet-70 centrar-caja">
+    <div class="form__block">
+      <div class="form__title">
+        <h3><%= t('.title') %></h3>
+      </div>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>
+
+
+<br>
+
+<div class="grupo">
+  <div class="caja movil-90 tablet-70 centrar-caja">
+    <div class="button-link color-button-blue" id="button-duplicate-assignatures">Abrir Duplicar Grados Asignaturas</div>
+    <div class="form__block">
+      <div id="form-duplicate-assignatures">
+        <div class="form__title">
+          <h3>Duplicar grados asignaturas</h3>
+        </div>
+        <div class="form__style">
+          <div class="form__item">
+            <div class="wrapper">
+              <div class="icon-menu text_field__icon"></div>
+              <%= select_tag :school_year_id_old, options_for_select([["Seleccione el año a duplicar", ""]]) + options_from_collection_for_select(SchoolYear.where("id <> ?", SchoolYear.where("name LIKE ?", Time.zone.now.year).first.id).order("name"), "id", "name"), promt: "#{t('str_select_field')} #{t('.school_year_id')}", class: "field__placeholder_icon" %>
+            </div>
+          </div>
+
+          <div class="form__item">
+            <div class="wrapper">
+              <div class="icon-menu text_field__icon"></div>
+              <%= select_tag :school_year_id_current, options_for_select([["Seleccione el año actual", ""]]) + options_from_collection_for_select(SchoolYear.order("name"), "id", "name", SchoolYear.where("name LIKE ?", Time.zone.now.year).first.id), promt: "#{t('str_select_field')} #{t('.school_year_id')}", class: "field__placeholder_icon" %>
+            </div>
+          </div>
+
+        </div>
+        <div class="form__button">
+          <div class="button__border_radius left">
+            <!--%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_grade_asignature_path, class: "button-link color-button-green", style: "position: absolute;" %-->
+          </div>
+          <div class="button__border_radius right">
+            <!--%= button_tag(type: 'submit', class: "form__submit_button") do %>
+              <i class="fa fa-floppy-o fa-lg"></i> <=t('.save')%>
+            < end %-->
+            <div class="button-link color-button-green" id="action-duplicate">Duplicar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 0 10%;">
+  <%= render template: "grade_asignatures/index" %>
+</div>
+
+<script>
+  $("#button-duplicate-assignatures").click(function() {
+    if ($("#form-duplicate-assignatures").is(":visible")) {
+      $("#form-duplicate-assignatures").fadeOut();
+      $(this).text("Abrir Duplicar Grados Asignaturas");
+    } else {
+      $("#form-duplicate-assignatures").fadeIn();
+      $(this).text("Cerrar Duplicar Grados Asignaturas");
+    }
+  });
+
+  $("#action-duplicate").click(function() {
+    msg = "";
+    if ($("#school_year_id_old").val() == "") {
+      msg += "* Debe escoger un año a duplicar\n";
+    }
+
+    if ($("#school_year_id_current").val() == "") {
+      msg += "* Debe escoger el año actual\n";
+    }
+
+    if (msg != "") {
+      msg = "Por favor, revise lo siguiente:\n\n" + msg;
+      alert(msg);
+      return false;
+    }
+    obj_button = $(this)
+    obj_button.html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span class="sr-only"> Duplicando...</span>');
+    $.post("duplicate_grade_asignatures", {school_year_id_old: $("#school_year_id_old").val(), school_year_id_current: $("#school_year_id_current").val()}, function(data) {
+      if (parseInt(data) == 1) {
+        obj_button.html('<i class="fa fa-thumbs-o-up fa-fw"></i><span class="sr-only"> Duplicación Exitosa</span>');
+      } else if (parseInt(data) == 0) {
+        obj_button.removeClass("color-button-green");
+        obj_button.addClass("color-button-red");
+        obj_button.html('<i class="fa fa-remove fa-fw"></i><span class="sr-only"> Error Duplicación</span>');
+      } else {
+        obj_button.removeClass("color-button-green");
+        obj_button.addClass("color-button-red");
+        obj_button.html('<i class="fa fa-remove fa-fw"></i><span class="sr-only"> Ya estaban duplicados</span>');
+      }
+    })
+  });
+</script>

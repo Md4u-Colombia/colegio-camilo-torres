@@ -1,0 +1,1 @@
+json.array! @final_value_records, partial: 'final_value_records/final_value_record', as: :final_value_record

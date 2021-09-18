@@ -1,0 +1,33 @@
+<%= form_for(@average_student_sub_grade) do |f| %>
+  <% if @average_student_sub_grade.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@average_student_sub_grade.errors.count, "error") %> prohibited this average_student_sub_grade from being saved:</h2>
+
+      <ul>
+      <% @average_student_sub_grade.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :student_sub_grade_id %><br>
+    <%= f.text_field :student_sub_grade_id %>
+  </div>
+  <div class="field">
+    <%= f.label :educational_period_id %><br>
+    <%= f.text_field :educational_period_id %>
+  </div>
+  <div class="field">
+    <%= f.label :average %><br>
+    <%= f.text_field :average %>
+  </div>
+  <div class="field">
+    <%= f.label :average %><br>
+    <%= f.text_field :average %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

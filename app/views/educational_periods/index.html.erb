@@ -1,0 +1,83 @@
+<br><br><br>
+<% if @educational_periods.size != 0 %>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@educational_periods) %></center>
+    </div>
+  </div>
+  <div class="content-table">
+    <table class="style-table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :name, t('.name')) %></th>
+          <th><%= sort_link(@search, :description, t('.description')) %></th>
+          <th title="Nombre de la fecha de entrega de boletines" class="tooltip">Mes Informe</th>
+          <th>Fecha Inicial</th>
+          <th>Fecha Final</th>
+          <th><%= sort_link(@search, :internal_order, t('.internal_order')) %></th>
+          <th></th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%= search_form_for @search, url: new_educational_period_url, method: :post do |f| %>
+          <tr>
+            <td><%= f.text_field :name_cont, class: "form-control" %></td>
+            <td><%= f.text_field :description_cont, class: "form-control" %></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><%= f.text_field :internal_order_eq, class: "form-control" %></td>
+            <th colspan="3">
+              <div style="width:100px;">
+                <%= button_tag(type: 'submit', title: "Buscar", class: "button-link color-button-orange tooltip", style: "padding: 8px 10px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top", title: "Filtrar"}) do %>
+                  <span class="fa fa-search fa-lg"></span>
+                <% end %>
+                <%= link_to(new_educational_area_url,{class: 'button-link color-button-red tooltip', title: "Limpiar",  style: "padding: 8px 5px;margin:9px 5px;", :data =>{:toggle=>"tooltip", :placement=>"top"}}) do %>
+                  <span class="fa fa-eraser fa-lg"></span>
+                <% end %>
+              </div>
+            </th>
+          </tr>
+        <% end %>
+        <% @educational_periods.each do |educational_period| %>
+          <tr>
+            <td><%= educational_period.name %></td>
+            <td><%= educational_period.description %></td>
+            <td><%= educational_period.month_report %></td>
+            <td><span style="width:100px;display:block;"><%= educational_period.start_date %></span></td>
+            <td><span style="width:100px;display:block;"><%= educational_period.end_date %></span></td>
+            <td><%= educational_period.internal_order %></td>
+            <td width="30px"></td>
+            <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_educational_period_path(educational_period), class: "format-link tooltip", title: "Editar" %></td>
+            <td><%= link_to '<i class="fa fa-times"></i>'.html_safe, educational_period, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link tooltip", title: "Eliminar" unless assigned_id(StudentProgress,'period_id',educational_period) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="10">
+            <%= t('.label_total') %>: <%= @educational_periods.size %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="grupo total">
+    <div class="caja">
+      <center><%= paginate(@educational_periods) %></center>
+    </div>
+  </div>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('genaral.msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

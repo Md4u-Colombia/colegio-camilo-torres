@@ -1,0 +1,66 @@
+<%= form_for(@educational_asignature) do |f| %>
+  <% if @educational_asignature.errors.any? %>
+
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@educational_asignature.errors.size,
+:model=>t('activerecord.models.educational_asignature')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @educational_asignature.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%if(flash[:error]) %>
+     <div class="error_explanation">
+        <p><%= t('errors.template.body') %></p>
+        <%= flash[:error].html_safe %>
+     </div>
+  <% end %>
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :educational_area_id, EducationalArea.order("education_level_id").map{|el| [ el.education_level.name+' - '+el.name,el.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_area_id')}"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_field :name, class: "field__placeholder_icon", placeholder: "#{t('.name')}" %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_area :description, class: "field__placeholder_icon", placeholder: "#{t('.description')}", style:"height:150px;" %>
+      </div>
+    </div>
+
+    <%if(params[:action] == 'edit' or params[:action] == 'update')%>
+      <div class="form__item">
+        <div class="wrapper">
+          <%= f.label :status %>&nbsp;<%= f.check_box :status %>
+        </div>
+      </div>
+    <%end%>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_educational_asignature_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>

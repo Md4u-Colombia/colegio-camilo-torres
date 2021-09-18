@@ -1,0 +1,28 @@
+<h1><%= t('.title') %></h1>
+<table>
+  <thead>
+    <tr>
+      <th><%=Area.human_attribute_name('name')%></th>
+      <th><%=Area.human_attribute_name('parent_id')%></th>
+      <th><%=Area.human_attribute_name('status')%></th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @areas.each do |area| %>
+      <tr>
+        <td><%= area.name %></td>
+        <td><%= area.parent_id.to_i != 0? Area.find(area.parent_id).name : "" %></td>
+        <td><%= area.status == true ? t('str_status_active') : t('str_status_inactive') %></td>
+        <td><%= link_to 'Show', area %></td>
+        <td><%= link_to 'Edit', edit_area_path(area) %></td>
+        <td><%= link_to 'Destroy', area, method: :delete, data: { confirm: 'Are you sure?' } unless assigned_id(User,'area_id',area.id) or assigned_id(Area,'parent_id',area.id)%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Area', new_area_path %>

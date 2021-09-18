@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @educational_period.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @educational_period.description %>
+</p>
+
+<p>
+  <strong>Internal Order:</strong>
+  <%= @educational_period.internal_order %>
+</p>
+
+<%= link_to 'Edit', edit_educational_period_path(@educational_period) %> |
+<%= link_to 'Back', educational_periods_path %>

@@ -1,0 +1,32 @@
+<table width="100%" border="0" style="margin-left: -22px;">
+	<%for asignature in  update_asignatures %>
+		<tr>
+			<td align="center">
+				<%= check_box_tag 'chk[asignature][]',asignature.educational_asignature_id %>
+			</td>
+			<td>
+				<%= asignature.grade.education_level.name.to_s+' - '+asignature.educational_asignature.name %>
+			</td>
+		</tr>
+	<%end%>
+</table>
+<script>
+ $(function(){
+ 	$('.enviar').click(function(){
+      var clases = new Array();
+      $('#new_teacher_asignature input[type=checkbox]').each(function(){
+        if(this.checked){
+          clases.push($(this).val());
+        }
+      });
+      if(clases == ''){
+        $(".error_explanation").show();
+        $("#show_error").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#show_error").hide();
+      }
+    });
+ });
+</script>

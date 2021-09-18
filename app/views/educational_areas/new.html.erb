@@ -1,0 +1,13 @@
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<div class="grupo">
+  <div class="caja movil-90 tablet-70 centrar-caja">
+    <div class="form__block">
+      <div class="form__title">
+        <h3><%= t('.title') %></h3>
+      </div>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>
+
+<%= render template: "educational_areas/index" %>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Educational asignature:</strong>
+  <%= @grade_asignature.educational_asignature_id %>
+</p>
+
+<p>
+  <strong>Grade:</strong>
+  <%= @grade_asignature.grade_id %>
+</p>
+
+<p>
+  <strong>Internal order:</strong>
+  <%= @grade_asignature.internal_order %>
+</p>
+
+<%= link_to 'Edit', edit_grade_asignature_path(@grade_asignature) %> |
+<%= link_to 'Back', grade_asignatures_path %>

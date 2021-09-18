@@ -1,0 +1,79 @@
+<%= link_to '<i class="fa fa-chevron-left fa-5x"></i>'.html_safe, root_path, class: "format-link-gray animate-left-arrow static-element position-arrow" %>
+<div class="grupo">
+<div class="caja movil-90 tablet-70 centrar-caja">
+  <div class="form__block">
+    <div class="form__title">
+      <h3>Duplicar Desempeños</h3>
+    </div>
+    <%= form_tag "duplicate_educational_performance_grades" do |f| %>
+
+
+	    <div class="form__style">
+	    	<h4>Duplicar de:</h4>
+	    	<div class="form__item">
+		      <div class="wrapper">
+		        <div class="field__placeholder_icon_select">
+		          <div class="fa fa-bars text_field__icon"></div>
+		          <%= select_tag :to_school_year_id, options_from_collection_for_select(SchoolYear.order("name"), "id", "name", @last_school_year_id), promt: "#{t('str_select_field')} #{t('.school_year_id')}", class: "field__placeholder_icon" %>
+		          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+		        </div>
+		      </div>
+		    </div>
+
+		    <div class="form__item">
+		      <div class="wrapper">
+		        <div class="field__placeholder_icon_select">
+		          <div class="fa fa-bars text_field__icon"></div>
+		          	<%= select_tag :to_educational_period_id, options_from_collection_for_select(EducationalPeriod.order("internal_order"), "id", "name", @educational_period_id), promt: "#{t('str_select_field')} #{t('.educational_period_id')}", class: "field__placeholder_icon" %>
+		          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+		        </div>
+		      </div>
+		    </div>
+
+	    	<h4>Duplicar a:</h4>
+		    <div class="form__item">
+		      <div class="wrapper">
+		        <div class="field__placeholder_icon_select">
+		          <div class="fa fa-bars text_field__icon"></div>
+		          <%= select_tag :from_school_year_id, options_from_collection_for_select(SchoolYear.order("name"), "id", "name", @school_year_id), promt: "#{t('str_select_field')} #{t('.school_year_id')}", class: "field__placeholder_icon" %>
+		          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+		        </div>
+		      </div>
+		    </div>
+
+		    <div class="form__item">
+		      <div class="wrapper">
+		        <div class="field__placeholder_icon_select">
+		          <div class="fa fa-bars text_field__icon"></div>
+		          	<%= select_tag :from_educational_period_id, options_from_collection_for_select(EducationalPeriod.order("internal_order"), "id", "name", @educational_period_id), promt: "#{t('str_select_field')} #{t('.educational_period_id')}", class: "field__placeholder_icon" %>
+		          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+		        </div>
+		      </div>
+		    </div>
+
+		    <div class="form__item">
+		      <div class="wrapper">
+		        <div class="field__placeholder_icon_select">
+		          <div class="fa fa-bars text_field__icon"></div>
+		          	<%= select_tag :from_grade_id, options_for_select(@grades.map { |e| [e.name, e.id] }), promt: "#{t('str_select_field')} #{t('.grade_id')}", class: "field__placeholder_icon" %>
+		          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+		        </div>
+		      </div>
+		    </div>
+
+		  </div>
+
+		  <div class="form__button">
+		    <div class="button__border_radius left">
+		      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, {controller: "educational_performance_grades", action: "duplicate_educational_performance_grades"}, class: "button-link color-button-green", style: "position: absolute;" %>
+		    </div>
+		    <div class="button__border_radius right">
+		      <%= button_tag(type: 'submit', value: "duplicate", class: "form__submit_button enviar") do %>
+		        <i class="fa fa-clipboard fa-lg"></i> Duplicar
+		      <% end %>
+		    </div>
+		  </div>
+	  <% end %>
+  </div>
+</div>
+</div>

@@ -1,0 +1,24 @@
+<h1><%= t('.title') %></h1>
+<table>
+  <thead>
+    <tr>
+      <th><%=PositionLevel.human_attribute_name('name')%></th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @position_levels.each do |position_level| %>
+      <tr>
+        <td><%= position_level.name %></td>
+        <td><%= link_to 'Show', position_level %></td>
+        <td><%= link_to 'Edit', edit_position_level_path(position_level) %></td>
+        <td><%= link_to 'Destroy', position_level, method: :delete, data: { confirm: 'Are you sure?' } unless assigned_id(Position,'position_level_id',position_level.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Position level', new_position_level_path %>

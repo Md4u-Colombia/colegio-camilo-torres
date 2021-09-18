@@ -1,0 +1,229 @@
+<% if @students.any? %>
+
+  <style>
+    .content-table-score {
+      overflow: scroll;
+      height: 500px;
+      width: 1200px;
+      margin: auto;
+    }
+
+    .info-colors {
+      position: initial;
+    }
+
+    .link-add-performance {
+      color: #ecf0f1;
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+
+    .link-add-performance:hover {
+      color: #16a085;
+    }
+  </style>
+  <% array_colors = ["#c0392b", "#27ae60", "#2980b9", "#8e44ad"] %>
+  <div class="grupo total">
+    <div class="caja total">
+      <br><hr class="hr-style"><br>
+      <div class="content-table-score">
+        <table class="table-form-score" border="0">
+          <thead id="header-table">
+            <tr>
+              <th colspan="3" width="150px"></th>
+              <% index_color = 0 %>
+              <% @educational_performance_grades.each_with_index do |educational_performance_grade, index| %>
+                <% if @eduper_score_details.where("educational_performance_grade_id = ? AND sd_detail_id <> 2", educational_performance_grade.id).any? %>
+                  <th colspan="<%= @eduper_score_details.where("educational_performance_grade_id = ?", educational_performance_grade.id).size %>" title="<%= educational_performance_grade.educational_performances_list.description %>"
+                  ><div class="header-performance" style='background-color: <%= array_colors[index] %>; <%= "width: #{48 * @eduper_score_details.where("educational_performance_grade_id = ? AND sd_detail_id <> 2", educational_performance_grade.id).size }px" %>;'><%= educational_performance_grade.educational_performances_list.description %></div></th>
+                <% end %>
+              <% end %>
+              <th></th>
+              <th></th>
+              <th style="display:none;"></th>
+              <th></th>
+            </tr>
+            <tr>
+              <th colspan='3' height='131px' align="left">
+                <div class="info-colors">
+                  <ul>
+                    <li><i class="fa fa-circle colorRedText"></i> 1.0 - 3.2 (Insuficiente - Desempeño Bajo)</li>
+                    <li><i class="fa fa-circle colorOrangeText"></i> 3.3 - 3.9 (Aceptable - Desempeño Básico)</li>
+                    <li><i class="fa fa-circle colorYellowText"></i> 4.0 - 4.5 (Sobresaliente - Desempeño Alto)</li>
+                    <li><i class="fa fa-circle colorGreenText"></i> 4.6 - 5.0 (Excelente - Desempeño Superior)</li>
+                  </ul>
+                </div>
+              </th>
+              <% @eduper_score_details.where("sd_detail_id <> 2").order(:educational_performance_grade_id).each do |eduper_score_detail| %>
+                <th class='rotate' title="<%= eduper_score_detail.description %>"><div><span><%= eduper_score_detail.name %></span></div></th>
+              <% end %>
+              <% if @flag_exist_field_evaluation %>
+                <th class='rotate'><div><span style="background-color: #3498db;"><%= EducationalPerformanceGrade.find(@eduper_score_details.where("sd_detail_id = 2").first.educational_performance_grade_id).educational_performances_list.description %></span></div></th>
+              <% end %>
+              <th width='50'></th>
+              <th class='rotate-expand' rowspan='2' style="display:none;"><div><span>Acumulado</span></div></th>
+              <th class='rotate-expand' rowspan='2'><div><span style='background-color: #d35400;'>Definitiva</span></div></th>
+            </tr>
+            <tr id='main-header'>
+              <th><div style="width:50px">&nbsp;</div></th>
+              <th><div style="width:200px">Apellidos</div></th>
+              <th><div style="width:200px">Nombres</div></th>
+              <% ante_last_performance = 0 %>
+              <% @eduper_score_details.where("sd_detail_id <> 2").order(:educational_performance_grade_id).each_with_index do |eduper_score_detail, index| %>
+                <%
+                  unless ante_last_performance == eduper_score_detail.educational_performance_grade_id
+                    if ante_last_performance != 0
+                      index_color += 1
+                    end
+                  end
+                %>
+                <th width='50'><div id='weight-#{score_detail.weight}' class='weights' style="font-size: .6em;background-color: <%= array_colors[index_color] %>" title="(<%= eduper_score_detail.weight %>/70.0) %"><%= eduper_score_detail.weight %>%</div></th>
+                <% ante_last_performance = eduper_score_detail.educational_performance_grade_id %>
+              <% end %>
+
+              <% if @flag_exist_field_evaluation %>
+                <th><div id='weight-#{score_detail.weight}' class='weights' style="background-color: #2980b9; font-size: .7em"><%= @eduper_score_details.where("sd_detail_id = 2").first.weight %> %</div></th>
+              <% end %>
+
+              <th><div style="background-color: #2ecc71;width: 46px;"><%= link_to "<i class='fa fa-plus-circle fa-lg'></i>".html_safe, new_eduper_score_detail_path(syid: params[:school_year_id], epid: params[:educational_period_id], sgid: params[:sub_grade_id], eaid: params[:score_detail_educational_asignature_id]), class: "ifancybox_new_eduper_score_detail link-add-performance" %></div></th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <% @students.each do |user| %>
+              <tr>
+                <td>
+                  <div class="avatar">
+                    <%= image_tag '/images/thumb/missing-boy.png' %>
+                  </div>
+                </td>
+                <td>
+                  <div><%= user.last_name.mb_chars.titleize %></div>
+                </td>
+                <td>
+                  <div><%= user.name.mb_chars.titleize %></div>
+                </td>
+                <%
+                @student_trackings = StudentTracking.where("user_id = ? AND eduper_score_detail_id IN (?)", user.id, @eduper_score_details.pluck(:id))
+                %>
+                <% @eduper_score_details.order(:educational_performance_grade_id).each do |eduper_score_detail| %>
+                  <% @student_tracking = StudentTracking.where("user_id = ? AND eduper_score_detail_id = ?", user.id, eduper_score_detail.id) %>
+
+                  <% if @flag_exist_field_evaluation %>
+                    <td width="50">
+                      <% if @student_tracking.any? %>
+                        <%
+                        score = @student_tracking.last.score.to_f
+                        # puts "-------------score: #{@student_tracking.last}"
+                        if score >= 0 and score <= 3.2
+                          classColor = "colorRed"
+                        elsif score >= 3.3 and score <= 3.9
+                          classColor = "colorOrange"
+                        elsif score >= 4.0 and score <= 4.5
+                          classColor = "colorYellow"
+                        elsif score >= 4.6 and score <= 5.0
+                          classColor = "colorGreen"
+                        end
+                        %>
+                        <% unless @student_tracking.last.score.nil? %>
+                          <div class="score-field scores-<%= user.id %> <%= classColor %>" id="scoreField-<%= user.id%>_<%= eduper_score_detail.id %>" title="<%= eduper_score_detail.id %>">
+                            <%= '%.1f' % score %>
+                          </div>
+                        <% else %>
+                          <div class="score-field scores-<%= user.id %>" id="scoreField-<%= user.id%>_<%= eduper_score_detail.id %>" title="<%= eduper_score_detail.id %>"></div>
+                        <% end %>
+                      <% else %>
+                        <div class="score-field scores-<%= user.id %>" id="scoreField-<%= user.id%>_<%= eduper_score_detail.id %>" title="<%= eduper_score_detail.id %>"></div>
+                      <% end %>
+
+                      <%
+                      # if @student_
+                      %>
+                      <%= hidden_field_tag "score-#{user.id}_#{eduper_score_detail.id}", score %>
+                    </td>
+                  <% end %>
+                <% end %>
+
+                <td></td>
+
+                <td width="50" style="display:none;">
+
+                  <%
+                    @sumScorePercentage = 0
+
+                    if @student_trackings.any?
+                      @student_trackings.where("score IS NOT NULL").each do |student_tracking|
+                        weight_detail = EduperScoreDetail.find(student_tracking.eduper_score_detail_id).weight.to_f
+                        @sumScorePercentage += student_tracking.score.to_f * weight_detail.to_f / 100.0
+                      end
+                    end
+
+                    # CALCULO NOTA ACUMULADA
+                    @sumWeightNotNull = EduperScoreDetail.where("id IN (?)", @student_trackings.where("score IS NOT NULL").pluck(:eduper_score_detail_id)).sum(:weight).to_f
+
+                    if @sumScorePercentage.to_f != 0.0
+                      @score_acum = (100 / @sumWeightNotNull) * @sumScorePercentage.to_f
+                      @score_acum = '%.1f' % @score_acum
+                      @color_class_acum = getColorClass(@score_acum)
+                    else
+                      @score_acum = ""
+                      @color_class_acum = "score-field-final"
+                    end
+                  %>
+
+                  <div class="<%= @color_class_acum %>" id="score-acu_<%= user.id %>">
+                    <% if @student_trackings.any? %>
+                      <%= @score_acum %>
+                    <% end %>
+                  </div>
+                </td>
+                <td width="50">
+
+                  <%
+                    # CALCULO NOTA DEFINITIVA
+                    if @student_trackings.where("score IS NOT NULL").any?
+                      @score_def = '%.1f' % @student_trackings.sum(:compliance).to_f
+                      @color_class_def = getColorClass(@score_def)
+                    else
+                      @score_def = ""
+                      @color_class_def = "score-field-final color-final"
+                    end
+                  %>
+
+                  <div class="<%= @color_class_def %>" id="score-def_<%= user.id %>">
+                    <%= @score_def %>
+                  </div>
+                </td>
+              </tr>
+            <%end%>
+          </tbody>
+        </table>
+      </div>
+
+      <br><br>
+
+      <div class="average-scores-content">
+        <ul class="average-scores-item">
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br>
+  <% end %>
+<script>
+  $(".ifancybox_new_eduper_score_detail").fancybox({
+      'fitToView': false,
+      'autoSize': false,
+      'width': parseInt($(window).width() * 0.5),
+      'height': parseInt($(window).height() * 0.77),
+      'autoScale': true,
+      'transitionIn' : 'none',
+      'transitionOut' : 'none',
+      'scrolling': 'no',
+      'type': 'iframe',
+      afterClose: function () { // USE THIS IT IS YOUR ANSWER THE KEY WORD IS "afterClose"
+          parent.location.reload(true);
+      }
+    });
+</script>

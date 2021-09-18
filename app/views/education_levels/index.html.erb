@@ -1,0 +1,48 @@
+<!-- < unless params[:action] == "new" || params[:action] == "edit" %>
+  <h1><= t ('.title') %></h1>
+< else%> -->
+  <br><br><br>
+<!-- < end %> -->
+
+<% if @education_levels.size != 0 %>
+  <div class="content-table">
+    <table id="sorter" class="tablesorter style-table">
+      <thead>
+        <tr>
+          <th><%= t('.name') %></th>
+          <th><%= t('.description') %></th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @education_levels.each do |education_level| %>
+          <tr>
+            <td><%= education_level.name %></td>
+            <td><%= education_level.description %></td>
+            <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_education_level_path(education_level), class: "format-link", title: "Editar" %></td>
+            <td><%= link_to '<i class="fa fa-times"></i>'.html_safe, education_level, method: :delete, data: { confirm: "#{t('.eliminate')}" }, class: "format-link", title: "Eliminar" unless assigned_id(EducationalArea,'education_level_id',education_level) or assigned_id(Grade,'education_level_id',education_level) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            <%= t('.label_total') %>: <%= @education_levels.size %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+<% else %>
+  <div class="grupo">
+    <div class="caja">
+      <div class="caja movil-90 tablet-70 centrar-caja">
+        <div class="msg-info">
+          <strong>¡Atento!</strong> <%= t('msg_info') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<br>

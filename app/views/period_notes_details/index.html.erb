@@ -1,0 +1,58 @@
+<% unless params[:action] == "new" || params[:action] == "edit" %>
+  <h1><%= t ('.title') %></h1>
+<% else%>
+  <br><br><br>
+<% end %>
+<table id="sorter" class="tablesorter style-table">
+  <thead>
+    <tr>
+      <th><%=PeriodNotesDetail.human_attribute_name('school_year_id')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('teacher_asignature_id')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('educational_performance_id')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('performance_weight')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('sd_detail_id')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('detail_weight')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('educational_period_id')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('period_weight')%></th>
+      <th><%=PeriodNotesDetail.human_attribute_name('teacher_id')%></th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @period_notes_details.each do |period_notes_detail| %>
+      <tr>
+        <td><%= period_notes_detail.school_year.name %></td>
+        <td><%= period_notes_detail.teacher_asignature.sub_grade.name.to_s+" / "+period_notes_detail.teacher_asignature.educational_asignature.name %></td>
+        <td><%= period_notes_detail.educational_performance.description %></td>
+        <td><%= period_notes_detail.performance_weight %></td>
+        <td><%= period_notes_detail.sd_detail.name %></td>
+        <td><%= period_notes_detail.detail_weight %></td>
+        <td><%= period_notes_detail.educational_period.name %></td>
+        <td><%= period_notes_detail.period_weight %></td>
+        <td><%= period_notes_detail.teacher.complete_name %></td>
+        <!--td><%= link_to 'Show', period_notes_detail %></td-->
+        <td><%= link_to 'Edit', edit_period_notes_detail_path(period_notes_detail) %></td>
+        <td><%= link_to 'Destroy', period_notes_detail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="12">
+        hay <%=@period_notes_details.size%> elementos
+      </td>
+    </tr>
+  </tfoot>
+</table>
+<script>
+  $(document).ready(function()
+    {
+        $("#sorter").tablesorter();
+    }
+);
+</script>
+<br>
+<%= link_to 'back', root_path %>
+<br>
+<%= link_to 'New Period notes detail', new_period_notes_detail_path %>

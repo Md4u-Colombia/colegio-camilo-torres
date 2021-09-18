@@ -1,0 +1,98 @@
+<%= form_for(@teacher_asignature) do |f| %>
+  <div class="error_explanation"  style="display:none;">
+    <%= t('errors.template.body') %>
+    <ul>
+      <li id="error_teacher" style="display:none;" ><i class="fa fa-hand-o-right"></i>&nbsp; Seleccione Docente.</li>
+      <li id="error_course" style="display:none;" ><i class="fa fa-hand-o-right"></i>&nbsp; Seleccione Curso.</li>
+      <li id="show_error" style="display:none;"><i class="fa fa-hand-o-right"></i>&nbsp; Debes seleccionar al menos una opción.</li>
+    </ul>
+  </div>
+
+  <div class="form__style">
+  <div class="form__item">
+      <div class="wrapper">
+        <b>Año Escolar:</b> <%= Time.now.year %>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= f.select :teacher_id, User.where("status=1 AND role_id=2").order("last_name").map{|u| [ u.reverse_complete_name,u.id]},{include_blank: "#{t('str_select_field')} #{t('.teacher_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+            <%= f.select :sub_grade_id, @update_sub_grade.map { |c| [c.sub_grade.name, c.sub_grade_id]},{include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"}, class: "field__placeholder_icon" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form__item showbt" style="display:none;">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div id="show_asignatures"></div>
+          <!--% f.select :educational_asignature_id, @update_asignatures.includes(:educational_area).order( 'educational_areas.education_level_id' ).map{|u| [ u.educational_area.education_level.name.to_s+' - '+u.educational_area.name.to_s+' - '+u.name,u.id]},{include_blank: "#{t('str_select_field')} #{t('.educational_asignature_id')}"}, class: "field__placeholder_icon", :multiple => true %-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_teacher_asignature_url, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "enviar form__submit_button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+ $(function(){
+    $('.enviar').click(function(){
+      if($("#teacher_asignature_teacher_id").val() == ''){
+        $(".error_explanation").show();
+        $("#error_teacher").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#error_teacher").hide();
+      }
+
+      if($("#teacher_asignature_sub_grade_id").val() == ''){
+        $(".error_explanation").show();
+        $("#error_course").show();
+        return false;
+      }else{
+        $(".error_explanation").hide();
+        $("#error_course").hide();
+      }
+    });
+
+    $('#teacher_asignature_teacher_id').change(function(){
+      if($('#teacher_asignature_teacher_id').val() != ""){
+        $.get("/teacher_asignatures/update_sub_grade",{tatid: $('#teacher_asignature_teacher_id').val()});
+        $(".showbt").fadeOut(5);
+      }
+    });
+
+    $('#teacher_asignature_sub_grade_id').change(function(){
+      if($('#teacher_asignature_sub_grade_id').val() != ""){
+        $.get("/teacher_asignatures/update_asignatures",{taid: $('#teacher_asignature_sub_grade_id').val()},function(data){
+          //alert(data);
+          $(".showbt").fadeIn(5);
+          $("#show_asignatures").html(data);
+        });
+      }else{
+        $(".showbt").fadeOut(5);
+      }
+    });
+  });
+</script>

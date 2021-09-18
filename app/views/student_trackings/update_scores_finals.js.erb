@@ -1,0 +1,10 @@
+//$('#score-acu_<= params[:user_id] %>').html("<= @score_acum == '' ? '' : ('%.1f' %  @score_acum) %>").removeClass().addClass("<= @color_class_acum %>");
+
+$('#score-def_<%= params[:user_id] %>').html("<%= @score_def %>").removeClass().addClass("<%= @color_class_def %>");
+
+/*< @score_details.each do |score_detail| %>
+  <
+  #@student_trackings_average = StudentTracking.where("score_detail_id = ?", score_detail.id).average(:score)
+  %>
+  //$(".average-scores-item").remove("li").append("<li><%= @student_trackings_average %></li>");
+< end %>*/

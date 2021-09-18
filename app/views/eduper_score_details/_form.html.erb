@@ -1,0 +1,144 @@
+<style>
+  .save-performance {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #34495e;
+    border-radius: 3px;
+    text-align: center;
+    color: #ecf0f1;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+  }
+
+  .save-performance i {
+    margin-right: 10px;
+  }
+
+  .hide-element {
+    display: none;
+  }
+
+  .window-disabled {
+    background: rgba(0, 0, 0, 0.5);
+    width: 3000px;
+    height: 3000px;
+    position: absolute;
+    top: -200px;
+    left: -1000px;
+    z-index: 100;
+  }
+</style>
+<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "application" %>
+<script src="/javascripts/jquery.js"></script>
+<%= form_for(@eduper_score_detail) do |f| %>
+  <% if @eduper_score_detail.errors.any? %>
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@eduper_score_detail.errors.size,
+:model=>t('activerecord.models.eduper_score_detail')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @eduper_score_detail.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="save-performance hide-element">
+    <i class="fa fa-refresh fa-spin"></i>Por favor espere
+  </div>
+  <div class="window-disabled"></div>
+
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_field :name, class: "field__placeholder_icon", placeholder: "#{t('.name')} (máx: 15 caracteres)" %>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="fa fa-pencil text_field__icon"></div>
+        <%= f.text_area :description, class: "field__placeholder_icon", placeholder: "#{t('.description')}", style:"height:150px;" %>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :sd_detail_id, @sd_details.map{|el| [el.name, el.id]},{include_blank: "#{t('str_select_field')} tipo de detalle"}, id: "select_sd_detail" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item content_performance">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :educational_performance_grade_id, @educational_performance_grades.map{|el| [el.educational_performances_list.description, el.id]}, {include_blank: "#{t('str_select_field')} desempeño"}, id: "select_performance" %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <%= f.hidden_field :sub_grade_teacher_id, value: @sub_grade_teacher %>
+
+    <%= hidden_field_tag :eaid, params[:eaid] %>
+    <%= hidden_field_tag :epid, params[:epid] %>
+    <%= hidden_field_tag :sgid, params[:sgid] %>
+    <%= hidden_field_tag :syid, params[:syid] %>
+
+    <!--.div class="form__item content_weight">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div-->
+          <!--%= f.select :weight, array_percentage, {include_blank: "#{t('str_select_field')} Peso"}, id: "select_weight" %-->
+          <!--div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div-->
+
+  </div>
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <!--%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_grade_path, class: "button-link color-button-green", style: "position: absolute;" %-->
+    </div>
+
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button", id: "button_submit") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> Guardar
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(".window-disabled").hide();
+  // $("#select_performance").change(function(){
+  //   $.get("/eduper_score_details/update_percentage_performance", {
+  //          epid: $(this).val(),
+  //          sgtid: "<%= @sub_grade_teacher %>"
+  //        },function(data){
+  //         alert(data);
+  //       });
+  // });
+  $("#button_submit").click(function() {
+    //$(this).prop('disabled', true);
+    $(".save-performance").removeClass("hide-element");
+    $(".window-disabled").show();
+  });
+
+  $("#select_sd_detail").change(function() {
+    if (parseInt($(this).val()) == 2) { //Cuando es una evaluación final
+      $("#select_weight, .content_weight").hide();
+    } else {
+      $("#select_weight, .content_weight").show();
+    }
+  });
+</script>

@@ -1,0 +1,2 @@
+module ScoreDetailsHelper
+end

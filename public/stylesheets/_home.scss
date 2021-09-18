@@ -1,0 +1,42 @@
+.caja-finalizado-ferley {
+  height: 50px;
+  width: 300px;
+  background: lighten(#000, 30%);
+  margin: 2px 0;
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+}
+
+.caja-finalizado-oscar {
+  height: 50px;
+  width: 300px;
+  background: lighten(red, 30%);
+  margin: 2px 0;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+/*#header {
+  height: 30px;
+  line-height: 30px;
+  background: $menu--color;
+  color: $color2;
+  font-size: 11px;
+  #icon-home {
+    float: left;
+    margin-left: 10px;
+    text-decoration: none;
+    a {
+      color: $color2;
+    }
+    cursor: pointer;
+  }
+  #logout {
+    float: right;
+    margin-right: 10px;
+  }
+}*/

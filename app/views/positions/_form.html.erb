@@ -1,0 +1,35 @@
+<%= form_for(@position) do |f| %>
+  <% if @position.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@position.errors.count, "error") %> <%= t('error_form')%> </h2>
+
+      <ul>
+      <% @position.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :position_level_id %><br>
+    <%= f.select :position_level_id, PositionLevel.order("name").map{|c| [ c.name,c.id]},{include_blank: true} %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+  <%if(params[:action] == 'edit' or params[:action] == 'update')%>
+    <div class="field">
+      <%= f.label :status %><br>
+      <%= f.check_box :status %>
+    </div>
+  <%end%>
+  <div class="actions">
+    <%= f.submit t('positions.save') %>
+  </div>
+<% end %>

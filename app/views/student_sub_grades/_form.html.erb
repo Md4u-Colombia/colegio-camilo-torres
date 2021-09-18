@@ -1,0 +1,57 @@
+<%= form_for(@student_sub_grade) do |f| %>
+  <% if @student_sub_grade.errors.any? %>
+    <div class="error_explanation">
+      <h2><%= t('errors.template.header', :count=>@student_sub_grade.errors.size, :model=>t('activerecord.models.student_sub_grade')) %>:</h2>
+      <%= t('errors.template.body') %>
+      <ul>
+      <% @student_sub_grade.errors.full_messages.each do |message| %>
+        <li><i class="fa fa-hand-o-right"></i>&nbsp;<%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form__style">
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :student_id, User.where("role_id = 3 AND id NOT IN (SELECT student_id FROM student_sub_grades)").order("last_name").map{|c| [ c.reverse_complete_name,c.id]},{include_blank: "#{t('str_select_field')} #{t('.student_id')}"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :school_year_id, SchoolYear.order("name").map{|c| [ c.name,c.id]}, {include_blank: "#{t('str_select_field')} #{t('.school_year_id')}"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__item">
+      <div class="wrapper">
+        <div class="field__placeholder_icon_select">
+          <div class="fa fa-bars text_field__icon"></div>
+          <%= f.select :sub_grade_id, SubGrade.order("grade_id").map{|c| [ c.grade.name.to_s+" / "+c.name,c.id]}, {include_blank: "#{t('str_select_field')} #{t('.sub_grade_id')}"} %>
+          <div class="fa fa-chevron-circle-down text_field__icon_select"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form__button">
+    <div class="button__border_radius left">
+      <%= link_to '<i class="fa fa-refresh fa-lg"></i>&nbsp;Cancelar'.html_safe, new_student_sub_grade_path, class: "button-link color-button-green", style: "position: absolute;" %>
+    </div>
+
+    <div class="button__border_radius right">
+      <%= button_tag(type: 'submit', class: "form__submit_button") do %>
+        <i class="fa fa-floppy-o fa-lg"></i> <%=t('.save')%>
+      <% end %>
+    </div>
+  </div>
+<% end %>

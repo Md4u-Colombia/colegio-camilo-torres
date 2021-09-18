@@ -1,0 +1,26 @@
+<% @students.each_with_index do |student, index| %>
+<tr class="column-comment">
+  <td>
+    <div class="avatar">
+      <%= image_tag "/images/thumb/missing-boy.png" %>
+    </div>
+  </td>
+  <td><div><%= student.last_name.mb_chars.titleize %></div></td>
+  <td><div><%= student.name.mb_chars.titleize %></div></td>
+  <td><div>
+    <%
+    @student_sub_grades = StudentSubGrade.where("sub_grade_id = ? and student_id = ?", @sub_grade_id, student.id) %>
+    <%
+    @student_comments = StudentComment.where("student_sub_grade_id = ? AND educational_period_id = ?", @student_sub_grades.last.id, @educational_period_id)
+
+    @content_comment = ""
+    if @student_comments.any?
+      @student_comment = @student_comments.first
+      if @student_comment.comments.delete(' ').to_s != ""
+        @content_comment = @student_comment.comments
+      end
+    end
+    %>
+
+    <%= text_area_tag "comment_#{student.id}", @content_comment, placeholder: "Ingrese aquí el comentario", class: "field-comment" %></div></td>
+<% end %>

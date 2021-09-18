@@ -1,0 +1,154 @@
+<% if @students.any? %>
+
+  <style>
+    .content-table-score {
+      overflow: scroll;
+      height: 500px;
+      width: 1200px;
+      margin: auto;
+    }
+
+    .info-colors {
+      position: initial;
+    }
+
+    .link-add-performance {
+      color: #ecf0f1;
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+
+    .link-add-performance:hover {
+      color: #16a085;
+    }
+
+    .content-limit {
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow: ellipsis;
+    }
+  </style>
+  <% array_colors = ["#c0392b", "#27ae60", "#2980b9", "#8e44ad"] %>
+  <div class="grupo total">
+    <div class="caja total">
+      <br><hr class="hr-style"><br>
+      <div class="content-table-score">
+        <table class="table-form-score" border="0">
+          <thead id="header-table">
+            <tr>
+              <th colspan="3" width="150px"></th>
+              <% index_color = 0 %>
+              <% @educational_areas.each_with_index do |educational_area, index| %>
+                <% if @educational_asignatures.where("educational_area_id = ? ", educational_area.id).any? %>
+                  <th colspan="<%= @educational_asignatures.where("educational_area_id = ?", educational_area.id).size %>" title="<%= educational_area.name %>"><div class="header-performance" style='background-color: #1abc9c; <%= "width: #{48 * @educational_asignatures.where("educational_area_id = ?", educational_area.id).size + 4 }px" %>;'><%= educational_area.name %></div></th>
+                <% end %>
+              <% end %>
+              <th></th>
+              <th></th>
+              <th style="display:none;"></th>
+              <th></th>
+            </tr>
+            <tr>
+              <th colspan='3' height='131px' align="left">
+                <div class="info-colors">
+                  <ul>
+                    <li><i class="fa fa-circle colorRedText"></i> 1.0 - 3.2 (Insuficiente - Desempeño Bajo)</li>
+                    <li><i class="fa fa-circle colorOrangeText"></i> 3.3 - 3.9 (Aceptable - Desempeño Básico)</li>
+                    <li><i class="fa fa-circle colorYellowText"></i> 4.0 - 4.5 (Sobresaliente - Desempeño Alto)</li>
+                    <li><i class="fa fa-circle colorGreenText"></i> 4.6 - 5.0 (Excelente - Desempeño Superior)</li>
+                  </ul>
+                </div>
+              </th>
+              <% @educational_asignatures.each do |educational_asignature| %>
+                <th class='rotate' title="<%= educational_asignature.name %>"><div><span class="content-limit"><%= educational_asignature.id %>.<%= educational_asignature.name %></span></div></th>
+              <% end %>
+              <th width='50'></th>
+              <th class='rotate-expand' rowspan='2' style="display:none;"><div><span>Acumulado</span></div></th>
+              <th class='rotate-expand' rowspan='2'><div><span style='background-color: #d35400;'>Definitiva</span></div></th>
+            </tr>
+            <tr id='main-header'>
+              <th><div style="width:50px">&nbsp;</div></th>
+              <th><div style="width:200px">Apellidos</div></th>
+              <th><div style="width:200px">Nombres</div></th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <% @students.each do |user| %>
+              <%
+              student_progresses = StudentProgress.where("student_sub_grade_id IN (?) AND period_id = ?", @student_sub_grades.where("students_grade_id IN (?)", @students_grades.where("student_id = ?", user.id).pluck(:id)).pluck(:id), @period_id)
+              %>
+              <tr>
+                <td>
+                  <div class="avatar">
+                    <%= image_tag '/images/thumb/missing-boy.png' %>
+                  </div>
+                </td>
+                <td>
+                  <div><%= user.last_name.mb_chars.titleize %></div>
+                </td>
+                <td>
+                  <div><%= user.name.mb_chars.titleize %></div>
+                </td>
+                <% @educational_asignatures.each do |educational_asignature| %>
+                  <td width="50">
+                    <%
+                    student_progress = student_progresses.where("educational_asignature_id = ?", educational_asignature.id)
+                    %>
+                    <% if student_progress.any? %>
+                      <%
+                      score = student_progress.first.score.blank? ? 0 : student_progress.first.score
+
+                      if score >= 0 and score <= 3.2
+                        classColor = "colorRed"
+                      elsif score >= 3.3 and score <= 3.9
+                        classColor = "colorOrange"
+                      elsif score >= 4.0 and score <= 4.5
+                        classColor = "colorYellow"
+                      elsif score >= 4.6 and score <= 5.0
+                        classColor = "colorGreen"
+                      end
+                      %>
+                      <% unless student_progress.first.score.blank? %>
+                        <div class="score-field <%= classColor %>" id="scoreField-<%= student_progress.first.id %>" title="<%= student_progress.any? ? student_progress.first.id : "" %>"><%= '%.1f' % score %></div>
+                      <% else %>
+                        <div class="score-field scores-<%= user.id %>" id="scoreField-<%= student_progress.first.id %>" title="<%= 'eduper_score_detail.id' %>"></div>
+                      <% end %>
+                    <% else %>
+                      <div class="score-field scores-<%= user.id %>" title="<%= 'eduper_score_detail.id '%>" style="background: #bdc3c7;"></div>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+            <%end%>
+          </tbody>
+        </table>
+      </div>
+
+      <br><br>
+
+      <div class="average-scores-content">
+        <ul class="average-scores-item">
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br>
+  <% end %>
+<script>
+  $(".ifancybox_new_eduper_score_detail").fancybox({
+      'fitToView': false,
+      'autoSize': false,
+      'width': parseInt($(window).width() * 0.5),
+      'height': parseInt($(window).height() * 0.77),
+      'autoScale': true,
+      'transitionIn' : 'none',
+      'transitionOut' : 'none',
+      'scrolling': 'no',
+      'type': 'iframe',
+      afterClose: function () { // USE THIS IT IS YOUR ANSWER THE KEY WORD IS "afterClose"
+          parent.location.reload(true);
+      }
+    });
+</script>
