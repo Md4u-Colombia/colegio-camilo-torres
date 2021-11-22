@@ -152,7 +152,7 @@
             period_id = 4
             @sub_grade = SubGrade.find(student_sub_grade.sub_grade_id)
             grade_id = @sub_grade.grade_id
-            @grade_asignature = GradeAsignature.where("grade_id IN (?) AND school_year_id = ?", grade_id, get_current_school_year(Time.now.year - 1))
+            @grade_asignature = GradeAsignature.where("grade_id IN (?) AND school_year_id = ?", grade_id, get_current_school_year(Time.now.year))
             @assignatures_quantity = @grade_asignature.size
             @student_progresses = StudentProgress.where("student_sub_grade_id = ? AND period_id = ?", student_sub_grade, period_id)
             @student_progresses_quantity = @student_progresses.size
